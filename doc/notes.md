@@ -159,6 +159,12 @@ Creating a Container App:
 - It's very cost-efficient
 - Triggers srart the function (e.g. HTTP requests or timers) and they may have input data
 
+## Admin
+
+To manage users, go to Microsoft Entry ID -> Users
+
+To assign roles to a subscription, go to the subscription and under Access Control (IAM) -> Role assignments you can list roles assigned to users or service principals.
+
 # Git
 
 - Mac: Github Desktop
@@ -193,6 +199,7 @@ echo export PATH=$PATH:/opt/homebrew/bin >> ~/.zshrc
 - To create a service principal: az ad sp create-for-rbac --name "<a UNIQUE(!) name that hasn't been used before>" --role contributor --scopes /subscriptions/<your Azure subscription id (you can find it on the Azure Portal under your subscription)>
 - Save the appId, the password and the tenant as GitHub secrets to log in to Azure from the yml file (az login --service-principal -u <appId> -p <password> --tenant <tenant>
 - The Azure CLI can also be started from the Azure Portal (click the cloud shell icon in the upper right corner)
+- You can manage the created service principals on the Azure Portal under Microsoft Entra ID -> App registrations -> All applications
 
 # Backend development
 
@@ -313,6 +320,8 @@ To run a .command file downloaded from the Internet, double click it then Settin
 
 To list hidden files with Finder: Cmd + Shift + .
 
-Windows App can be used to rdp into a Windows VM
+Windows App can be used to rdp into a Windows VM.
 
 To find out the ip address of a web server: nslookup <url>
+
+Terminal history can be deleted by deleting the contents of the ~/.zsh_history file or contents of the ~/.zsh_sessions directory.

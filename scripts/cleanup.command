@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+echo
+echo "Cleaning up..."
+echo
+
+cd -- "$(dirname -- "$BASH_SOURCE")"
+
+rm -rf ../src/.vs
+
+rm -rf ../src/.vscode
+rm -rf ../src/Backend/.config
+rm -rf ../src/Backend/bin
+rm -rf ../src/Backend/obj
+rm -rf ../src/Backend/Properties/PublishProfiles/FolderProfile.pubxml.user
+rm -rf ../src/Backend/Backend.csproj.user
+
+rm -rf ../src/Backend.Tests/bin
+rm -rf ../src/Backend.Tests/obj
+rm -rf ../src/Backend.Tests/TestResults
+
+echo
+read -p "Press any key to continue..."

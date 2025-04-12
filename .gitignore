@@ -1,0 +1,10 @@
+# Files
+.DS_Store
+
+# Folders
+.vs/
+.vscode/
+.config/
+
+# File extensions
+*.user

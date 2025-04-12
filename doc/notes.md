@@ -177,6 +177,8 @@ Semantic versioning:
 
 A branch can be squashed, merged and pushed back to the original branch from GitHub Desktop (switch over to the original branch, then Branch -> Squash and Merge into Current Branch, select the branch you want to merge back and then push to origin)
 
+The main branch can be protected by adding rulesets (e.g. deletions can be restricted, an approved PR can be mandatory for merging or force pushes can be blocked): go on GitHub -> Settings -> Rules -> Rulesets
+
 ## CI/CD with GitHub actions
 
 - On the Actions tab of your repository on GitHub, click New workflow and set up a workflow. This will add a new yaml file under .github/workflows folder. Add the workflow and then click Commit changes

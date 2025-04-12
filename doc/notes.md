@@ -34,8 +34,6 @@ dotnet add Backend.Tests/Backend.Tests.csproj reference Backend/Backend.csproj
 dotnet build
 dotnet test bin/Debug/net8.0/Backend.Tests.dll --logger "trx;logfilename=Results.xml"
 
-- If tests are not showing on the Testing tab, right click the solution and rebuild it
-
 # Azure
 
 It's a good practice to prefix Azure resources. E.g. "rg-" for resource groups or "db-" for databases.
@@ -161,6 +159,12 @@ Creating a Container App:
 - It's very cost-efficient
 - Triggers srart the function (e.g. HTTP requests or timers) and they may have input data
 
+## Admin
+
+To manage users, go to Microsoft Entry ID -> Users
+
+To assign roles to a subscription, go to the subscription and under Access Control (IAM) -> Role assignments you can list roles assigned to users or service principals.
+
 # Git
 
 - Mac: Github Desktop
@@ -170,6 +174,32 @@ Semantic versioning:
 - Major: Backward incompatible changes
 - Minor: New features but backwards compatible
 - Patch: Backwards compatible bug fixes only
+
+A branch can be squashed, merged and pushed back to the original branch from GitHub Desktop (switch over to the original branch, then Branch -> Squash and Merge into Current Branch, select the branch you want to merge back and then push to origin)
+
+## CI/CD with GitHub actions
+
+- On the Actions tab of your repository on GitHub, click New workflow and set up a workflow. This will add a new yaml file under .github/workflows folder. Add the workflow and then click Commit changes
+- For GitHub to be able to deploy to Azure, you'll need to to provide GitHub with your login credentials, which you can do on the Settings tab under Secrets and variables -> Actions
+- (If your repository is public, you can also add environment secrets)
+- Click New repository secret and add CONTAINER_REGISTRY_USERNAME. On the Azure Portal go to your container registry and under Settings -> Access keys, you can copy the Username and paste it as the secret on GitHub
+- In a simliar way, create CONTAINER_REGISTRY_PASSWORD
+- Also, create AZURE_CREDENTIALS but to do that you'll need to install Azure CLI. To get Azure CLI on Mac, you first need to install homebrew. When homebrew is installed, open a Terminal and run
+
+brew update && brew install azure-cli
+
+- If you get a "command not found brew" error, open a Terminal and run
+
+cd /opt/homebrew/bin/
+PATH=$PATH:/opt/homebrew/bin
+echo export PATH=$PATH:/opt/homebrew/bin >> ~/.zshrc
+
+- To update Azure CLI: az upgrade
+- To log in to Azure CLI: az login
+- To create a service principal: az ad sp create-for-rbac --name "<a UNIQUE(!) name that hasn't been used before>" --role contributor --scopes /subscriptions/<your Azure subscription id (you can find it on the Azure Portal under your subscription)>
+- Save the appId, the password and the tenant as GitHub secrets to log in to Azure from the yml file (az login --service-principal -u <appId> -p <password> --tenant <tenant>
+- The Azure CLI can also be started from the Azure Portal (click the cloud shell icon in the upper right corner)
+- You can manage the created service principals on the Azure Portal under Microsoft Entra ID -> App registrations -> All applications
 
 # Backend development
 
@@ -203,6 +233,75 @@ public int Count { get; set; } = 0;
 
 Middleware can be used to write common functionality that will execute for every request
 
+## Entity Framework Core
+
+Nuget packages:
+- Microsoft.EntityFrameworkCore
+- Microsoft.EntityFrameworkCore.SqlServer
+- Microsoft.EntityFrameworkCore.Design
+- Microsoft.EntityFrameworkCore.Tools
+
+To add a package, cd into the project's directory and run: dotnet add package <package name>
+
+Connection strings should be stored safely. Either in an environment variable or with .NET Sectets Manager or in an Azure Vault.
+
+Eager loading vs. lazy loading: to enable lazy loading, install the Microsoft.EntityFrameworkCore.Proxies.
+
+When EF Core queries a DB, it stores a snapshot of the result set in memory. Any changes to the entities are made against that snapshot and only later written to the DB. To speed up read only queries, you can skip the snapshot and conserve system resources by adding the AsNoTracking() method to the query.
+
+###  Creating a new DB from the code
+
+Add the models to your project and the database context.
+
+Install the .NET EF tool: dotnet tool install -g dotnet-ef
+
+To create a migration: dotnet ef migrations add <name of migration>
+
+Check the migration files if they are correct, run the migration: dotnet ef database update
+
+If you change the data model, change the model files then create and run another migration.
+
+Fluent API use extension methods to chain methods together along with lamda expressions to specify the query. The same can be achieved with LINQ syntax.
+
+### Scaffolding code from an existing DB
+
+dotnet ef dbcontext scaffold "<connection string>" Microsoft.EntityFrameworkCore.SqlServer --context-dir Data --output-dir Models --data-annotations
+
+If the database model changes, you can either manually update the entity model or you can rescaffold the entity models. But to go with the second option, you need to keep business logic separate from db entities. First, delete the enitity model by deleting the Data and the Models directories from the project. Then run:
+
+dotnet ef dbcontext scaffold "<connection string>" Microsoft.EntityFrameworkCore.SqlServer --context-dir Data --output-dir Models/Generated --context-namespace <name of your app>.Data --namespace <name of your app>.Models
+
+Then create partial classes in the models directory to add any further logic to the classes
+
+### Different DB providers
+
+To add an additional (e.g. Sqlite) DB context to the project:
+- Create the database and put data in it (e.g. with DB Browser for Sqlite)
+- Install the Microsoft.EntityFrameworkCore.Sqlite package
+- Do the data migrations:
+
+dotnet ef dbcontext scaffold "Data Source=Local.db" Microsoft.EntityFrameworkCore.Sqlite --context-dir Data --output-dir Models --data-annotations --context SqliteContext
+
+### .NET Secrets Manager
+
+To add a connection string to the .NET Secrets Manager:
+
+dotnet user-secrets init
+dotnet user-secrets set "ConnectionStrings:<name of connection string>" "<connection string>"
+
+The secrets are stored in ~/.microsoft/usersecrets/<user_secrets_id>/secrets.json
+
+The UserSecretsId is added to the .csproj file.
+
+To get the connection string in Program.cs:
+
+builder.Services.AddDbContext<SqlServerContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
+
+## Postman
+
+To make a post request, add Content-Type = application/json to the header and a json object to the body of the request
+
 # Misc
 
 ## Firefox
@@ -221,6 +320,8 @@ To run a .command file downloaded from the Internet, double click it then Settin
 
 To list hidden files with Finder: Cmd + Shift + .
 
-Windows App can be used to rdp into a Windows VM
+Windows App can be used to rdp into a Windows VM.
 
 To find out the ip address of a web server: nslookup <url>
+
+Terminal history can be deleted by deleting the contents of the ~/.zsh_history file or contents of the ~/.zsh_sessions directory.

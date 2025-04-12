@@ -1,0 +1,61 @@
+name: Deploy
+on: pull_request
+env:
+  CONTAINER_APP: ca-backend
+  RESOURCE_GROUP: rg-WebAppStarterPack
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+      - name: Build
+        working-directory: ./src/Backend
+        run: dotnet build --configuration Release
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+      - name: Test
+        working-directory: ./src/Backend.Tests
+        run: |
+          dotnet build
+          dotnet test bin/Debug/net8.0/Backend.Tests.dll
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+      - name: Build
+        working-directory: ./src/Backend
+        run: dotnet build --configuration Release
+      - name: Set up Docker Buildx
+        run: |
+          docker buildx create --use
+      - name: Log in to Azure Container Registry
+        run: |
+          docker login ${{ secrets.CONTAINER_REGISTRY }}.azurecr.io -u ${{ secrets.CONTAINER_REGISTRY_USERNAME }} -p ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
+      - name: Build and push container image to Azure Container Registry
+        run: |
+          docker buildx build --push --tag ${{ secrets.CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_APP }}:${{ github.sha }} --file ./src/Backend/Dockerfile .
+      - name: Azure Login
+        run: |
+          az login --service-principal -u ${{ secrets.AZURE_APP_ID }} -p ${{ secrets.AZURE_PASSWORD }} --tenant ${{ secrets.AZURE_TENANT }}
+      - name: Deploy to Azure Container Apps
+        run: |
+          az containerapp update --name ${{ env.CONTAINER_APP }} --resource-group ${{ env.RESOURCE_GROUP }} --image ${{ secrets.CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_APP }}:${{ github.sha }} --replace-env-vars ASPNETCORE_ENVIRONMENT=Development DB_SERVER=${{ secrets.DB_SERVER }} DB=${{ secrets.DB }} DB_USER=${{ secrets.DB_USER }} DB_PASSWORD=${{ secrets.DB_PASSWORD }}

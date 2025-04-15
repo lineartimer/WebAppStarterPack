@@ -177,6 +177,8 @@ Semantic versioning:
 
 A branch can be squashed, merged and pushed back to the original branch from GitHub Desktop (switch over to the original branch, then Branch -> Squash and Merge into Current Branch, select the branch you want to merge back and then push to origin)
 
+The main branch can be protected by adding rulesets (e.g. deletions can be restricted, an approved PR can be mandatory for merging or force pushes can be blocked): go on GitHub -> Settings -> Rules -> Rulesets
+
 ## CI/CD with GitHub actions
 
 - On the Actions tab of your repository on GitHub, click New workflow and set up a workflow. This will add a new yaml file under .github/workflows folder. Add the workflow and then click Commit changes
@@ -196,7 +198,7 @@ echo export PATH=$PATH:/opt/homebrew/bin >> ~/.zshrc
 
 - To update Azure CLI: az upgrade
 - To log in to Azure CLI: az login
-- To create a service principal: az ad sp create-for-rbac --name "<a UNIQUE(!) name that hasn't been used before>" --role contributor --scopes /subscriptions/<your Azure subscription id (you can find it on the Azure Portal under your subscription)>
+- To create a service principal: az ad sp create-for-rbac --name "<a unique name that hasn't been used before>" --role contributor --scopes /subscriptions/<your Azure subscription id (you can find it on the Azure Portal under your subscription)>
 - Save the appId, the password and the tenant as GitHub secrets to log in to Azure from the yml file (az login --service-principal -u <appId> -p <password> --tenant <tenant>
 - The Azure CLI can also be started from the Azure Portal (click the cloud shell icon in the upper right corner)
 - You can manage the created service principals on the Azure Portal under Microsoft Entra ID -> App registrations -> All applications
@@ -231,7 +233,15 @@ public int Count { get; set; } = 0;
 
 ## ASP.NET Core
 
-Middleware can be used to write common functionality that will execute for every request
+The curl command can be used to call an endpoint. The body of the request can be saved in a json file (adding the verbose option will return the http response status too):
+
+curl -v -X <request method e.g. POST> <url> -H "Content-Type: application/json" --data @<relative path to json file>
+
+CORS restrictions only work in browsers. They don't work with curl, Postman or similar tools.
+
+Asynchronous methods are a best practice in production-grade modern ASP.NET Core applications, especially when interacting with databases. They don't block the thread and they scale better because they allow the server to handle more requests simultaneously. This improves responsiveness.
+
+Middleware can be used to write common functionality that will execute for every request.
 
 ## Entity Framework Core
 
@@ -295,8 +305,12 @@ The UserSecretsId is added to the .csproj file.
 
 To get the connection string in Program.cs:
 
-builder.Services.AddDbContext<SqlServerContext>(options =>
+builder.Services.AddDbContext<DatabaseContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
+
+To list user secrets: dotnet user-secrets list
+
+To delete user secrets: dotnet user-secrets clear
 
 ## Postman
 

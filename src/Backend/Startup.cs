@@ -69,9 +69,8 @@ public class Startup
         var dbUser = Environment.GetEnvironmentVariable("DB_USER");
         var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
 
-        throw new Exception($"DB_SERVER: {dbServer}, DB: {db}, DB_USER: {dbUser}, and DB_PASSWORD: {dbPassword}");
-
         string? connStr;
+        var useSqlite = false;
         if (dbServer == null || db == null || dbUser == null || dbPassword == null)
         {
             // Locally environment variables are not set, so using the connection string stored in .Net Secrets Manager
@@ -79,19 +78,25 @@ public class Startup
 
             if (connStr == null)
             {
-                // If there's no Ms Sql database, use local Sqlite database
-                services.AddDbContext<DataContext>(options =>
-                    options.UseSqlite("Data Source=Local.db"));
-            }
-            else
-            {
-                services.AddDbContext<DataContext>(options =>
-                    options.UseSqlServer(connStr));
+                useSqlite = true;
+                connStr = "Data Source=Local.db";
             }
         }
         else
         {
             connStr = $"Server={dbServer};Database={db};User Id={dbUser};Password={dbPassword};";
+        }
+
+        if (useSqlite)
+        {
+            // If there's no Ms Sql database, use local Sqlite database
+            services.AddDbContext<DataContext>(options =>
+                options.UseSqlite(connStr));
+        }
+        else
+        {
+            services.AddDbContext<DataContext>(options =>
+                options.UseSqlServer(connStr));
         }
     }
 }

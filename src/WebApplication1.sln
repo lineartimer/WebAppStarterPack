@@ -7,13 +7,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend", "Backend\Backend.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend.Tests", "Backend.Tests\Backend.Tests.csproj", "{CCE5056A-15A2-42A5-822A-214CF2C7B1E9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Db", "Db", "{240D54FD-C2A2-AACB-CAA5-CE0B0FF793FF}"
+	ProjectSection(SolutionItems) = preProject
+		Db\WebApplication1.sql = Db\WebApplication1.sql
+		Db\create-data.json = Db\create-data.json
+		Db\create-data.command = Db\create-data.command
+		Db\delete-data.command = Db\delete-data.command
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{CC89FED2-D3F9-4A8D-B12A-AD13FA4677C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -24,5 +29,8 @@ Global
 		{CCE5056A-15A2-42A5-822A-214CF2C7B1E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CCE5056A-15A2-42A5-822A-214CF2C7B1E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CCE5056A-15A2-42A5-822A-214CF2C7B1E9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal

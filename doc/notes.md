@@ -198,7 +198,7 @@ echo export PATH=$PATH:/opt/homebrew/bin >> ~/.zshrc
 
 - To update Azure CLI: az upgrade
 - To log in to Azure CLI: az login
-- To create a service principal: az ad sp create-for-rbac --name "<a UNIQUE(!) name that hasn't been used before>" --role contributor --scopes /subscriptions/<your Azure subscription id (you can find it on the Azure Portal under your subscription)>
+- To create a service principal: az ad sp create-for-rbac --name "<a unique name that hasn't been used before>" --role contributor --scopes /subscriptions/<your Azure subscription id (you can find it on the Azure Portal under your subscription)>
 - Save the appId, the password and the tenant as GitHub secrets to log in to Azure from the yml file (az login --service-principal -u <appId> -p <password> --tenant <tenant>
 - The Azure CLI can also be started from the Azure Portal (click the cloud shell icon in the upper right corner)
 - You can manage the created service principals on the Azure Portal under Microsoft Entra ID -> App registrations -> All applications

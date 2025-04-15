@@ -237,6 +237,8 @@ The curl command can be used to call an endpoint. The body of the request can be
 
 curl -v -X <request method e.g. POST> <url> -H "Content-Type: application/json" --data @<relative path to json file>
 
+CORS restrictions only work in browsers. They don't work with curl, Postman or similar tools.
+
 Asynchronous methods are a best practice in production-grade modern ASP.NET Core applications, especially when interacting with databases. They don't block the thread and they scale better because they allow the server to handle more requests simultaneously. This improves responsiveness.
 
 Middleware can be used to write common functionality that will execute for every request.
@@ -303,7 +305,7 @@ The UserSecretsId is added to the .csproj file.
 
 To get the connection string in Program.cs:
 
-builder.Services.AddDbContext<SqlServerContext>(options =>
+builder.Services.AddDbContext<DatabaseContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
 
 To list user secrets: dotnet user-secrets list

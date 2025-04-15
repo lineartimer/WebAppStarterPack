@@ -72,7 +72,7 @@ public class Startup
         throw new Exception($"DB_SERVER: {dbServer}, DB: {db}, DB_USER: {dbUser}, DB_PASSWORD: {dbPassword}");
 
         string? connStr;
-        if (dbServer == null || db = null || dbUser == null || dbPassword == null)
+        if (dbServer == null || db == null || dbUser == null || dbPassword == null)
         {
             // Locally environment variables are not set, so using the connection string stored in .Net Secrets Manager
             connStr = _configuration.GetConnectionString("SqlServer");

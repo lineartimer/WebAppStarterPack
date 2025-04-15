@@ -69,8 +69,10 @@ public class Startup
         var dbUser = Environment.GetEnvironmentVariable("DB_USER");
         var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
 
+        throw new Exception($"DB_SERVER: {dbServer}, DB: {db}, DB_USER: {dbUser}, DB_PASSWORD: {dbPassword}");
+
         string? connStr;
-        if (string.IsNullOrEmpty(dbServer) || string.IsNullOrEmpty(db) || string.IsNullOrEmpty(dbUser) || string.IsNullOrEmpty(dbPassword))
+        if (dbServer == null || db = null || dbUser == null || dbPassword == null)
         {
             // Locally environment variables are not set, so using the connection string stored in .Net Secrets Manager
             connStr = _configuration.GetConnectionString("SqlServer");

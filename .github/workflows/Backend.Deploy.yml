@@ -1,5 +1,5 @@
 name: Deploy
-on: pull_request:
+on: pull_request
 env:
   CONTAINER_APP_NAME: ca-backend
   RESOURCE_GROUP: rg-WebAppStarterPack

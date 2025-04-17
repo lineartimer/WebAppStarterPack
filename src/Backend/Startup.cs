@@ -1,5 +1,9 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
+using Backend.Configurations;
 using Backend.Data;
 
 public class Startup
@@ -12,18 +16,19 @@ public class Startup
         _configuration = configuration;
     }
 
-    // Configure services (dependency injection)
     public void ConfigureServices(IServiceCollection services)
     {
+        // Configure services (dependency injection)
         AddCors(services);
         AddDbContext(services);
+        AddAuthentication(services);
 
         services.AddControllers();
     }
 
-    // Configure the HTTP request pipeline (middleware)
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
+        // Configure the middleware pipeline
         if (env.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
@@ -33,7 +38,10 @@ public class Startup
 
         app.UseHttpsRedirection();
         app.UseRouting();
+
+        app.UseAuthentication();
         app.UseAuthorization();
+
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();
@@ -90,13 +98,54 @@ public class Startup
         if (useSqlite)
         {
             // If there's no Ms Sql database, use local Sqlite database
-            services.AddDbContext<DataContext>(options =>
+            services.AddDbContext<DatabaseContext>(options =>
                 options.UseSqlite(connStr));
         }
         else
         {
-            services.AddDbContext<DataContext>(options =>
+            services.AddDbContext<DatabaseContext>(options =>
                 options.UseSqlServer(connStr));
         }
+    }
+
+    void AddAuthentication(IServiceCollection services)
+    {
+        // Get secret key from environment variables (coming from GitHub secrets)
+        var secretKey = Environment.GetEnvironmentVariable("JWT_SECRET");
+        if (secretKey == null)
+        {
+            // If the secret key is not set, use the one stored in .Net Secrets Manager
+            secretKey = _configuration["JWT_SECRET"];
+            if(secretKey == null)
+            {
+                // If the secret key is not set in .Net Secrets Manager, create one for debugging purposes
+                secretKey = "ThisSecretKeyIsOnlyForDebuggingPurposes";
+            }
+        }
+
+        var issuer = Environment.GetEnvironmentVariable("BACKEND_URL") ?? "localhost:5000";
+
+        var jwtSettings = new JwtConfiguration
+        {
+            SecretKey = secretKey,
+            Issuer = issuer,
+            Audience = "backend"
+        };
+        services.AddSingleton(jwtSettings);
+
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                    .AddJwtBearer(options =>
+                    {
+                        options.TokenValidationParameters = new TokenValidationParameters
+                        {
+                            ValidateIssuer = true,
+                            ValidateAudience = true,
+                            ValidateLifetime = true,
+                            ValidateIssuerSigningKey = true,
+                            ValidIssuer = jwtSettings.Issuer,
+                            ValidAudience = jwtSettings.Audience,
+                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey))
+                        };
+                    });
     }
 }

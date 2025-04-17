@@ -9,10 +9,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend.Tests", "Backend.Te
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Db", "Db", "{240D54FD-C2A2-AACB-CAA5-CE0B0FF793FF}"
 	ProjectSection(SolutionItems) = preProject
-		Db\WebApplication1.sql = Db\WebApplication1.sql
 		Db\create-data.json = Db\create-data.json
 		Db\create-data.command = Db\create-data.command
 		Db\delete-data.command = Db\delete-data.command
+		Db\Create-Sqlite.sql = Db\Create-Sqlite.sql
+		Db\Create-SqlServer.sql = Db\Create-SqlServer.sql
+		Db\Init.sql = Db\Init.sql
 	EndProjectSection
 EndProject
 Global

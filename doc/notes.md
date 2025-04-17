@@ -159,7 +159,13 @@ Creating a Container App:
 - It's very cost-efficient
 - Triggers srart the function (e.g. HTTP requests or timers) and they may have input data
 
-## Admin
+## Network
+
+Zero trust architecture is a security strategy. The principle is that users and devices should not be trusted by default, even if they are connected to a corporate network. It ensures least privilege access to only explicitly-authorized resources. The traditional approach by trusting users and devices within a network is commonly not sufficient in the complex environment of a corporate network. The zero trust approach moves away from trust-by-default to trust-by-exception.
+
+Microsoft is making Security Defaults (preconfigured security settings) available to everyone to ensure that all organizations have at least a basic level of security enabled at no extra cost. 99.9% of common identity-related attacks are stopped by using multifactor authentication.
+
+### Admin
 
 To manage users, go to Microsoft Entry ID -> Users
 
@@ -186,7 +192,7 @@ The main branch can be protected by adding rulesets (e.g. deletions can be restr
 - (If your repository is public, you can also add environment secrets)
 - Click New repository secret and add CONTAINER_REGISTRY_USERNAME. On the Azure Portal go to your container registry and under Settings -> Access keys, you can copy the Username and paste it as the secret on GitHub
 - In a simliar way, create CONTAINER_REGISTRY_PASSWORD
-- Also, create AZURE_CREDENTIALS but to do that you'll need to install Azure CLI. To get Azure CLI on Mac, you first need to install homebrew. When homebrew is installed, open a Terminal and run
+- Also, create AZURE_APP_ID, AZURE_PASSWORD, and AZURE_TENANT but to do that you'll need to install Azure CLI. To get Azure CLI on Mac, you first need to install homebrew. When homebrew is installed, open a Terminal and run
 
 brew update && brew install azure-cli
 
@@ -199,7 +205,7 @@ echo export PATH=$PATH:/opt/homebrew/bin >> ~/.zshrc
 - To update Azure CLI: az upgrade
 - To log in to Azure CLI: az login
 - To create a service principal: az ad sp create-for-rbac --name "<a unique name that hasn't been used before>" --role contributor --scopes /subscriptions/<your Azure subscription id (you can find it on the Azure Portal under your subscription)>
-- Save the appId, the password and the tenant as GitHub secrets to log in to Azure from the yml file (az login --service-principal -u <appId> -p <password> --tenant <tenant>
+- Save the appId, the password and the tenant as GitHub secrets to be able to log in to Azure from the yml file (az login --service-principal -u <appId> -p <password> --tenant <tenant>)
 - The Azure CLI can also be started from the Azure Portal (click the cloud shell icon in the upper right corner)
 - You can manage the created service principals on the Azure Portal under Microsoft Entra ID -> App registrations -> All applications
 
@@ -227,6 +233,8 @@ Use
 
 Null-forgiving operator: !
 
+Your basically telling the compiler: "Trust me, this isn't null!"
+
 Property initialization:
 
 public int Count { get; set; } = 0;
@@ -235,13 +243,17 @@ public int Count { get; set; } = 0;
 
 The curl command can be used to call an endpoint. The body of the request can be saved in a json file (adding the verbose option will return the http response status too):
 
-curl -v -X <request method e.g. POST> <url> -H "Content-Type: application/json" --data @<relative path to json file>
+curl -v -X <request method e.g. POST> <endpoint url> -H "Content-Type: application/json" --data @<relative path to json file>
+
+curl -v -X GET "<url of endpoint that requires authentication>" -H "Authorization: Bearer <token>"
 
 CORS restrictions only work in browsers. They don't work with curl, Postman or similar tools.
 
 Asynchronous methods are a best practice in production-grade modern ASP.NET Core applications, especially when interacting with databases. They don't block the thread and they scale better because they allow the server to handle more requests simultaneously. This improves responsiveness.
 
 Middleware can be used to write common functionality that will execute for every request.
+
+DTOs (Data Transfer Object) only contain the information needed for specific operations (e.g. there can be a User model that contains all user information and a UserDto class that only contains the user name and the password).
 
 ## Entity Framework Core
 
@@ -255,7 +267,7 @@ To add a package, cd into the project's directory and run: dotnet add package <p
 
 Connection strings should be stored safely. Either in an environment variable or with .NET Sectets Manager or in an Azure Vault.
 
-Eager loading vs. lazy loading: to enable lazy loading, install the Microsoft.EntityFrameworkCore.Proxies.
+Eager loading vs. lazy loading: to enable lazy loading, install the Microsoft.EntityFrameworkCore.Proxies. But lazy loading might lead to performance problems if not used carefully (N+1 query problem).
 
 When EF Core queries a DB, it stores a snapshot of the result set in memory. Any changes to the entities are made against that snapshot and only later written to the DB. To speed up read only queries, you can skip the snapshot and conserve system resources by adding the AsNoTracking() method to the query.
 
@@ -275,6 +287,8 @@ Fluent API use extension methods to chain methods together along with lamda expr
 
 ### Scaffolding code from an existing DB
 
+Build the project, then run:
+
 dotnet ef dbcontext scaffold "<connection string>" Microsoft.EntityFrameworkCore.SqlServer --context-dir Data --output-dir Models --data-annotations
 
 If the database model changes, you can either manually update the entity model or you can rescaffold the entity models. But to go with the second option, you need to keep business logic separate from db entities. First, delete the enitity model by deleting the Data and the Models directories from the project. Then run:
@@ -287,10 +301,12 @@ Then create partial classes in the models directory to add any further logic to 
 
 To add an additional (e.g. Sqlite) DB context to the project:
 - Create the database and put data in it (e.g. with DB Browser for Sqlite)
+- The changes made in DB Browser for Sqlite need to be saved (it doesn't save changes automatically)
 - Install the Microsoft.EntityFrameworkCore.Sqlite package
-- Do the data migrations:
+- Instead of using SqlServer use Sqlite:
 
-dotnet ef dbcontext scaffold "Data Source=Local.db" Microsoft.EntityFrameworkCore.Sqlite --context-dir Data --output-dir Models --data-annotations --context SqliteContext
+services.AddDbContext<DatabaseContext>(options =>
+    options.UseSqlite(connStr));
 
 ### .NET Secrets Manager
 
@@ -312,9 +328,29 @@ To list user secrets: dotnet user-secrets list
 
 To delete user secrets: dotnet user-secrets clear
 
+## Authentication
+
+### Microsoft Entra
+
+One option is Microsoft Entra, which delivers unified zero-trust user access. Generally, a Microsoft account is needed but external identity providers can also be used (like Google/Facebook etc.). Also, custom email/password authentication can be used.
+
+### JWT (JSON Web Token) authentication
+
+JWT is a lightweight authentication mechanism. It uses tokens signed with a secret. The client sends the token in the Authorization header with each request. It's easy to integrate with third-party identity providers but a custom identity provider can also be implemented.
+
+If only authentication with email and password is needed (and no third-party providers like Google or Facebook) a custom JWT-based authentication system is sufficient.
+
+Install the Microsoft.AspNetCore.Authentication.JwtBearer package
+
+### API key authentication
+
+It's a way to do machine-to-machine authentication to secure internal APIs. The API keys can be GUIDs or secure random strings which are sent in the Authorization header of the request. The client needs this API key and the backend will only process the request if it's correct, otherwise send back a 401 response. The checking is implemented in a middleware component.
+
 ## Postman
 
-To make a post request, add Content-Type = application/json to the header and a json object to the body of the request
+To make a post request, add Content-Type = application/json to the header and a json object to the body of the request.
+
+To make an authenticated request, select Bearer Token on the Authorization tab, then copy and paste the token.
 
 # Misc
 

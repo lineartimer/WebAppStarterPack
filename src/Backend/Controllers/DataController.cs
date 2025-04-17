@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 using Backend.Data;
-using Backend.Models;
+using Backend.Models;   
 
 namespace Backend.Controllers;
 
@@ -10,18 +10,18 @@ namespace Backend.Controllers;
 [ApiController]
 public class DataController : ControllerBase
 {
-    private readonly DataContext _context;
+    private readonly DatabaseContext _db;
 
-    public DataController(DataContext context)
+    public DataController(DatabaseContext context)
     {
-        _context = context;
+        _db = context;
     }
 
     // GET: /Data
     [HttpGet]
     public async Task<ActionResult<List<Datum>>> GetAll()
     {
-        var query = from d in _context.Data
+        var query = from d in _db.Data
                     select d;
         
         return Ok(await query.ToListAsync());
@@ -31,7 +31,7 @@ public class DataController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<Datum>> Get(int id)
     {
-        var query = from d in _context.Data
+        var query = from d in _db.Data
                     where d.Id == id
                     select d;
         
@@ -57,8 +57,8 @@ public class DataController : ControllerBase
     [HttpPost]
     public async Task<ActionResult> Create(Datum datum)
     {
-        _context.Data.Add(datum);
-        await _context.SaveChangesAsync();
+        _db.Data.Add(datum);
+        await _db.SaveChangesAsync();
         
         var id = new { Id = datum.Id };
         return CreatedAtAction(nameof(Get), id, id);
@@ -73,8 +73,8 @@ public class DataController : ControllerBase
             return BadRequest("No data provided.");
         }
 
-        _context.Data.AddRange(data);
-        await _context.SaveChangesAsync();
+        _db.Data.AddRange(data);
+        await _db.SaveChangesAsync();
 
         var count = new { Count = data.Count };
         return CreatedAtAction(nameof(GetAll), count, count);
@@ -84,13 +84,13 @@ public class DataController : ControllerBase
     [HttpPut]
     public async Task<ActionResult> Update(Datum datum)
     {
-        if (!_context.Data.Any(e => e.Id == datum.Id))
+        if (!_db.Data.Any(e => e.Id == datum.Id))
         {
             return NotFound();
         }
 
-        _context.Entry(datum).State = EntityState.Modified;
-        await _context.SaveChangesAsync();
+        _db.Entry(datum).State = EntityState.Modified;
+        await _db.SaveChangesAsync();
 
         return NoContent();
     }
@@ -99,15 +99,15 @@ public class DataController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var datum = await _context.Data.FindAsync(id);
+        var datum = await _db.Data.FindAsync(id);
 
         if (datum == null)
         {
             return NotFound();
         }
 
-        _context.Data.Remove(datum);
-        await _context.SaveChangesAsync();
+        _db.Data.Remove(datum);
+        await _db.SaveChangesAsync();
 
         return NoContent();
     }
@@ -121,15 +121,15 @@ public class DataController : ControllerBase
             return BadRequest("No IDs provided.");
         }
 
-        var dataToDelete = await _context.Data.Where(d => ids.Contains(d.Id)).ToListAsync();
+        var dataToDelete = await _db.Data.Where(d => ids.Contains(d.Id)).ToListAsync();
 
         if (dataToDelete.Count == 0)
         {
             return NotFound();
         }
 
-        _context.Data.RemoveRange(dataToDelete);
-        await _context.SaveChangesAsync();
+        _db.Data.RemoveRange(dataToDelete);
+        await _db.SaveChangesAsync();
 
         return NoContent();
     }
@@ -138,15 +138,15 @@ public class DataController : ControllerBase
     [HttpDelete("All")]
     public async Task<IActionResult> DeleteAll()
     {
-        var dataToDelete = await _context.Data.ToListAsync();
+        var dataToDelete = await _db.Data.ToListAsync();
 
         if (dataToDelete.Count == 0)
         {
             return NotFound();
         }
 
-        _context.Data.RemoveRange(dataToDelete);
-        await _context.SaveChangesAsync();
+        _db.Data.RemoveRange(dataToDelete);
+        await _db.SaveChangesAsync();
 
         return NoContent();
     }

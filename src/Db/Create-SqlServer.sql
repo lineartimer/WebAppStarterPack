@@ -6,7 +6,17 @@ if exists
     where table_type = 'BASE TABLE' and table_name = 'Users'
 )
 begin
-    drop table [Users];
+    drop table Users;
+end
+
+if exists
+(
+    select 1 
+    from information_schema.tables 
+    where table_type = 'BASE TABLE' and table_name = 'Roles'
+)
+begin
+    drop table Roles;
 end
 
 if exists
@@ -26,8 +36,14 @@ create table [Data] (
     Col3 nvarchar(10)
 );
 
-create table [Users] (
+create table Roles (
     Id int primary key identity,
+    [Name] nvarchar(64) not null
+);
+
+create table Users (
+    Id int primary key identity,
+    RoleId int foreign key references Roles(Id) not null,
     UserName nvarchar(64) not null,
     [Password] nvarchar(128) not null,
     Email nvarchar(512) not null,

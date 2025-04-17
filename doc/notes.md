@@ -243,7 +243,9 @@ public int Count { get; set; } = 0;
 
 The curl command can be used to call an endpoint. The body of the request can be saved in a json file (adding the verbose option will return the http response status too):
 
-curl -v -X <request method e.g. POST> <url> -H "Content-Type: application/json" --data @<relative path to json file>
+curl -v -X <request method e.g. POST> <endpoint url> -H "Content-Type: application/json" --data @<relative path to json file>
+
+curl -v -X GET "<url of endpoint that requires authentication>" -H "Authorization: Bearer <token>"
 
 CORS restrictions only work in browsers. They don't work with curl, Postman or similar tools.
 
@@ -265,7 +267,7 @@ To add a package, cd into the project's directory and run: dotnet add package <p
 
 Connection strings should be stored safely. Either in an environment variable or with .NET Sectets Manager or in an Azure Vault.
 
-Eager loading vs. lazy loading: to enable lazy loading, install the Microsoft.EntityFrameworkCore.Proxies.
+Eager loading vs. lazy loading: to enable lazy loading, install the Microsoft.EntityFrameworkCore.Proxies. But lazy loading might lead to performance problems if not used carefully (N+1 query problem).
 
 When EF Core queries a DB, it stores a snapshot of the result set in memory. Any changes to the entities are made against that snapshot and only later written to the DB. To speed up read only queries, you can skip the snapshot and conserve system resources by adding the AsNoTracking() method to the query.
 
@@ -346,7 +348,9 @@ It's a way to do machine-to-machine authentication to secure internal APIs. The 
 
 ## Postman
 
-To make a post request, add Content-Type = application/json to the header and a json object to the body of the request
+To make a post request, add Content-Type = application/json to the header and a json object to the body of the request.
+
+To make an authenticated request, select Bearer Token on the Authorization tab, then copy and paste the token.
 
 # Misc
 

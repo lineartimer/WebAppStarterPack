@@ -5,6 +5,8 @@ using System.Text;
 
 using Backend.Configurations;
 using Backend.Data;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 public class Startup
 {
@@ -23,7 +25,14 @@ public class Startup
         AddDbContext(services);
         AddAuthentication(services);
 
-        services.AddControllers();
+        // Require authentiacation for all controllers by default
+        services.AddControllers(options =>
+                {
+                    var policy = new AuthorizationPolicyBuilder()
+                        .RequireAuthenticatedUser()
+                        .Build();
+                    options.Filters.Add(new AuthorizeFilter(policy));
+                });
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -116,16 +125,16 @@ public class Startup
         {
             // If the secret key is not set, use the one stored in .Net Secrets Manager
             secretKey = _configuration["JWT_SECRET"];
-            if(secretKey == null)
+            if (secretKey == null)
             {
                 // If the secret key is not set in .Net Secrets Manager, create one for debugging purposes
-                secretKey = "ThisSecretKeyIsOnlyForDebuggingPurposes";
+                secretKey = "ThisNotSoSecretKeyIsForDebuggingPurposesOnly";
             }
         }
 
         var issuer = Environment.GetEnvironmentVariable("BACKEND_URL") ?? "localhost:5000";
 
-        var jwtSettings = new JwtConfiguration
+        var jwtSettings = new JwtConfig
         {
             SecretKey = secretKey,
             Issuer = issuer,

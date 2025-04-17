@@ -1,6 +1,6 @@
 namespace Backend.Configurations;
 
-public class JwtConfiguration
+public class JwtConfig
 {
     public string SecretKey { get; set; } = null!;
     public string Issuer { get; set; } = null!;

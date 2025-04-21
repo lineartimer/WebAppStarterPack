@@ -6,7 +6,7 @@ class AuthErrors
 
     public const string LoginDataMissing = "The following data is required: user name/email, password.";
 
-    public const string InvalidUserNameOrEmail = "Invalid user name/email or password.";
+    public const string InvalidUserNameEmailOrPassword = "Invalid user name/email or password.";
 
     public const string InvalidRole = "Invalid role name.";
 }

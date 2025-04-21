@@ -33,7 +33,7 @@ public class AuthController : ControllerBase
     {
         if (userDto.UserName == null || userDto.Email == null || userDto.Password == null || userDto.FirstName == null || userDto.Role == null)
         {
-            return BadRequest(AuthErrors.SignupDataMissing);
+            return BadRequest(new { Message = AuthErrors.SignupDataMissing });
         }
 
         var query = from r in _db.Roles
@@ -43,7 +43,7 @@ public class AuthController : ControllerBase
         var cnt = await query.CountAsync();
         if (cnt == 0)
         {
-            return BadRequest(AuthErrors.InvalidRole);
+            return BadRequest(new { Message = AuthErrors.InvalidRole });
         }
 
         if(cnt > 1)
@@ -76,7 +76,7 @@ public class AuthController : ControllerBase
     {
         if ((loginDto.UserName == null && loginDto.Email == null) || loginDto.Password == null)
         {
-            return BadRequest(AuthErrors.LoginDataMissing);
+            return BadRequest(new { Message = AuthErrors.LoginDataMissing });
         }
         
         var query = from u in _db.Users.Include(u => u.Role) // Include is necessary, otherwise the Role property will be null
@@ -88,7 +88,7 @@ public class AuthController : ControllerBase
         var cnt = await query.CountAsync();
         if (cnt == 0)
         {
-            return Unauthorized(AuthErrors.InvalidUserNameOrEmail);
+            return Unauthorized(new { Message = AuthErrors.InvalidUserNameEmailOrPassword });
         }
         
         var user = await query.FirstAsync();
@@ -102,7 +102,7 @@ public class AuthController : ControllerBase
 
         if (authResult == PasswordVerificationResult.Failed)
         {
-            return Unauthorized(AuthErrors.InvalidUserNameOrEmail);
+            return Unauthorized(new { Message = AuthErrors.InvalidUserNameEmailOrPassword });
         }
 
         var token = GenerateJwtToken(user, user.Role);

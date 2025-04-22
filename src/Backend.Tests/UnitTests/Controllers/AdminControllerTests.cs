@@ -7,7 +7,7 @@ namespace Backend.Tests.UnitTests.Controllers;
 public class AdminControllerTests
 {
     [Fact]
-    public void GetAdminData_ReturnsOk_ForAuthorizedUser()
+    public void GetAdminData_ShouldReturnOk_ForAuthorizedUser()
     {
         var controller = new AdminController();
 
@@ -20,6 +20,7 @@ public class AdminControllerTests
         Assert.NotNull(messageProperty);
 
         var messageValue = messageProperty.GetValue(okResult.Value)?.ToString();
+        Assert.NotNull(messageValue);
         Assert.Equal("This is only for admins.", messageValue);
     }
 }

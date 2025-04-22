@@ -1,32 +1,24 @@
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.EntityFrameworkCore;
 using Xunit.Abstractions;
-
-using Backend.Configurations;
-using Backend.Data;
-using Backend.Models;
 
 namespace Backend.Tests.Helpers;
 
-public class TestHelper
+public class HttpClientHelper
 {
     private readonly HttpClient _client;
     private readonly ITestOutputHelper _output;
     
-    public TestHelper(WebApplicationFactory<Program> factory, ITestOutputHelper output)
+    public HttpClientHelper(WebApplicationFactory<Program> factory, ITestOutputHelper output)
     {
         _client = factory.CreateClient();
         _output = output;
     }
-        
-    public static DatabaseContext InMemoryDatabaseContext { get; } = CreateInMemoryDatabaseContext();
 
-    public static JwtConfig JwtConfig { get; } = CreateJwtConfig();
-
+    // Overloading the CallEndpoint method allows easier usage than having a bunch of optional parameters
+    // because that would require using named arguments.
     public async Task<EndPointResponse> CallEndpoint(string url, HttpMethod method, bool print = false)
     {
         return await CallEndpointImpl(url, method, null, null, print);
@@ -57,59 +49,6 @@ public class TestHelper
         }
 
         return property.GetString();
-    }
-
-    private static DatabaseContext CreateInMemoryDatabaseContext()
-    {
-        // Use in-memory database for testing
-        var options = new DbContextOptionsBuilder<DatabaseContext>()
-            .UseInMemoryDatabase("TestDatabase")
-            .Options;
-        var db = new DatabaseContext(options);
-
-        var pwdHasher = new PasswordHasher<User>();
-
-        var testUser = new User
-        {
-            Id = 1,
-            RoleId = 1,
-            UserName = "testuser1",
-            Email = "testuser1@gmail.com",
-            FirstName = "testfirstname1",
-        };
-
-        testUser.Password = pwdHasher.HashPassword(testUser, "testpassword1");
-
-        var testAdmin = new User
-        {
-            Id = 2,
-            RoleId = 2,
-            UserName = "testadmin1",
-            Email = "testadmin1@gmail.com",
-            FirstName = "testfirstname2",
-        };
-
-        testAdmin.Password = pwdHasher.HashPassword(testAdmin, "testpassword2");
-
-        db.Roles.Add(new Role { Id = 1, Name = "User" });
-        db.Roles.Add(new Role { Id = 2, Name = "Admin" });
-
-        db.Users.Add(testUser);
-        db.Users.Add(testAdmin);
-
-        db.SaveChanges();
-
-        return db;
-    }
-
-    private static JwtConfig CreateJwtConfig()
-    {
-        return new JwtConfig
-            {
-                SecretKey = "ThisNotSoSecretKeyIsForTestingPurposesOnly",
-                Issuer = "localhost",
-                Audience = "backend"
-            };
     }
 
     private async Task<EndPointResponse> CallEndpointImpl(string url, HttpMethod method, object? content, string? token, bool print)

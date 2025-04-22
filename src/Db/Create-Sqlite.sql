@@ -18,7 +18,7 @@ create table Roles (
 create table Users (
     Id integer primary key autoincrement not null,
 	RoleId integer not null,
-    UserName nvarchar(64) not null,
+    Username nvarchar(64) not null,
     [Password] nvarchar(128) not null,
     Email nvarchar(512) not null,
     FirstName nvarchar(64) not null,

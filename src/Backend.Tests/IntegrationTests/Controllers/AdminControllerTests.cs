@@ -5,31 +5,31 @@ using Backend.Tests.Helpers;
 
 namespace Backend.Tests.IntegrationTests.Controllers;
 
-public class DataControllerTests : IClassFixture<WebApplication1Factory<Program>>
+public class AdminControllerTests : IClassFixture<WebApplication1Factory<Program>>
 {
     private readonly HttpClientHelper _client;
 
-    public DataControllerTests(WebApplication1Factory<Program> factory, ITestOutputHelper output)
+    public AdminControllerTests(WebApplication1Factory<Program> factory, ITestOutputHelper output)
     {
         _client = new HttpClientHelper(factory, output);
     }
 
     [Fact]
-    public async Task UnauthorizedAccess_ShouldReturnUnauthorized_WithNoToken_ForCommonUser()
+    public async Task UnauthorizedAccess_ShouldReturnUnauthorized_WithNoToken_ForAdminUser()
     {
-        var result = await _client.CallEndpoint("/Data", HttpMethod.Get);
+        var result = await _client.CallEndpoint("/Admin", HttpMethod.Get);
         Assert.Equal(HttpStatusCode.Unauthorized, result.Status);
     }
 
     [Fact]
-    public async Task UnauthorizedAccess_ShouldReturnUnauthorized_WithWrongToken_ForCommonUser()
+    public async Task UnauthorizedAccess_ShouldReturnUnauthorized_WithWrongToken_ForAdminUser()
     {
-        var result = await _client.CallEndpoint("/Data", HttpMethod.Get, "wrongtoken");
+        var result = await _client.CallEndpoint("/Admin", HttpMethod.Get, "wrongtoken");
         Assert.Equal(HttpStatusCode.Unauthorized, result.Status);
     }
 
     [Fact]
-    public async Task Authorization_ShouldAllowAccess_ForCommonUser()
+    public async Task Authorization_ShouldDenyAccess_ForCommonUser()
     {
         var loginDto = new
         {
@@ -41,9 +41,9 @@ public class DataControllerTests : IClassFixture<WebApplication1Factory<Program>
         var token = _client.GetProperty(response, "token");
         Assert.NotNull(token);
 
-        var result = await _client.CallEndpoint("/Data", HttpMethod.Get, token);
-        Assert.Equal(HttpStatusCode.OK, result.Status);
-        Assert.True(result.Content.GetArrayLength() > 0);
+        var result = await _client.CallEndpoint("/Admin", HttpMethod.Get, token);
+        Assert.Equal(HttpStatusCode.Forbidden, result.Status);
+        Assert.Equal(0, result.Content.GetPropertyCount());
     }
 
     [Fact]
@@ -59,8 +59,11 @@ public class DataControllerTests : IClassFixture<WebApplication1Factory<Program>
         var token = _client.GetProperty(response, "token");
         Assert.NotNull(token);
 
-        var result = await _client.CallEndpoint("/Data", HttpMethod.Get, token);
+        var result = await _client.CallEndpoint("/Admin", HttpMethod.Get, token);
         Assert.Equal(HttpStatusCode.OK, result.Status);
-        Assert.True(result.Content.GetArrayLength() > 0);
+
+        var message = _client.GetProperty(result, "message");
+        Assert.NotNull(message);
+        Assert.True(message.Length > 0);
     }
 }

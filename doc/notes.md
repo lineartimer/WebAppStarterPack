@@ -359,6 +359,8 @@ To make an authenticated request, select Bearer Token on the Authorization tab, 
 
 ## Tests
 
+If the test cases are not being shown on the testing tab in VS Code then clean and the projects, close VS Code, run the cleanup scripts then open VS Code again and rubuild the projects. If that doesn't solve the issue, restarting the machine will.
+
 ### Unit Testing
 
 Required packages:

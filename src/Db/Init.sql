@@ -9,6 +9,6 @@ select * from [Data];
 
 select * from [Roles];
 
-select u.Id, UserName, [Password], Email, FirstName, LastName, r.[Name] as [Role]
+select u.Id, Username, [Password], Email, FirstName, LastName, r.[Name] as [Role]
 from Users u
 join Roles r on r.Id = u.RoleId;

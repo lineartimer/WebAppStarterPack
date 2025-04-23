@@ -1,12 +1,12 @@
+using System.Text;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
 using Backend.Configurations;
 using Backend.Data;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Authorization;
 
 public class Startup
 {
@@ -90,17 +90,30 @@ public class Startup
         var useSqlite = false;
         if (dbServer == null || db == null || dbUser == null || dbPassword == null)
         {
-            // Locally environment variables are not set, so using the connection string stored in .Net Secrets Manager
-            connStr = _configuration.GetConnectionString("SqlServer");
+            // Locally, environment variables are not set, so using the connection string stored in .Net Secrets Manager
+            connStr = _configuration.GetConnectionString("SqliteTestDb");
 
-            if (connStr == null)
+            if(connStr == null)
             {
+                // Running locally
+                connStr = _configuration.GetConnectionString("SqlServer");
+
+                if (connStr == null)
+                {
+                    // No connection string is set in .Net Secrets Manager, so using the local Sqlite database
+                    connStr = $"Data Source=Local.db";
+                    useSqlite = true;
+                }
+            }
+            else
+            {
+                // It's a test run
                 useSqlite = true;
-                connStr = "Data Source=Local.db";
             }
         }
         else
         {
+            // Running in the production environment
             connStr = $"Server={dbServer};Database={db};User Id={dbUser};Password={dbPassword};";
         }
 

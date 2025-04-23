@@ -28,12 +28,12 @@ public class AuthController : ControllerBase
         _jwtSettings = jwtSettings;
     }
 
-    [HttpPost("Signup")]
-    public async Task<IActionResult> Signup(UserDto userDto)
+    [HttpPost("SignUp")]
+    public async Task<IActionResult> SignUp(UserDto userDto)
     {
-        if (userDto.UserName == null || userDto.Email == null || userDto.Password == null || userDto.FirstName == null || userDto.Role == null)
+        if (userDto.Username == null || userDto.Email == null || userDto.Password == null || userDto.FirstName == null || userDto.Role == null)
         {
-            return BadRequest(AuthErrors.SignupDataMissing);
+            return BadRequest(new { Message = ResponseMessages.SignupDataMissing });
         }
 
         var query = from r in _db.Roles
@@ -43,7 +43,7 @@ public class AuthController : ControllerBase
         var cnt = await query.CountAsync();
         if (cnt == 0)
         {
-            return BadRequest(AuthErrors.InvalidRole);
+            return BadRequest(new { Message = ResponseMessages.InvalidRole });
         }
 
         if(cnt > 1)
@@ -55,7 +55,7 @@ public class AuthController : ControllerBase
 
         var user = new User
         {
-            UserName = userDto.UserName,
+            Username = userDto.Username,
             Email = userDto.Email,
             FirstName = userDto.FirstName,
             LastName = userDto.LastName,
@@ -72,27 +72,27 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("Login")]
-    public async Task<IActionResult> Login(LoginDto loginDto)
+    public async Task<IActionResult> Login(CredentialDto loginDto)
     {
-        if ((loginDto.UserName == null && loginDto.Email == null) || loginDto.Password == null)
+        if ((loginDto.Username == null && loginDto.Email == null) || loginDto.Password == null)
         {
-            return BadRequest(AuthErrors.LoginDataMissing);
+            return BadRequest(new { Message = ResponseMessages.LoginDataMissing });
         }
         
         var query = from u in _db.Users.Include(u => u.Role) // Include is necessary, otherwise the Role property will be null
                     where u.RoleId == u.Role.Id
                     join r in _db.Roles on u.RoleId equals r.Id
-                    where u.UserName == loginDto.UserName || u.Email == loginDto.Email
+                    where u.Username == loginDto.Username || u.Email == loginDto.Email
                     select u;
         
         var cnt = await query.CountAsync();
         if (cnt == 0)
         {
-            return Unauthorized(AuthErrors.InvalidUserNameOrEmail);
+            return Unauthorized(new { Message = ResponseMessages.InvalidUserNameEmailOrPassword });
         }
         
         var user = await query.FirstAsync();
-        if (cnt > 1 || (user.UserName == null && user.Email == null) || user.Password == null)
+        if (cnt > 1 || (user.Username == null && user.Email == null) || user.Password == null)
         {
             throw new Exception(ExceptionErrors.CorruptUserData);
         }
@@ -102,7 +102,7 @@ public class AuthController : ControllerBase
 
         if (authResult == PasswordVerificationResult.Failed)
         {
-            return Unauthorized(AuthErrors.InvalidUserNameOrEmail);
+            return Unauthorized(new { Message = ResponseMessages.InvalidUserNameEmailOrPassword });
         }
 
         var token = GenerateJwtToken(user, user.Role);
@@ -118,7 +118,7 @@ public class AuthController : ControllerBase
         var claims = new List<Claim>
         {
             new Claim("id", user.Id.ToString()),
-            new Claim(ClaimTypes.Name, user.UserName),
+            new Claim(ClaimTypes.Name, user.Username),
             new Claim(ClaimTypes.Role, role.Name)
         };
 

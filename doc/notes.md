@@ -4,7 +4,7 @@ WebApp
 # Environment
 
 - VS Code
-- VS Code extensions (C# Dev Kit, SQL Server, GitHub CoPilot/Chat, Azure App Service, Azure Container Apps, Docker)
+- VS Code extensions (C# Dev Kit, SQL Server, GitHub Copilot/Chat, Azure App Service, Azure Container Apps, Docker)
 - .NET SDK
 - Node.js
 - Docker Desktop
@@ -24,15 +24,15 @@ VS Code -> Explorer (top left) -> Create .NET Project -> ASP.NET Core Web API
 
 ### Adding unit tests
 
-- Open the command palette (hit F1), then .NET: New Project, xUnit Test Project and give your project a name
-- In VS Code terminal cd into the src folder and run
+- Open the command palette (hit F1), then .NET: New Project -> xUnit Test Project
+- In VS Code terminal, cd into the src folder and run
 
-dotnet add Backend.Tests/Backend.Tests.csproj reference Backend/Backend.csproj
+dotnet add <test project's csproj> reference <main project's csproj>
 
-- To run the test cd into the Backend.Tests directory, build the project and run it
+- To run the test, cd into the test directory, build the project and run it
 
 dotnet build
-dotnet test bin/Debug/net8.0/Backend.Tests.dll --logger "trx;logfilename=Results.xml"
+dotnet test bin/Debug/net8.0/<test project's name>.dll --logger "trx;logfilename=Results.xml"
 
 # Azure
 
@@ -57,19 +57,19 @@ Creating a web server:
 Configuring the server:
 - When the server starts up, allow it to be discoverable by other devices on the same network (it's the recommended setting for home/work networks)
 - Do a Windows update and restart if necessary: Start -> Settings -> Update & Security -> Check for updates
-- To allow network sharing click on the server on portal.azure.com, go Networking -> Network Settings and create a new inbound port rule for destination TCP port 445. Name the port rule NetworkShare for example
+- To allow network sharing, go to the server on Azure Portal -> Networking -> Network Settings and create a new inbound port rule for destination TCP port 445. (Name the rule e.g. NetworkShare.)
 - Share a folder on the server and connect to it (from Finder Go -> Connect to server -> smb://<IP address> -> Connect then navigate to the folder, hover the mouse over the folder name in the upper-left part and drag and drop it to Locations on the left to have it easily accessible)
-- (If the shared folder is not accessible on Windows, try switching off the firewall in the anti-virus software)
+- (If the shared folder is not accessible on Windows, check the firewall settings.)
 
 Configuring IIS:
-- Add IIS: Start -> Server Manager -> Manage -> Add roles and features -> Nexts -> Add Web Server (IIS) -> Nexts -> On Select Role Services add Web Server/Application Development/ASP.NET 4.8 -> Next -> Install -> Close
+- To add IIS: Start -> Server Manager -> Manage -> Add roles and features -> Nexts -> Add Web Server (IIS) -> Nexts -> On Select Role Services add Web Server/Application Development/ASP.NET 4.8 -> Next -> Install -> Close
 - Verify the installation by opening localhost on the server and visiting the IP address of the server in the browser from another machine
 - Install the .NET Core Hosting Bundle
 - Create an IISApplications folder on the C drive for the apps
 
 Publishing a web api to IIS:
 - Publish your app (web api) and copy it over the server into the IISApplications folder
-- Right click the default website and add a new application (a virtual directory won't do either for a .NET Core Web Api or for an ASP.NET Web Forms App)
+- Right click the default website and add a new application (a virtual directory won't do)
 
 Publishing a react app to IIS:
 - Add "homepage": "." to the root of package.json, otherwise the resources might not be found on the server if the app is deployed as an application under a website
@@ -93,9 +93,9 @@ Creating an SQL database:
 ## Storage Account
 
 - It's used to store images or any large binary data
-- Like a DB, it has a connection string
-- Images can be uploaded using the Azure Portal (Storage Browser) and then the urls can be stored in a SQL DB
-- To upload images from your app, use the Azure.Storage.Blobs and the Microsoft.Extensions.Azure package
+- Like a database, it has a connection string
+- Images can be uploaded using the Azure Portal (Storage Browser) and then the urls can be stored in a SQL databse
+- To upload images from your app, use the Azure.Storage.Blobs and the Microsoft.Extensions.Azure packages
 
 ## Azure Web App
 
@@ -106,7 +106,7 @@ Creating an Azure Web App for the web api:
 - Go to the resource and click Browse to see what is there by default
 
 Deploying the web api:
-- In the terminal within VS Code, navigate to the Backend folder and build the project: dotnet publish -c Release -o ./bin/Publish Backend.csproj
+- In the terminal within VS Code, navigate to the backend's folder and build the project: dotnet publish -c Release -o ./bin/Publish <backend's csproj>
 - Click on the Azure icon and sign in to your Azure account. Then under resources, you should be able to see your subscription and the resources under that subscription
 - Right click the folder in the bin folder that contains the output of your build and click Deploy to WebApp. When prompted, select your WebApp you created in Azure then click Deploy
 
@@ -115,7 +115,7 @@ Deploying the web api:
 Creating an Azure Static Web App for the React website:
 - On the Azure Portal, click Create a resource and under the Web tab click Create Static Web App
 - Select Free for the plan type, GitHub as the source. Log in with your GitHub account and specify the repository and the branch where your app is located. As Build presets, choose Custom. The App location and the Output location should point to the folder where your build output is (e.g. /build/bin/WebApp). Under the Deployment configuration tab, select GitHub
-- If you go to the resource once it's created, you'll see a notification saying "Thank you for using Azure Static Web Apps! We have not received any content for your site yet." Click on it and it will take you over to GitHub to the Actions tab of your repository. You'll see there the Azure workflow being run. When the workflow finished successfully, you'll see a green tick next to it
+- If you go to the resource once it's created, you'll see a notification saying "Thank you for using Azure Static Web Apps! We have not received any content for your site yet." Click on it and it will take you over to GitHub to the Actions tab of your repository. You'll see there the Azure workflow being run. When the workflow has finished successfully, you'll see a green tick next to it
 
 ## Azure Container App
 
@@ -130,21 +130,23 @@ Creating an Azure Container Registry:
 - Go to the resource and under Settings -> Access keys, enable the Admin user
 
 Creating a Docker image:
-- Install Docker Desktop and go with the recommended settings (this will require a password). You don't need to create an account. (Allowing Docker to discover devices on your local network may not be necessary)
-- In VS Code hit F1 and type Docker: Add Docker Files to Workspace. Select the .NET project, .NET: ASP.NET Core, Linux and leave the port number empty. Click no when asked whether to include optional Docker Compose files. If asked whether to overwrite already existing Docker launch configurations, click overwrite
+- Install Docker Desktop and go with the recommended settings (this will require a password). You don't need to create an account. (Allowing Docker to discover devices on your local network may not be necessary.)
+- In VS Code, hit F1 then Docker: Add Docker Files to Workspace -> Select the .NET project -> .NET: ASP.NET Core -> Linux -> Leave the port number empty -> Click no when asked whether to include optional Docker Compose files -> If asked whether to overwrite already existing Docker launch configurations, click overwrite
 - Start Docker Desktop and update it if necessary
-- In VS Code Terminal cd into the root directory of the repo and run
+- In VS Code Terminal, cd into the root directory of the repo and run
 
-docker build --no-cache -f src/Backend/Dockerfile -t backend:latest --platform linux/amd64 .
+docker build --no-cache -f src/<backend's folder>/Dockerfile -t backend:latest --platform linux/amd64 .
 
 - You can list the content of a directory by inserting RUN dir . at the appropriate location in the docker file
 - You can get the directory you're in by echo %cd%
-- (You can delete everything from Docker including the caches: docker system prune -a -f)
+- You can delete everything from Docker including the caches:
+
+docker system prune -a -f
 
 Adding the Docker image to the container registry:
 - On the Docker tab in VS Code, click Connect Registry (plug icon) and select Azure Container Registry. Then click on Azure in the Registries panel and sign in. Then you should be able to see the container registry you created above
 - On the Images panel, right click the image and click Push. Select your container registry. When prompted, allow VS Code to access data from other apps
-- (Your Docker image should appear on the Registries panel. Right click the image and click Deploy Image to Azure Container Apps)
+- (Your Docker image should appear on the Registries panel. You can right click the image and click Deploy Image to Azure Container Apps.)
 
 Creating a Container App:
 - Create a Container App
@@ -157,17 +159,17 @@ Creating a Container App:
 
 - It's like a Container App but it's optimized for event-driven applications
 - It's very cost-efficient
-- Triggers srart the function (e.g. HTTP requests or timers) and they may have input data
+- Triggers (e.g. HTTP requests or timers) srart the function and they may have input data
 
 ## Network
 
-Zero trust architecture is a security strategy. The principle is that users and devices should not be trusted by default, even if they are connected to a corporate network. It ensures least privilege access to only explicitly-authorized resources. The traditional approach by trusting users and devices within a network is commonly not sufficient in the complex environment of a corporate network. The zero trust approach moves away from trust-by-default to trust-by-exception.
+Zero trust architecture is a security strategy. The principle is that users and devices should not be trusted by default, even if they are connected to a corporate network. It ensures least privilege access to only explicitly-authorized resources. The traditional approach by trusting users and devices within a network is commonly not sufficient in the complex environment of a corporate network. The zero trust approach moves from trust-by-default to trust-by-exception.
 
 Microsoft is making Security Defaults (preconfigured security settings) available to everyone to ensure that all organizations have at least a basic level of security enabled at no extra cost. 99.9% of common identity-related attacks are stopped by using multifactor authentication.
 
 ### Admin
 
-To manage users, go to Microsoft Entry ID -> Users
+To manage users, go to Microsoft Entra ID -> Users
 
 To assign roles to a subscription, go to the subscription and under Access Control (IAM) -> Role assignments you can list roles assigned to users or service principals.
 
@@ -181,18 +183,18 @@ Semantic versioning:
 - Minor: New features but backwards compatible
 - Patch: Backwards compatible bug fixes only
 
-A branch can be squashed, merged and pushed back to the original branch from GitHub Desktop (switch over to the original branch, then Branch -> Squash and Merge into Current Branch, select the branch you want to merge back and then push to origin)
+A branch can be squashed, merged and pushed back to the original branch from GitHub Desktop (switch over to the original branch, then Branch -> Squash and Merge into Current Branch, select the branch you want to merge back and then push to origin).
 
 The main branch can be protected by adding rulesets (e.g. deletions can be restricted, an approved PR can be mandatory for merging or force pushes can be blocked): go on GitHub -> Settings -> Rules -> Rulesets
 
 ## CI/CD with GitHub actions
 
-- On the Actions tab of your repository on GitHub, click New workflow and set up a workflow. This will add a new yaml file under .github/workflows folder. Add the workflow and then click Commit changes
-- For GitHub to be able to deploy to Azure, you'll need to to provide GitHub with your login credentials, which you can do on the Settings tab under Secrets and variables -> Actions
+- On the Actions tab of your repository on GitHub, click New workflow and set up a workflow. This will add a new yml file under .github/workflows folder. Add the workflow and then click Commit changes
+- For GitHub to be able to deploy to Azure, you'll need to provide GitHub with your login credentials, which you can do on the Settings tab under Secrets and variables -> Actions
 - (If your repository is public, you can also add environment secrets)
-- Click New repository secret and add CONTAINER_REGISTRY_USERNAME. On the Azure Portal go to your container registry and under Settings -> Access keys, you can copy the Username and paste it as the secret on GitHub
+- Click New repository secret and add CONTAINER_REGISTRY_USERNAME. On the Azure Portal go to your container registry and under Settings -> Access keys copy the Username and paste it on GitHub
 - In a simliar way, create CONTAINER_REGISTRY_PASSWORD
-- Also, create AZURE_APP_ID, AZURE_PASSWORD, and AZURE_TENANT but to do that you'll need to install Azure CLI. To get Azure CLI on Mac, you first need to install homebrew. When homebrew is installed, open a Terminal and run
+- Also, create AZURE_APP_ID, AZURE_PASSWORD, and AZURE_TENANT but to do that Azure CLI needs to be installed. To get Azure CLI on Mac, you first need to install homebrew. When homebrew is installed, open a Terminal and run
 
 brew update && brew install azure-cli
 
@@ -213,8 +215,8 @@ echo export PATH=$PATH:/opt/homebrew/bin >> ~/.zshrc
 
 ## C#
 
-Cmd + K, C: comments the selected lines
-Cmd + K, U: uncomments the selected lines
+Cmd + K, C: comments selected lines
+Cmd + K, U: uncomments selected lines
 
 Concatenate strings with string interpolation (it's a shorthand for string.Format):
 
@@ -224,22 +226,32 @@ string str2 = "b";
 string str3 = $"{str1} and {str2}";
 
 Use
-- GitHub CoPilot
+- GitHub Copilot
 - Implicitly typed local variables (var)
-- LINQ in conjunction with for loops to query lists
+- Linq in conjunction with for loops to query lists
 - File-scoped namespaces
 - Object initializers
+- Null conditional operator (?., ?[])
+- Null coalescing operator (??)
 - (Primary constructors)
 
-Null-forgiving operator: !
-
-Your basically telling the compiler: "Trust me, this isn't null!"
+Null-forgiving operator (!): You're telling the compiler "Trust me, this isn't null!"
 
 Property initialization:
 
 public int Count { get; set; } = 0;
 
+With the dynamic keyword, the compiler will skip type checking for the variable at compile time. Any operations on the object are resolved dynamically.
+
 ## ASP.NET Core
+
+Middleware components can be used to write common functionality that executes for every request. When a component finished processing a request, it passes it on to the next component in the pipeline.
+
+Dependeny Injection (DI) is a design pattern used to manage the creation and lifetime of objects (dependencies) and inject them into classes that need them. DI helps with testability because mock dependencies can be injected during testing.
+
+Using asynchronous methods is a best practice in production-grade modern ASP.NET Core applications, especially when interacting with databases. They don't block the thread and they scale better because they allow the server to handle more requests simultaneously. This improves responsiveness.
+
+DTOs (Data Transfer Object) only contain the information needed for specific operations (e.g. there can be a User model that contains all user information and a UserDto class that only contains the user name and the password).
 
 The curl command can be used to call an endpoint. The body of the request can be saved in a json file (adding the verbose option will return the http response status too):
 
@@ -249,19 +261,13 @@ curl -v -X GET "<url of endpoint that requires authentication>" -H "Authorizatio
 
 CORS restrictions only work in browsers. They don't work with curl, Postman or similar tools.
 
-Asynchronous methods are a best practice in production-grade modern ASP.NET Core applications, especially when interacting with databases. They don't block the thread and they scale better because they allow the server to handle more requests simultaneously. This improves responsiveness.
-
-Middleware can be used to write common functionality that will execute for every request.
-
-DTOs (Data Transfer Object) only contain the information needed for specific operations (e.g. there can be a User model that contains all user information and a UserDto class that only contains the user name and the password).
-
 ## Entity Framework Core
 
 Nuget packages:
-- Microsoft.EntityFrameworkCore
+- (Microsoft.EntityFrameworkCore)
 - Microsoft.EntityFrameworkCore.SqlServer
 - Microsoft.EntityFrameworkCore.Design
-- Microsoft.EntityFrameworkCore.Tools
+- (Microsoft.EntityFrameworkCore.Tools)
 
 To add a package, cd into the project's directory and run: dotnet add package <package name>
 
@@ -269,37 +275,34 @@ Connection strings should be stored safely. Either in an environment variable or
 
 Eager loading vs. lazy loading: to enable lazy loading, install the Microsoft.EntityFrameworkCore.Proxies. But lazy loading might lead to performance problems if not used carefully (N+1 query problem).
 
-When EF Core queries a DB, it stores a snapshot of the result set in memory. Any changes to the entities are made against that snapshot and only later written to the DB. To speed up read only queries, you can skip the snapshot and conserve system resources by adding the AsNoTracking() method to the query.
+When EF Core queries a database, it stores a snapshot of the result set in memory. Any changes to the entities are made against that snapshot and it's written back to the database only later. To speed up read only queries, you can skip the snapshot and conserve system resources by adding the AsNoTracking() method to the query.
 
-###  Creating a new DB from the code
+### Creating a new database from the code
 
-Add the models to your project and the database context.
+- Add the models and the database context to your project
+- Install the .NET EF tool:
 
-Install the .NET EF tool: dotnet tool install -g dotnet-ef
+dotnet tool install -g dotnet-ef
 
-To create a migration: dotnet ef migrations add <name of migration>
+- Create a migration: dotnet ef migrations add <name of migration>
+- Check the migration files if they are correct then run the migration:
 
-Check the migration files if they are correct, run the migration: dotnet ef database update
+dotnet ef database update
 
-If you change the data model, change the model files then create and run another migration.
+- If you change the data model, change the model files then create and run another migration
+- Fluent API use extension methods to chain methods together along with lamda expressions to specify the query. The same can be achieved with Linq syntax
 
-Fluent API use extension methods to chain methods together along with lamda expressions to specify the query. The same can be achieved with LINQ syntax.
+### Scaffolding code from an existing database
 
-### Scaffolding code from an existing DB
-
-Build the project, then run:
+- Build the project, then run:
 
 dotnet ef dbcontext scaffold "<connection string>" Microsoft.EntityFrameworkCore.SqlServer --context-dir Data --output-dir Models --data-annotations
 
-If the database model changes, you can either manually update the entity model or you can rescaffold the entity models. But to go with the second option, you need to keep business logic separate from db entities. First, delete the enitity model by deleting the Data and the Models directories from the project. Then run:
-
-dotnet ef dbcontext scaffold "<connection string>" Microsoft.EntityFrameworkCore.SqlServer --context-dir Data --output-dir Models/Generated --context-namespace <name of your app>.Data --namespace <name of your app>.Models
-
-Then create partial classes in the models directory to add any further logic to the classes
+- If the database model changes, you can either manually update the entity model or you can rescaffold the entity models
 
 ### Different DB providers
 
-To add an additional (e.g. Sqlite) DB context to the project:
+To add an additional (e.g. Sqlite) database context to the project:
 - Create the database and put data in it (e.g. with DB Browser for Sqlite)
 - The changes made in DB Browser for Sqlite need to be saved (it doesn't save changes automatically)
 - Install the Microsoft.EntityFrameworkCore.Sqlite package
@@ -308,12 +311,16 @@ To add an additional (e.g. Sqlite) DB context to the project:
 services.AddDbContext<DatabaseContext>(options =>
     options.UseSqlite(connStr));
 
-### .NET Secrets Manager
+## .NET Secrets Manager
 
-To add a connection string to the .NET Secrets Manager:
+To add a connection string to .NET Secrets Manager:
 
 dotnet user-secrets init
 dotnet user-secrets set "ConnectionStrings:<name of connection string>" "<connection string>"
+
+To add a secret:
+
+dotnet user-secrets set "<secret name>" "<secret value>"
 
 The secrets are stored in ~/.microsoft/usersecrets/<user_secrets_id>/secrets.json
 
@@ -326,31 +333,60 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
 
 To list user secrets: dotnet user-secrets list
 
-To delete user secrets: dotnet user-secrets clear
+To delete all user secrets: dotnet user-secrets clear
 
 ## Authentication
 
-### Microsoft Entra
+Microsost Entra:
+- It delivers unified zerto-trust user access
+- Usually a Microsoft account is needed but it also works with external identity providers like Google, Facebook etc. Custom email/password authentication can also be used
 
-One option is Microsoft Entra, which delivers unified zero-trust user access. Generally, a Microsoft account is needed but external identity providers can also be used (like Google/Facebook etc.). Also, custom email/password authentication can be used.
+JWT (Json Web Token):
+- A lightweight authentication mechanism
+- The client sends a token in the Authorization header with each request
+- It's usually sufficient if no third party providers are needed (Google/Facebook etc.)
+- To use it, install the Microsoft.AspNetCore.Authentication.JwtBearer package
 
-### JWT (JSON Web Token) authentication
-
-JWT is a lightweight authentication mechanism. It uses tokens signed with a secret. The client sends the token in the Authorization header with each request. It's easy to integrate with third-party identity providers but a custom identity provider can also be implemented.
-
-If only authentication with email and password is needed (and no third-party providers like Google or Facebook) a custom JWT-based authentication system is sufficient.
-
-Install the Microsoft.AspNetCore.Authentication.JwtBearer package
-
-### API key authentication
-
-It's a way to do machine-to-machine authentication to secure internal APIs. The API keys can be GUIDs or secure random strings which are sent in the Authorization header of the request. The client needs this API key and the backend will only process the request if it's correct, otherwise send back a 401 response. The checking is implemented in a middleware component.
+API key authentication:
+- A machine-to-machine authentication mechanism
+- Usually used to secure internal APIs
 
 ## Postman
 
 To make a post request, add Content-Type = application/json to the header and a json object to the body of the request.
 
 To make an authenticated request, select Bearer Token on the Authorization tab, then copy and paste the token.
+
+## Tests
+
+If the test cases are not being shown on the testing tab in VS Code then clean and the projects, close VS Code, run the cleanup scripts then open VS Code again and rubuild the projects. If that doesn't solve the issue, restarting the machine will.
+
+### Unit Testing
+
+Required packages:
+- Microsoft.EntityFrameworkCore.InMemory (to simulate databases)
+
+Unit tests are for testing individual components in isolation (e.g. methods).
+
+A common pattern to name test cases: <MethodName>_<ExpectedResult>_<Condition>
+
+To debug tests, go on the Testing tab and click the play icon with the bug next to the test.
+
+Test for:
+- Happy paths: the expected behavior
+- Edge cases: invalid inputs, missing data etc.
+- Error handling: proper error responses
+
+### Integration Testing
+
+Required packages:
+- Microsoft.AspNetCore.Mvc.Testing (if there is a version error, use the --version switch to get the version that matches the .Net version of the project)
+
+To test the middleware pipeline, integration tests are needed. As integration tests take longer to run, exhaustive testing of functionality is not needed. Usually, testing the CRUD operations is sufficient to make sure that different components (e.g. database, middleware) can work together.
+
+The following declaration is required in the Program.cs file, otherwise integration tests will not work:
+
+public partial class Program { }
 
 # Misc
 
@@ -370,8 +406,11 @@ To run a .command file downloaded from the Internet, double click it then Settin
 
 To list hidden files with Finder: Cmd + Shift + .
 
-Windows App can be used to rdp into a Windows VM.
+The Windows App can be used to rdp into a Windows VM.
 
 To find out the ip address of a web server: nslookup <url>
 
 Terminal history can be deleted by deleting the contents of the ~/.zsh_history file or contents of the ~/.zsh_sessions directory.
+
+If function keys don't work when debugging:
+- Settings -> Desktop & Dock -> Shortcuts -> Set Show Desktop to -

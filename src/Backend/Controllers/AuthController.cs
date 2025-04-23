@@ -33,7 +33,7 @@ public class AuthController : ControllerBase
     {
         if (userDto.Username == null || userDto.Email == null || userDto.Password == null || userDto.FirstName == null || userDto.Role == null)
         {
-            return BadRequest(new { Message = AuthErrors.SignupDataMissing });
+            return BadRequest(new { Message = ResponseMessages.SignupDataMissing });
         }
 
         var query = from r in _db.Roles
@@ -43,7 +43,7 @@ public class AuthController : ControllerBase
         var cnt = await query.CountAsync();
         if (cnt == 0)
         {
-            return BadRequest(new { Message = AuthErrors.InvalidRole });
+            return BadRequest(new { Message = ResponseMessages.InvalidRole });
         }
 
         if(cnt > 1)
@@ -76,7 +76,7 @@ public class AuthController : ControllerBase
     {
         if ((loginDto.Username == null && loginDto.Email == null) || loginDto.Password == null)
         {
-            return BadRequest(new { Message = AuthErrors.LoginDataMissing });
+            return BadRequest(new { Message = ResponseMessages.LoginDataMissing });
         }
         
         var query = from u in _db.Users.Include(u => u.Role) // Include is necessary, otherwise the Role property will be null
@@ -88,7 +88,7 @@ public class AuthController : ControllerBase
         var cnt = await query.CountAsync();
         if (cnt == 0)
         {
-            return Unauthorized(new { Message = AuthErrors.InvalidUserNameEmailOrPassword });
+            return Unauthorized(new { Message = ResponseMessages.InvalidUserNameEmailOrPassword });
         }
         
         var user = await query.FirstAsync();
@@ -102,7 +102,7 @@ public class AuthController : ControllerBase
 
         if (authResult == PasswordVerificationResult.Failed)
         {
-            return Unauthorized(new { Message = AuthErrors.InvalidUserNameEmailOrPassword });
+            return Unauthorized(new { Message = ResponseMessages.InvalidUserNameEmailOrPassword });
         }
 
         var token = GenerateJwtToken(user, user.Role);

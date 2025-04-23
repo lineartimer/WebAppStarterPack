@@ -46,7 +46,7 @@ public class DataController : ControllerBase
             return new ObjectResult(new
                 {
                     StatusCode = StatusCodes.Status500InternalServerError,
-                    Message = "Multiple records found with the same ID."
+                    Message = ExceptionErrors.MultipleRecordsWithSameId
                 });
         }
 
@@ -55,7 +55,7 @@ public class DataController : ControllerBase
 
     // POST: /Data
     [HttpPost]
-    public async Task<ActionResult> Create(Datum datum)
+    public async Task<IActionResult> Create(Datum datum)
     {
         _db.Data.Add(datum);
         await _db.SaveChangesAsync();
@@ -66,11 +66,11 @@ public class DataController : ControllerBase
     
     // POST: /Data/Bulk
     [HttpPost("Bulk")]
-    public async Task<ActionResult> CreateBulk(List<Datum> data)
+    public async Task<IActionResult> CreateBulk(List<Datum> data)
     {
         if (data == null || data.Count == 0)
         {
-            return BadRequest("No data provided.");
+            return BadRequest(new { Message = ResponseMessages.NoDataProvided });
         }
 
         _db.Data.AddRange(data);
@@ -82,7 +82,7 @@ public class DataController : ControllerBase
 
     // PUT: /Data
     [HttpPut]
-    public async Task<ActionResult> Update(Datum datum)
+    public async Task<IActionResult> Update(Datum datum)
     {
         if (!_db.Data.Any(e => e.Id == datum.Id))
         {
@@ -118,7 +118,7 @@ public class DataController : ControllerBase
     {
         if (ids == null || ids.Count == 0)
         {
-            return BadRequest("No IDs provided.");
+            return BadRequest(new { Message = ResponseMessages.NoIdsProvided });
         }
 
         var dataToDelete = await _db.Data.Where(d => ids.Contains(d.Id)).ToListAsync();
@@ -140,14 +140,9 @@ public class DataController : ControllerBase
     {
         var dataToDelete = await _db.Data.ToListAsync();
 
-        if (dataToDelete.Count == 0)
-        {
-            return NotFound();
-        }
-
         _db.Data.RemoveRange(dataToDelete);
         await _db.SaveChangesAsync();
 
-        return NoContent();
+        return Ok(new { Count = dataToDelete.Count });
     }
 }

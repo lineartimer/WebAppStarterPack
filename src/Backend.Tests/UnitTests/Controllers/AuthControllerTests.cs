@@ -3,11 +3,19 @@ using Microsoft.AspNetCore.Mvc;
 using Backend.Controllers;
 using Backend.Dtos;
 using Backend.Tests.Helpers;
+using Backend.Data;
 
 namespace Backend.Tests.UnitTests.Controllers;
 
 public class AuthControllerTests
 {
+    private DatabaseContext _db;
+
+    public AuthControllerTests()
+    {
+        _db = DatabaseHelper.CreateInMemoryDatabaseContext();
+    }
+
     [Fact]
     public async Task Login_ShouldReturnBadRequest_WithUsernameAndMissingPassword()
     {
@@ -310,7 +318,7 @@ public class AuthControllerTests
 
     private async Task LoginExcpectBadRequestResponse(CredentialDto credentialDto)
     {
-        var auth = new AuthController(DatabaseHelper.InMemoryDatabaseContext, JwtHelper.JwtConfig);
+        var auth = new AuthController(_db, JwtHelper.JwtConfig);
         
         var response = await auth.Login(credentialDto);
 
@@ -323,7 +331,7 @@ public class AuthControllerTests
 
     private async Task LoginExcpectUnauthorizedResponse(CredentialDto credentialDto)
     {
-        var auth = new AuthController(DatabaseHelper.InMemoryDatabaseContext, JwtHelper.JwtConfig);
+        var auth = new AuthController(_db, JwtHelper.JwtConfig);
         
         var response = await auth.Login(credentialDto);
 
@@ -336,7 +344,7 @@ public class AuthControllerTests
 
     private async Task LoginExcpectOkResponse(CredentialDto credentialDto)
     {
-        var auth = new AuthController(DatabaseHelper.InMemoryDatabaseContext, JwtHelper.JwtConfig);
+        var auth = new AuthController(_db, JwtHelper.JwtConfig);
         
         var result = await auth.Login(credentialDto);
 
@@ -354,7 +362,7 @@ public class AuthControllerTests
 
     private async Task SignUpExcpectBadRequestResponse(UserDto userDto)
     {
-        var auth = new AuthController(DatabaseHelper.InMemoryDatabaseContext, JwtHelper.JwtConfig);
+        var auth = new AuthController(_db, JwtHelper.JwtConfig);
         
         var response = await auth.SignUp(userDto);
 
@@ -364,7 +372,7 @@ public class AuthControllerTests
 
     private async Task SignUpExcpectOkResponse(UserDto userDto)
     {
-        var auth = new AuthController(DatabaseHelper.InMemoryDatabaseContext, JwtHelper.JwtConfig);
+        var auth = new AuthController(_db, JwtHelper.JwtConfig);
         
         var signUpResult = await auth.SignUp(userDto);
         Assert.IsType<OkResult>(signUpResult);

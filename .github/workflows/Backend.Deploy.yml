@@ -1,5 +1,5 @@
 name: Deploy
-on: pull_request
+on: push
 env:
   CONTAINER_APP_NAME: ca-backend
   RESOURCE_GROUP: rg-WebAppStarterPack
@@ -52,10 +52,10 @@ jobs:
           docker login ${{ secrets.CONTAINER_REGISTRY }}.azurecr.io -u ${{ secrets.CONTAINER_REGISTRY_USERNAME }} -p ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
       - name: Build and push container image to Azure Container Registry
         run: |
-          docker buildx build --push --tag ${{ secrets.CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_APP_NAME }}:${{ github.sha }} --file ./src/Backend/Dockerfile .
+          docker buildx build --push --tag ${{ secrets.CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_APP_NAME }}:latest --file ./src/Backend/Dockerfile .
       - name: Azure Login
         run: |
           az login --service-principal -u ${{ secrets.AZURE_APP_ID }} -p ${{ secrets.AZURE_PASSWORD }} --tenant ${{ secrets.AZURE_TENANT }}
       - name: Deploy to Azure Container Apps
         run: |
-          az containerapp update --name ${{ env.CONTAINER_APP_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --image ${{ secrets.CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_APP_NAME }}:${{ github.sha }} --replace-env-vars ASPNETCORE_ENVIRONMENT=Production BACKEND_URL=https://${{ env.CONTAINER_APP_NAME }}.${{ secrets.BACKEND_SUBDOMAIN }}.${{ secrets.BACKEND_REGION }}.azurecontainerapps.io DB_SERVER=${{ secrets.DB_SERVER_NAME }}.database.windows.net DB=${{ secrets.DB }} DB_USER=${{ secrets.DB_USER }} DB_PASSWORD=${{ secrets.DB_PASSWORD }} JWT_SECRET=${{ secrets.JWT_SECRET }}
+          az containerapp update --name ${{ env.CONTAINER_APP_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --image ${{ secrets.CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_APP_NAME }}:latest --replace-env-vars ASPNETCORE_ENVIRONMENT=Production BACKEND_URL=https://${{ env.CONTAINER_APP_NAME }}.${{ secrets.BACKEND_SUBDOMAIN }}.${{ secrets.BACKEND_REGION }}.azurecontainerapps.io DB_SERVER=${{ secrets.DB_SERVER_NAME }}.database.windows.net DB=${{ secrets.DB }} DB_USER=${{ secrets.DB_USER }} DB_PASSWORD=${{ secrets.DB_PASSWORD }} JWT_SECRET=${{ secrets.JWT_SECRET }}

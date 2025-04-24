@@ -3,10 +3,9 @@ import "./App.css";
 
 const backEndPortDev = 5000;
 
-function App() {
+export default function App() {
     const [data, setData] = useState([]);
     const [colNames, setColNames] = useState([]);
-    const [token, setToken] = useState(null);
 
     useEffect(() => {
         // Get data from backend when page loads
@@ -47,7 +46,6 @@ function App() {
             }
 
             const result = await response.json();
-            setToken(result.token);
             return result.token;
         } catch (error) {
             console.error("Error during login:", error);
@@ -101,11 +99,13 @@ function App() {
         <>
             <table>
                 <thead>
-                    {
-                        Object.values(colNames).map(value => {
-                            return <th>{value}</th>;
-                        })
-                    }
+                    <tr>
+                        {
+                            Object.values(colNames).map(value => {
+                                return <th>{value}</th>;
+                            })
+                        }
+                    </tr>
                 </thead>
                 <tbody>{data.map(obj => {
                     return <tr>{Object.values(obj).map(value => {
@@ -117,5 +117,3 @@ function App() {
         </>
     );
 }
-
-export default App;

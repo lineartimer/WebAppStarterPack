@@ -441,9 +441,117 @@ public partial class Program { }
 
 # Frontend development
 
-- To stop search engines from indexing a page, add:
+- Vulnerabilites found by npm install may be fixed by running npm audit --force but it may break the project
+- To stop search engines from indexing a page, add: <meta name="robots" content="noindex, nofollow" />
 
-<meta name="robots" content="noindex, nofollow" />
+## JavaScript
+
+Use:
+- Template literals to build strings (that stange quotation-mark-like character is the backtick): `Some text ${someVariable}`
+
+Different ways to define functions:
+
+function normalFunction() {
+    alert("normalFunction");
+}
+
+var functionAssignedToAVariable = function () {
+    alert("functionAssignedToAVariable");
+};
+
+var arrowFunction = () => alert("arrowFunction");
+
+async function asyncFunction() {
+    alert("asyncFunction");
+};
+
+normalFunction();
+functionAssignedToAVariable();
+arrowFunction();
+await asyncFunction();
+
+## React
+
+- React apps are made of components. A component is a piece of the UI (user interface) that has its own logic and appearance. React component names must always start with a capital letter, while HTML tags must be lowercase. The export default keywords specify the main component in the file
+- The markup syntax you’ve seen above is called JSX. It is optional, but most React projects use it. JSX syntax can be used anywhere in the component - not just in the return() statement
+- A CSS class can be specified with the className attribute
+- JavaScript can be used with curly braces. Within the value of an html element or in an attribute
+- Functions starting with use are called Hooks. useState is a built-in Hook. Hooks can be called only at the top of components
+
+A quick demo of some basic React functionality:
+
+function DemoButton() {
+    const [count, setCount] = useState(1);
+
+    function onClick() {
+        alert(`Clicked ${count} time(s)`);
+        setCount(count + 1);
+    }
+
+    return (
+        <button className="one" onClick={onClick}>Demo button</button>
+    );
+}
+
+Two ways to display data in a table:
+
+const table = [
+    { Col1: "Val11", Col2: "Val12" },
+    { Col1: "Val21", Col2: "Val22" }
+];
+
+const DemoTable1 = () => {
+    return (
+        <table>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Col1</th>
+                    <th>Col2</th>
+                </tr>
+            </thead>
+            <tbody>
+                {table.map((row, index) => (
+                    <tr key={index}>
+                        <td>{index + 1}</td>
+                        <td>{row.Col1}</td>
+                        <td>{row.Col2}</td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>
+    );
+};
+
+const DemoTable2 = () => {
+    const colNames = table.length > 0 ? Object.keys(table[0]) : [];
+
+    return (
+        <table>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    {colNames.map((colName, index) => (
+                        <th key={index}>{colName}</th>
+                    ))}
+                </tr>
+            </thead>
+            <tbody>
+                {table.map((row, index) => (
+                    <tr key={index}>
+                        <td>{index + 1}</td>
+                        {colNames.map((colName, colIndex) => (
+                            <td key={colIndex}>{row[colName]}</td>
+                        ))}
+                    </tr>
+                ))}
+            </tbody>
+        </table>
+    );
+};
+
+<DemoTable1 />
+<DemoTable2 />
 
 # Misc
 

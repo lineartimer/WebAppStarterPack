@@ -34,6 +34,33 @@ dotnet add <test project's csproj> reference <main project's csproj>
 dotnet build
 dotnet test bin/Debug/net8.0/<test project's name>.dll --logger "trx;logfilename=Results.xml"
 
+## Creating a new React.JS project
+
+### Creating and running the project
+
+npx create-react-app react-app-1
+
+If you get an error message saying that C:\Users\<USER>\AppData\Roaming\npm is missing, then create that folder.
+
+cd react-app-1
+npm install
+npm start
+
+To stop the app on Mac:
+- Ctrl + c (not Cmd + c)
+
+### Deploying the project
+
+To deploy the project to a web server:
+- npm run build
+- An optimized production build will be created in the build folder
+
+### Troubleshooting
+
+If something is not working but it should:
+- delete package-lock.json, node_modules
+- npm install
+
 # Azure
 
 It's a good practice to prefix Azure resources. E.g. "rg-" for resource groups or "db-" for databases.
@@ -135,7 +162,7 @@ Creating a Docker image:
 - Start Docker Desktop and update it if necessary
 - In VS Code Terminal, cd into the root directory of the repo and run
 
-docker build --no-cache -f src/<backend's folder>/Dockerfile -t backend:latest --platform linux/amd64 .
+docker build --no-cache -f src/<backend's folder>/Dockerfile -t ca-backend:latest --platform linux/amd64 .
 
 - You can list the content of a directory by inserting RUN dir . at the appropriate location in the docker file
 - You can get the directory you're in by echo %cd%
@@ -154,6 +181,29 @@ Creating a Container App:
 - For development stack select .NET
 - For CPU and memory, select 0.25 CPU cores and 0.5 GB memory
 - On the Ingress tab, enable Ingress and select Accepting traffic from anywhere
+
+### React website (frontend)
+
+Building the React app:
+- In the terminal cd into the frontend's folder and build it: npm install. Then create an optimized production build: npm run build
+
+Containerizing the app:
+- Add a new file to the build folder named Dockerfile and add the following content to it:
+
+FROM nginx:alpine
+COPY . /usr/share/nginx/html
+
+- Start Docker Desktop, then cd into the build folder and build the image:
+
+docker build --no-cache -t ca-frontend:latest --platform linux/amd64 .
+
+- (If you build it without specifying the platform, there will be an error in Azure while creating the container app)
+- When the build is complete, check if it's working in Docker Desktop. Assign port 80 to the host port under optional settings, name the container frontend and run it. Open localhost in a browser to see if it's working
+- You can use ls -a in the yml file to see what's in a directory
+
+Deploying the app in an Azure Container App:
+- On the Docker tab on the images panel right click the image you created above and click Push
+- Create a Container App from the image in Azure
 
 ## Azure Function
 
@@ -175,6 +225,7 @@ To assign roles to a subscription, go to the subscription and under Access Contr
 
 # Git
 
+For pointing and clicking instead of typing:
 - Mac: Github Desktop
 - (Win: Tortoise Git)
 

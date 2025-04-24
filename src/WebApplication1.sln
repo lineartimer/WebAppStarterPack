@@ -9,12 +9,34 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend.Tests", "Backend.Te
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Db", "Db", "{240D54FD-C2A2-AACB-CAA5-CE0B0FF793FF}"
 	ProjectSection(SolutionItems) = preProject
-		Db\create-data.json = Db\create-data.json
-		Db\create-data.command = Db\create-data.command
-		Db\delete-data.command = Db\delete-data.command
 		Db\Create-Sqlite.sql = Db\Create-Sqlite.sql
 		Db\Create-SqlServer.sql = Db\Create-SqlServer.sql
 		Db\Init.sql = Db\Init.sql
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{CE609670-85B9-0D16-FB54-ED063D5D8A6D}"
+	ProjectSection(SolutionItems) = preProject
+		Frontend\package.json = Frontend\package.json
+		Frontend\Dockerfile = Frontend\Dockerfile
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E40BF17A-E631-09D5-7889-66BEE0F9AB0F}"
+	ProjectSection(SolutionItems) = preProject
+		Frontend\src\App.js = Frontend\src\App.js
+		Frontend\src\App.test.js = Frontend\src\App.test.js
+		Frontend\src\index.js = Frontend\src\index.js
+		Frontend\src\App.css = Frontend\src\App.css
+		Frontend\src\index.css = Frontend\src\index.css
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "public", "public", "{527D5226-F8A7-0BC6-A2BD-D8FFFC6D9DE8}"
+	ProjectSection(SolutionItems) = preProject
+		Frontend\public\index.html = Frontend\public\index.html
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "css", "css", "{9159222C-0952-798F-CDA3-0CD0071FCC11}"
+	ProjectSection(SolutionItems) = preProject
+		Frontend\public\css\bootstrap.min.css = Frontend\public\css\bootstrap.min.css
 	EndProjectSection
 EndProject
 Global
@@ -34,5 +56,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E40BF17A-E631-09D5-7889-66BEE0F9AB0F} = {CE609670-85B9-0D16-FB54-ED063D5D8A6D}
+		{527D5226-F8A7-0BC6-A2BD-D8FFFC6D9DE8} = {CE609670-85B9-0D16-FB54-ED063D5D8A6D}
+		{9159222C-0952-798F-CDA3-0CD0071FCC11} = {527D5226-F8A7-0BC6-A2BD-D8FFFC6D9DE8}
 	EndGlobalSection
 EndGlobal

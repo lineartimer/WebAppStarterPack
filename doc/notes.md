@@ -439,6 +439,12 @@ The following declaration is required in the Program.cs file, otherwise integrat
 
 public partial class Program { }
 
+# Frontend development
+
+- To stop search engines from indexing a page, add:
+
+<meta name="robots" content="noindex, nofollow" />
+
 # Misc
 
 ## Firefox

@@ -51,7 +51,10 @@ const HomePage = ({ token, username }) => {
     }, [token]);
 
     const handleLogout = () => {
-        window.location.reload(); // Simple logout logic
+        localStorage.removeItem("token");
+        localStorage.removeItem("username");
+
+        window.location.reload();
     };
 
     return (

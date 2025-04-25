@@ -4,12 +4,14 @@ import LoginPage from "./LoginPage";
 import HomePage from "./HomePage";
 
 const App = () => {
-    const [token, setToken] = useState(null);
-    const [username, setUsername] = useState(null);
+    const [token, setToken] = useState(localStorage.getItem("token") || null);
+    const [username, setUsername] = useState(localStorage.getItem("username") || null);
 
     const handleLogin = (authToken, user) => {
         setToken(authToken);
         setUsername(user);
+        localStorage.setItem("token", authToken);
+        localStorage.setItem("username", user);
     };
 
     return (

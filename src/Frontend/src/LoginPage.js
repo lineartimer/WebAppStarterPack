@@ -71,16 +71,17 @@ const LoginPage = ({ onLogin }) => {
         <div className="login-container">
             <form className="login-form" onSubmit={handleSubmit}>
                 <h2>Sign in</h2>
-                {error && <div className="error-message">{error}</div>}
-                <input
-                    type="text"
-                    placeholder="Username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    className={usernameError ? "error" : ""}
-                />
+                <div className="textbox-container">
+                    <input
+                        type="text"
+                        placeholder="Username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        className={usernameError ? "error" : ""}
+                    />
+                </div>
                 {usernameError && <div className="error-message">{usernameError}</div>}
-                <div className="password-container">
+                <div className="textbox-container">
                     <input
                         type={showPassword ? "text" : "password"}
                         placeholder="Password"
@@ -88,7 +89,6 @@ const LoginPage = ({ onLogin }) => {
                         onChange={(e) => setPassword(e.target.value)}
                         className={passwordError ? "error" : ""}
                     />
-                    {passwordError && <div className="error-message">{passwordError}</div>}
                     <button
                         type="button"
                         className="show-hide-button"
@@ -99,6 +99,8 @@ const LoginPage = ({ onLogin }) => {
                         {showPassword ? "Hide" : "Show"}
                     </button>
                 </div>
+                {passwordError && <div className="error-message">{passwordError}</div>}
+                {error && <div className="error-message">{error}</div>}
                 <button type="submit" className="login-button">Sign in</button>
             </form>
         </div>

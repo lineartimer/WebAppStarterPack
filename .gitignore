@@ -4,7 +4,6 @@ package-lock.json
 
 # Folders
 .vs/
-.vscode/
 .config/
 /node_modules
 

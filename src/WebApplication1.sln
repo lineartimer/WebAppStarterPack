@@ -26,7 +26,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E40BF17A-E63
 		Frontend\src\App.test.js = Frontend\src\App.test.js
 		Frontend\src\index.js = Frontend\src\index.js
 		Frontend\src\App.css = Frontend\src\App.css
-		Frontend\src\index.css = Frontend\src\index.css
+		Frontend\src\HomePage.js = Frontend\src\HomePage.js
+		Frontend\src\LoginPage.js = Frontend\src\LoginPage.js
+		Frontend\src\LoginPage.css = Frontend\src\LoginPage.css
+		Frontend\src\HomePage.css = Frontend\src\HomePage.css
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "public", "public", "{527D5226-F8A7-0BC6-A2BD-D8FFFC6D9DE8}"

@@ -59,7 +59,7 @@ public class Startup
 
     private void AddCors(IServiceCollection services)
     {
-        var origins = new string[] { "http://localhost", "https://localhost" };
+        var origins = new string[] { "http://localhost:3000", "https://localhost:3000" };
 
         // Attempting to get the backend URL from environment variables (coming from GitHub secrets)
         var backendUrl = Environment.GetEnvironmentVariable("BACKEND_URL");
@@ -71,8 +71,9 @@ public class Startup
 
         services.AddCors(options =>
         {
-            options.AddPolicy(_policy, builder => builder.WithOrigins(origins)
-                .AllowAnyOrigin()
+            options.AddPolicy(_policy, builder => builder
+                //.AllowAnyOrigin()
+                .WithOrigins(origins)
                 .AllowAnyMethod()
                 .AllowAnyHeader());
         });

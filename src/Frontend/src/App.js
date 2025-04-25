@@ -1,119 +1,28 @@
-import { useEffect, useState } from "react";
-import "./App.css";
+import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import LoginPage from "./LoginPage";
+import HomePage from "./HomePage";
 
-const backEndPortDev = 5000;
+const App = () => {
+    const [token, setToken] = useState(null);
+    const [username, setUsername] = useState(null);
 
-export default function App() {
-    const [data, setData] = useState([]);
-    const [colNames, setColNames] = useState([]);
-
-    useEffect(() => {
-        // Get data from backend when page loads
-        loginAndFetchData();
-    }, []);
-
-    var protocol = window.location.protocol;
-    var server = window.location.hostname;
-
-    var baseUrl = protocol + "//" + server;
-    if (server == "localhost") {
-        baseUrl += ":" + backEndPortDev;
-    }
-    else {
-        baseUrl += "/Backend";
-    }
-
-    // Backend's location in the cloud (Azure Container App)
-    baseUrl = "https://ca-backend.gentletree-c367ba6f.westeurope.azurecontainerapps.io/";
-
-    const login = async () => {
-        const loginPayload = {
-            username: "user1",
-            password: "password1",
-        };
-
-        try {
-            const response = await fetch(baseUrl + "/Auth/Login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(loginPayload),
-            });
-
-            if (!response.ok) {
-                throw new Error("Login failed");
-            }
-
-            const result = await response.json();
-            return result.token;
-        } catch (error) {
-            console.error("Error during login:", error);
-            return null;
-        }
-    };
-
-    const getData = async (authToken) => {
-        fetch(baseUrl + "/Data", {
-            method: "GET",
-            headers: {
-                Authorization: `Bearer ${authToken}`,
-            },
-        })
-        .then(response => {
-            if(response.ok)
-            {
-                return response.json();
-            }
-            else
-            {
-                return null;
-            }
-        })
-        .then(data => {
-            if (data) {
-                setData(data);
-
-                return Object.keys(data[0]);
-            }
-            else {
-                setData([]);
-                setColNames([]);
-
-                return Object.keys([]);
-            }
-        })
-        .then(firstRecord => {
-            setColNames(firstRecord);
-        });
-    };
-
-    const loginAndFetchData = async () => {
-        const authToken = await login();
-        if (authToken) {
-            await getData(authToken);
-        }
+    const handleLogin = (authToken, user) => {
+        setToken(authToken);
+        setUsername(user);
     };
 
     return (
-        <>
-            <table>
-                <thead>
-                    <tr>
-                        {
-                            Object.values(colNames).map(value => {
-                                return <th>{value}</th>;
-                            })
-                        }
-                    </tr>
-                </thead>
-                <tbody>{data.map(obj => {
-                    return <tr>{Object.values(obj).map(value => {
-                        return <td>{value}</td>;
-                    })}</tr>;
-                })}
-                </tbody>
-            </table>
-        </>
+        <Router>
+            <Routes>
+                <Route
+                    path="/"
+                    element={token ? <HomePage token={token} username={username} /> : <Navigate to="/Login" />}
+                />
+                <Route path="/Login" element={<LoginPage onLogin={handleLogin} />} />
+            </Routes>
+        </Router>
     );
-}
+};
+
+export default App;

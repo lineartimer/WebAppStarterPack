@@ -477,6 +477,7 @@ await asyncFunction();
 - A CSS class can be specified with the className attribute
 - JavaScript can be used with curly braces. Within the value of an html element or in an attribute
 - Functions starting with use are called Hooks. useState is a built-in Hook. Hooks can be called only at the top of components
+- To use routing: npm install react-router-dom
 
 A quick demo of some basic React functionality:
 
@@ -493,14 +494,14 @@ function DemoButton() {
     );
 }
 
-Two ways to display data in a table:
+Two ways to display data in a table (one with hard-coded column names, one without them):
 
-const table = [
+var table = [
     { Col1: "Val11", Col2: "Val12" },
     { Col1: "Val21", Col2: "Val22" }
 ];
 
-const DemoTable1 = () => {
+var DemoTable1 = () => {
     return (
         <table>
             <thead>
@@ -523,8 +524,8 @@ const DemoTable1 = () => {
     );
 };
 
-const DemoTable2 = () => {
-    const colNames = table.length > 0 ? Object.keys(table[0]) : [];
+var DemoTable2 = () => {
+    var colNames = table.length > 0 ? Object.keys(table[0]) : [];
 
     return (
         <table>

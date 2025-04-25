@@ -1,0 +1,108 @@
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./LoginPage.css";
+
+const LoginPage = ({ onLogin }) => {
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+    const handleShowPassword = () => setShowPassword(true);
+    const handleHidePassword = () => setShowPassword(false);
+    const [error, setError] = useState("");
+    const [usernameError, setUsernameError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        let hasError = false;
+        if (!username) {
+            setUsernameError("Please enter your username.");
+            hasError = true;
+        } else {
+            setUsernameError("");
+        }
+
+        if (!password) {
+            setPasswordError("Please enter your password.");
+            hasError = true;
+        } else {
+            setPasswordError("");
+        }
+
+        if (hasError) return;
+
+        if (!username || !password) {
+            setError("Please enter both username and password.");
+            return;
+        }
+
+        setIsLoading(true);
+
+        const loginPayload = { username, password };
+        const response = await fetch("https://ca-backend.gentletree-c367ba6f.westeurope.azurecontainerapps.io/Auth/Login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(loginPayload),
+        });
+
+        setIsLoading(false);
+
+        if (response.ok) {
+            const result = await response.json();
+            onLogin(result.token, username);
+            navigate("/");
+        } else {
+            setError("Invalid username or password.");
+        }
+    };
+
+    if (isLoading) {
+        return (
+            <div className="loading-screen">
+                <div className="loading-spinner"></div>
+            </div>
+        );
+    }
+
+    return (
+        <div className="login-container">
+            <form className="login-form" onSubmit={handleSubmit}>
+                <h2>Sign in</h2>
+                {error && <div className="error-message">{error}</div>}
+                <input
+                    type="text"
+                    placeholder="Username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    className={usernameError ? "error" : ""}
+                />
+                {usernameError && <div className="error-message">{usernameError}</div>}
+                <div className="password-container">
+                    <input
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className={passwordError ? "error" : ""}
+                    />
+                    {passwordError && <div className="error-message">{passwordError}</div>}
+                    <button
+                        type="button"
+                        className="show-hide-button"
+                        onMouseDown={handleShowPassword}
+                        onMouseUp={handleHidePassword}
+                        onMouseLeave={handleHidePassword}
+                    >
+                        {showPassword ? "Hide" : "Show"}
+                    </button>
+                </div>
+                <button type="submit" className="login-button">Sign in</button>
+            </form>
+        </div>
+    );
+};
+
+export default LoginPage;

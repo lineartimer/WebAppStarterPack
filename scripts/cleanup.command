@@ -3,11 +3,16 @@ echo
 echo "Cleaning up..."
 echo
 
+osascript <<eof
+tell application "Terminal"
+    set bounds of front window to {40, 80, 735, 455}
+end tell
+eof
+
 cd -- "$(dirname -- "$BASH_SOURCE")"
 
 rm -rf ../src/.vs
 
-rm -rf ../src/.vscode
 rm -rf ../src/Backend/.config
 rm -rf ../src/Backend/bin
 rm -rf ../src/Backend/obj

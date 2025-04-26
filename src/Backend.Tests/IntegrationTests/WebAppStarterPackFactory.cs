@@ -4,7 +4,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace Backend.Tests.IntegrationTests;
 
-public class WebApplication1Factory<TEntryPoint> : WebApplicationFactory<TEntryPoint> where TEntryPoint : class
+public class WebAppStarterPackFactory<TEntryPoint> : WebApplicationFactory<TEntryPoint> where TEntryPoint : class
 {
     protected override IHost CreateHost(IHostBuilder builder)
     {

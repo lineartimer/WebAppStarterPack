@@ -1,27 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import LoginPage from "./LoginPage";
-import HomePage from "./HomePage";
+import Login from "./pages/Login/Login";
+import Home from "./pages/Home/Home";
 
 const App = () => {
     const [token, setToken] = useState(localStorage.getItem("token") || null);
     const [username, setUsername] = useState(localStorage.getItem("username") || null);
 
-    const handleLogin = (authToken, user) => {
-        setToken(authToken);
-        setUsername(user);
-        localStorage.setItem("token", authToken);
-        localStorage.setItem("username", user);
+    const handleLogin = (token, username) => {
+        setToken(token);
+        setUsername(username);
+        localStorage.setItem("token", token);
+        localStorage.setItem("username", username);
     };
 
     return (
         <Router>
             <Routes>
-                <Route
-                    path="/"
-                    element={token ? <HomePage token={token} username={username} /> : <Navigate to="/Login" />}
-                />
-                <Route path="/Login" element={<LoginPage onLogin={handleLogin} />} />
+                <Route path="/" element={token ? <Home token = { token } username = { username } /> : <Navigate to = "/Login" />} />
+                <Route path="/Login" element={<Login onLogin={handleLogin} />} />
             </Routes>
         </Router>
     );

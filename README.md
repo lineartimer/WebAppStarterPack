@@ -13,7 +13,7 @@ Fork the repo and clone it.
 
 ## Create Azure Resources
 
-- Create an Sql Database in Azure and put some data in it (e.g. by running the insert statements in src/Db/WebApplication1.sql)
+- Create an Sql Database in Azure and put some data in it (e.g. by running the insert statements in src/Db/Init.sql)
 - Open VS Code and install the following extensions: C# Dev Kit, SQL Server, GitHub CoPilot/Chat, Azure App Service, Azure Container Apps, Docker
 - Add the connection string to .Net Sectets Manager (e.g. from VS Code Terminal):
     - dotnet user-secrets init

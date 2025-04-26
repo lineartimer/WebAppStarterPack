@@ -1,5 +1,5 @@
-WebApp
-======
+Web Application Starter Pack
+============================
 
 # Environment
 
@@ -441,8 +441,11 @@ public partial class Program { }
 
 # Frontend development
 
+- If there's a CORS error and there shouldn't be any, cleaning the project, closing and reopening the workspace and VS Code in addition to deleting everything unnecessary from both the frontend and the backend and rebuilding and restarting them might solve the issue
 - Vulnerabilites found by npm install may be fixed by running npm audit --force but it may break the project
 - To stop search engines from indexing a page, add: <meta name="robots" content="noindex, nofollow" />
+- Authentication tokens should not be stored in the browser's local storage because it's vulnerable to cross-site scripting (XSS) attacks. If an attacker injects malicious JavaSctipt into your app, they can access the token. Cookies can be marked as HttpOnly and Secure making them inaccessible to Javascript and safer against XSS. But cookies are vulnerable to cross-site request forgery (CSRF) unless CSRF protection is implemented
+- If no cookies are used by a website, a cookie consent form might not be needed. But a GDPR-compliant privacy policy is still a must.
 
 ## JavaScript
 
@@ -553,6 +556,14 @@ var DemoTable2 = () => {
 
 <DemoTable1 />
 <DemoTable2 />
+
+# AI tools
+
+ChatGPT and other AI tools may leave watermarks in the generated texts (e.g. some kinds of hard to see white spaces).
+
+## GitHub Copilot
+
+## Cursor
 
 # Misc
 

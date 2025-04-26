@@ -13,6 +13,8 @@ eof
 cd -- "$(dirname -- "$BASH_SOURCE")"
 cd ../src/Backend
 
+# Rebuilding and running the backend
+dotnet build --no-incremental
 dotnet run
 
 echo

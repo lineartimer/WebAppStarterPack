@@ -5,11 +5,11 @@ using Backend.Tests.Helpers;
 
 namespace Backend.Tests.IntegrationTests.Controllers;
 
-public class DataControllerTests : IClassFixture<WebApplication1Factory<Program>>
+public class DataControllerTests : IClassFixture<WebAppStarterPackFactory<Program>>
 {
     private readonly HttpClientHelper _client;
 
-    public DataControllerTests(WebApplication1Factory<Program> factory, ITestOutputHelper output)
+    public DataControllerTests(WebAppStarterPackFactory<Program> factory, ITestOutputHelper output)
     {
         _client = new HttpClientHelper(factory, output);
     }

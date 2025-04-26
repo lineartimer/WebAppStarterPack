@@ -1,23 +1,26 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./LoginPage.css";
+import "./Login.css";
 
-const LoginPage = ({ onLogin }) => {
+const backEndPortDev = 5000;
+
+const Login = ({ onLogin }) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
-    const handleShowPassword = () => setShowPassword(true);
-    const handleHidePassword = () => setShowPassword(false);
     const [error, setError] = useState("");
     const [usernameError, setUsernameError] = useState("");
     const [passwordError, setPasswordError] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+
+    const handleShowPassword = () => setShowPassword(true);
+    const handleHidePassword = () => setShowPassword(false);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        let hasError = false;
+        var hasError = false;
         if (!username) {
             setUsernameError("Please enter your username.");
             hasError = true;
@@ -34,15 +37,22 @@ const LoginPage = ({ onLogin }) => {
 
         if (hasError) return;
 
-        if (!username || !password) {
-            setError("Please enter both username and password.");
-            return;
-        }
-
         setIsLoading(true);
 
+        var protocol = window.location.protocol;
+        var server = window.location.hostname;
+    
+        var baseUrl = protocol + "//" + server;
+        if (server == "localhost") {
+            baseUrl += ":" + backEndPortDev;
+        }
+
+        alert(baseUrl);
+        baseUrl.replace("frontend", "backend");
+        alert(baseUrl);
+
         const loginPayload = { username, password };
-        const response = await fetch("https://ca-backend.gentletree-c367ba6f.westeurope.azurecontainerapps.io/Auth/Login", {
+        const response = await fetch(baseUrl + "/Auth/Login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(loginPayload),
@@ -72,30 +82,12 @@ const LoginPage = ({ onLogin }) => {
             <form className="login-form" onSubmit={handleSubmit}>
                 <h2>Sign in</h2>
                 <div className="textbox-container">
-                    <input
-                        type="text"
-                        placeholder="Username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        className={usernameError ? "error" : ""}
-                    />
+                    <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} className={usernameError ? "error" : ""} />
                 </div>
                 {usernameError && <div className="error-message">{usernameError}</div>}
                 <div className="textbox-container">
-                    <input
-                        type={showPassword ? "text" : "password"}
-                        placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className={passwordError ? "error" : ""}
-                    />
-                    <button
-                        type="button"
-                        className="show-hide-button"
-                        onMouseDown={handleShowPassword}
-                        onMouseUp={handleHidePassword}
-                        onMouseLeave={handleHidePassword}
-                    >
+                    <input type={showPassword ? "text" : "password"} placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} className={passwordError ? "error" : ""} />
+                    <button type="button" className="show-hide-button" onMouseDown={handleShowPassword} onMouseUp={handleHidePassword} onMouseLeave={handleHidePassword}>
                         {showPassword ? "Hide" : "Show"}
                     </button>
                 </div>
@@ -107,4 +99,4 @@ const LoginPage = ({ onLogin }) => {
     );
 };
 
-export default LoginPage;
+export default Login;

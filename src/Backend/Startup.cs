@@ -45,7 +45,7 @@ public class Startup
 
         app.UseCors(_policy);
 
-        app.UseHttpsRedirection();
+        //app.UseHttpsRedirection();
         app.UseRouting();
 
         app.UseAuthentication();
@@ -72,8 +72,8 @@ public class Startup
         services.AddCors(options =>
         {
             options.AddPolicy(_policy, builder => builder
-                //.AllowAnyOrigin()
-                .WithOrigins(origins)
+                .AllowAnyOrigin()
+                //.WithOrigins(origins)
                 .AllowAnyMethod()
                 .AllowAnyHeader());
         });

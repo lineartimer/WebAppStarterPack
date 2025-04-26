@@ -1,45 +1,30 @@
 import React, { useEffect, useState } from "react";
+
 import "./Home.css";
 import Table from "../../components/Table/Table";
-
-const backEndPortDev = 5000;
+import getData from "../../services/getData";
+import config from "../../config/config";
 
 const Home = ({ token, username }) => {
     const [data, setData] = useState([]);
     const [showLogout, setShowLogout] = useState(false);
 
     useEffect(() => {
-        var protocol = window.location.protocol;
-        var server = window.location.hostname;
-    
-        var baseUrl = protocol + "//" + server;
-        if (server == "localhost") {
-            // Development environment
-            baseUrl += ":" + backEndPortDev;
-        }
-        else {
-            // Production environment
-            baseUrl = baseUrl.replace("frontend", "backend");
-        }
-
         const fetchData = async () => {
-            const response = await fetch(baseUrl + "/Data", {
-                method: "GET",
-                headers: { Authorization: `Bearer ${token}` },
-            });
+            const response = await getData(token);
 
             if (response.ok) {
                 const result = await response.json();
                 setData(result);
             } else {
-                console.error("Failed to fetch data");
+                console.error(config.failedToGetData);
             }
         };
 
         fetchData();
     }, [token]);
 
-    const handleLogout = () => {
+    const onLogout = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("username");
 
@@ -51,13 +36,12 @@ const Home = ({ token, username }) => {
             <div className="header">
                 <a href="#" className="username-link" onClick={(e) => {
                     e.preventDefault();
+
                     setShowLogout(!showLogout);
                 }}>{username}</a>
                 {showLogout && (
                     <div className="logout-window">
-                        <a href="#" onClick={handleLogout}>
-                            Logout
-                        </a>
+                        <a href="#" onClick={onLogout}>Logout</a>
                     </div>
                 )}
             </div>

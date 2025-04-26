@@ -1,4 +1,3 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
@@ -60,6 +59,27 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Table", "Table", "{C8277E73
 		Frontend\src\components\Table\Table.css = Frontend\src\components\Table\Table.css
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "img", "img", "{9D57A4F1-8CAA-7E72-5CD5-B59A3A5D9243}"
+	ProjectSection(SolutionItems) = preProject
+		Frontend\public\img\favicon.ico = Frontend\public\img\favicon.ico
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "utils", "utils", "{9422A777-29EF-49D1-7BCC-701D7C88AD28}"
+	ProjectSection(SolutionItems) = preProject
+		Frontend\src\utils\getBaseUrl.js = Frontend\src\utils\getBaseUrl.js
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config", "config", "{CCB2D3F0-507C-0113-6443-5191A0BFBAAB}"
+	ProjectSection(SolutionItems) = preProject
+		Frontend\src\config\config.js = Frontend\src\config\config.js
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "services", "services", "{1272105F-73DD-160B-2465-4CC3B2A244BA}"
+	ProjectSection(SolutionItems) = preProject
+		Frontend\src\services\login.js = Frontend\src\services\login.js
+		Frontend\src\services\getData.js = Frontend\src\services\getData.js
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,5 +107,9 @@ Global
 		{B373FC14-9233-75A0-703B-9017E97202DD} = {E1916ACD-DB08-71FC-47F6-08A44137F1CA}
 		{C3D83047-4812-9422-D45C-F131AE651329} = {E1916ACD-DB08-71FC-47F6-08A44137F1CA}
 		{C8277E73-20AA-AFC2-DAC0-0615E5B8CA3B} = {E23087C1-201B-93A3-93E6-98D4B96EDAE9}
+		{9D57A4F1-8CAA-7E72-5CD5-B59A3A5D9243} = {527D5226-F8A7-0BC6-A2BD-D8FFFC6D9DE8}
+		{9422A777-29EF-49D1-7BCC-701D7C88AD28} = {E40BF17A-E631-09D5-7889-66BEE0F9AB0F}
+		{CCB2D3F0-507C-0113-6443-5191A0BFBAAB} = {E40BF17A-E631-09D5-7889-66BEE0F9AB0F}
+		{1272105F-73DD-160B-2465-4CC3B2A244BA} = {E40BF17A-E631-09D5-7889-66BEE0F9AB0F}
 	EndGlobalSection
 EndGlobal

@@ -385,6 +385,8 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
 
 To list user secrets: dotnet user-secrets list
 
+Delete a secret: dotnet user-secrets remove "<secret name>"
+
 To delete all user secrets: dotnet user-secrets clear
 
 ## Authentication
@@ -446,7 +448,9 @@ public partial class Program { }
 - Vulnerabilites found by npm install may be fixed by running npm audit --force but it may break the project
 - To stop search engines from indexing a page, add: <meta name="robots" content="noindex, nofollow" />
 - Authentication tokens should not be stored in the browser's local storage because it's vulnerable to cross-site scripting (XSS) attacks. If an attacker injects malicious JavaSctipt into your app, they can access the token. Cookies can be marked as HttpOnly and Secure making them inaccessible to Javascript and safer against XSS. But cookies are vulnerable to cross-site request forgery (CSRF) unless CSRF protection is implemented
-- If no cookies are used by a website, a cookie consent form might not be needed. But a GDPR-compliant privacy policy is still a must.
+- To prevent XSS, user input (e.g. in forms or query parameters) should be sanitized. Libraries like DOMPurify can be used
+- If no cookies are used by a website, a cookie consent form might not be needed. But a GDPR-compliant privacy policy is still a must
+- A good (and free) favicon generator: favicon.io/favicon-generator
 
 ## JavaScript
 

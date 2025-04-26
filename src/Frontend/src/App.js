@@ -7,7 +7,7 @@ const App = () => {
     const [token, setToken] = useState(localStorage.getItem("token") || null);
     const [username, setUsername] = useState(localStorage.getItem("username") || null);
 
-    const handleLogin = (token, username) => {
+    const saveLoginInfo = (token, username) => {
         setToken(token);
         setUsername(username);
         localStorage.setItem("token", token);
@@ -18,7 +18,7 @@ const App = () => {
         <Router>
             <Routes>
                 <Route path="/" element={token ? <Home token = { token } username = { username } /> : <Navigate to = "/Login" />} />
-                <Route path="/Login" element={<Login onLogin={handleLogin} />} />
+                <Route path="/Login" element={<Login loginCallBack={saveLoginInfo} />} />
             </Routes>
         </Router>
     );

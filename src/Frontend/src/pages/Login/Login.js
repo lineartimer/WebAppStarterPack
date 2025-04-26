@@ -46,9 +46,9 @@ const Login = ({ onLogin }) => {
         if (server == "localhost") {
             baseUrl += ":" + backEndPortDev;
         }
-
+        
         alert(baseUrl);
-        baseUrl.replace("frontend", "backend");
+        baseUrl = baseUrl.replace("frontend", "backend");
         alert(baseUrl);
 
         const loginPayload = { username, password };

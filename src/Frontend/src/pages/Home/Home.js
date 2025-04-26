@@ -14,7 +14,12 @@ const Home = ({ token, username }) => {
     
         var baseUrl = protocol + "//" + server;
         if (server == "localhost") {
+            // Development environment
             baseUrl += ":" + backEndPortDev;
+        }
+        else {
+            // Production environment
+            baseUrl = baseUrl.replace("frontend", "backend");
         }
 
         const fetchData = async () => {

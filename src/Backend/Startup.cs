@@ -45,7 +45,7 @@ public class Startup
 
         app.UseCors(_policy);
 
-        //app.UseHttpsRedirection();
+        app.UseHttpsRedirection();
         app.UseRouting();
 
         app.UseAuthentication();
@@ -59,21 +59,26 @@ public class Startup
 
     private void AddCors(IServiceCollection services)
     {
-        var origins = new string[] { "http://localhost:3000", "https://localhost:3000" };
+        var origins = new string[] {};
 
         // Attempting to get the backend URL from environment variables (coming from GitHub secrets)
         var backendUrl = Environment.GetEnvironmentVariable("BACKEND_URL");
-        if (backendUrl != null)
+        if (backendUrl == null)
         {
-            // If the backend URL is set, use it as the origin for CORS
-            origins = new string[] { backendUrl };
+            // Development environment
+            origins = new string[] { "http://localhost:3000", "https://localhost:3000" };
+        }
+        else
+        {
+            // Production environment
+            origins = new string[] { backendUrl.Replace("backend", "frontend") };
         }
 
         services.AddCors(options =>
         {
             options.AddPolicy(_policy, builder => builder
-                .AllowAnyOrigin()
-                //.WithOrigins(origins)
+                //.AllowAnyOrigin()
+                .WithOrigins(origins)
                 .AllowAnyMethod()
                 .AllowAnyHeader());
         });

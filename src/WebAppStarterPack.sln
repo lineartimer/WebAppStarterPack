@@ -19,14 +19,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{CE
 		Frontend\Dockerfile = Frontend\Dockerfile
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E40BF17A-E631-09D5-7889-66BEE0F9AB0F}"
-	ProjectSection(SolutionItems) = preProject
-		Frontend\src\App.js = Frontend\src\App.js
-		Frontend\src\App.test.js = Frontend\src\App.test.js
-		Frontend\src\index.js = Frontend\src\index.js
-		Frontend\src\App.css = Frontend\src\App.css
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "public", "public", "{527D5226-F8A7-0BC6-A2BD-D8FFFC6D9DE8}"
 	ProjectSection(SolutionItems) = preProject
 		Frontend\public\index.html = Frontend\public\index.html
@@ -37,14 +29,39 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "css", "css", "{9159222C-095
 		Frontend\public\css\bootstrap.min.css = Frontend\public\css\bootstrap.min.css
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "img", "img", "{9D57A4F1-8CAA-7E72-5CD5-B59A3A5D9243}"
+	ProjectSection(SolutionItems) = preProject
+		Frontend\public\img\favicon.ico = Frontend\public\img\favicon.ico
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E40BF17A-E631-09D5-7889-66BEE0F9AB0F}"
+	ProjectSection(SolutionItems) = preProject
+		Frontend\src\App.css = Frontend\src\App.css
+		Frontend\src\App.js = Frontend\src\App.js
+		Frontend\src\App.test.js = Frontend\src\App.test.js
+		Frontend\src\index.js = Frontend\src\index.js
+		Frontend\src\index.css = Frontend\src\index.css
+	EndProjectSection
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "components", "components", "{E23087C1-201B-93A3-93E6-98D4B96EDAE9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Table", "Table", "{C8277E73-20AA-AFC2-DAC0-0615E5B8CA3B}"
+	ProjectSection(SolutionItems) = preProject
+		Frontend\src\components\Table\Table.js = Frontend\src\components\Table\Table.js
+		Frontend\src\components\Table\Table.css = Frontend\src\components\Table\Table.css
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config", "config", "{CCB2D3F0-507C-0113-6443-5191A0BFBAAB}"
+	ProjectSection(SolutionItems) = preProject
+		Frontend\src\config\config.js = Frontend\src\config\config.js
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pages", "pages", "{E1916ACD-DB08-71FC-47F6-08A44137F1CA}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Login", "Login", "{B373FC14-9233-75A0-703B-9017E97202DD}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{7C6BE777-6DE0-BB63-08D2-B9FA3AB508F2}"
 	ProjectSection(SolutionItems) = preProject
-		Frontend\src\pages\Login\Login.css = Frontend\src\pages\Login\Login.css
-		Frontend\src\pages\Login\Login.js = Frontend\src\pages\Login\Login.js
+		Frontend\src\pages\Data\Data.css = Frontend\src\pages\Data\Data.css
+		Frontend\src\pages\Data\Data.js = Frontend\src\pages\Data\Data.js
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Home", "Home", "{C3D83047-4812-9422-D45C-F131AE651329}"
@@ -53,15 +70,22 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Home", "Home", "{C3D83047-4
 		Frontend\src\pages\Home\Home.js = Frontend\src\pages\Home\Home.js
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Table", "Table", "{C8277E73-20AA-AFC2-DAC0-0615E5B8CA3B}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Layout", "Layout", "{041F59CA-D44C-1B6A-49FF-68877951D31A}"
 	ProjectSection(SolutionItems) = preProject
-		Frontend\src\components\Table\Table.js = Frontend\src\components\Table\Table.js
-		Frontend\src\components\Table\Table.css = Frontend\src\components\Table\Table.css
+		Frontend\src\pages\Layout\Layout.css = Frontend\src\pages\Layout\Layout.css
+		Frontend\src\pages\Layout\Layout.js = Frontend\src\pages\Layout\Layout.js
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "img", "img", "{9D57A4F1-8CAA-7E72-5CD5-B59A3A5D9243}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Login", "Login", "{B373FC14-9233-75A0-703B-9017E97202DD}"
 	ProjectSection(SolutionItems) = preProject
-		Frontend\public\img\favicon.ico = Frontend\public\img\favicon.ico
+		Frontend\src\pages\Login\Login.css = Frontend\src\pages\Login\Login.css
+		Frontend\src\pages\Login\Login.js = Frontend\src\pages\Login\Login.js
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "services", "services", "{1272105F-73DD-160B-2465-4CC3B2A244BA}"
+	ProjectSection(SolutionItems) = preProject
+		Frontend\src\services\login.js = Frontend\src\services\login.js
+		Frontend\src\services\getData.js = Frontend\src\services\getData.js
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "utils", "utils", "{9422A777-29EF-49D1-7BCC-701D7C88AD28}"
@@ -69,15 +93,28 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "utils", "utils", "{9422A777
 		Frontend\src\utils\getBaseUrl.js = Frontend\src\utils\getBaseUrl.js
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config", "config", "{CCB2D3F0-507C-0113-6443-5191A0BFBAAB}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Logo", "Logo", "{29C71E81-0F56-112B-E97D-F6CA6402E67F}"
 	ProjectSection(SolutionItems) = preProject
-		Frontend\src\config\config.js = Frontend\src\config\config.js
+		Frontend\src\components\Logo\Logo.css = Frontend\src\components\Logo\Logo.css
+		Frontend\src\components\Logo\Logo.js = Frontend\src\components\Logo\Logo.js
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "services", "services", "{1272105F-73DD-160B-2465-4CC3B2A244BA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Navigation", "Navigation", "{3399E8A6-E54D-9FC7-2A49-81375B3AD1DE}"
 	ProjectSection(SolutionItems) = preProject
-		Frontend\src\services\login.js = Frontend\src\services\login.js
-		Frontend\src\services\getData.js = Frontend\src\services\getData.js
+		Frontend\src\components\Navigation\Navigation.css = Frontend\src\components\Navigation\Navigation.css
+		Frontend\src\components\Navigation\Navigation.js = Frontend\src\components\Navigation\Navigation.js
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "User", "User", "{D7FD41AC-78C7-AF62-5728-5D2A31DE3246}"
+	ProjectSection(SolutionItems) = preProject
+		Frontend\src\components\User\User.css = Frontend\src\components\User\User.css
+		Frontend\src\components\User\User.js = Frontend\src\components\User\User.js
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Footer", "Footer", "{E465D6D2-C885-0635-1610-27E66DD8F990}"
+	ProjectSection(SolutionItems) = preProject
+		Frontend\src\components\Footer\Footer.css = Frontend\src\components\Footer\Footer.css
+		Frontend\src\components\Footer\Footer.js = Frontend\src\components\Footer\Footer.js
 	EndProjectSection
 EndProject
 Global
@@ -99,17 +136,23 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{E40BF17A-E631-09D5-7889-66BEE0F9AB0F} = {CE609670-85B9-0D16-FB54-ED063D5D8A6D}
 		{527D5226-F8A7-0BC6-A2BD-D8FFFC6D9DE8} = {CE609670-85B9-0D16-FB54-ED063D5D8A6D}
 		{9159222C-0952-798F-CDA3-0CD0071FCC11} = {527D5226-F8A7-0BC6-A2BD-D8FFFC6D9DE8}
-		{E23087C1-201B-93A3-93E6-98D4B96EDAE9} = {E40BF17A-E631-09D5-7889-66BEE0F9AB0F}
-		{E1916ACD-DB08-71FC-47F6-08A44137F1CA} = {E40BF17A-E631-09D5-7889-66BEE0F9AB0F}
-		{B373FC14-9233-75A0-703B-9017E97202DD} = {E1916ACD-DB08-71FC-47F6-08A44137F1CA}
-		{C3D83047-4812-9422-D45C-F131AE651329} = {E1916ACD-DB08-71FC-47F6-08A44137F1CA}
-		{C8277E73-20AA-AFC2-DAC0-0615E5B8CA3B} = {E23087C1-201B-93A3-93E6-98D4B96EDAE9}
 		{9D57A4F1-8CAA-7E72-5CD5-B59A3A5D9243} = {527D5226-F8A7-0BC6-A2BD-D8FFFC6D9DE8}
-		{9422A777-29EF-49D1-7BCC-701D7C88AD28} = {E40BF17A-E631-09D5-7889-66BEE0F9AB0F}
+		{E40BF17A-E631-09D5-7889-66BEE0F9AB0F} = {CE609670-85B9-0D16-FB54-ED063D5D8A6D}
+		{E23087C1-201B-93A3-93E6-98D4B96EDAE9} = {E40BF17A-E631-09D5-7889-66BEE0F9AB0F}
+		{C8277E73-20AA-AFC2-DAC0-0615E5B8CA3B} = {E23087C1-201B-93A3-93E6-98D4B96EDAE9}
 		{CCB2D3F0-507C-0113-6443-5191A0BFBAAB} = {E40BF17A-E631-09D5-7889-66BEE0F9AB0F}
+		{E1916ACD-DB08-71FC-47F6-08A44137F1CA} = {E40BF17A-E631-09D5-7889-66BEE0F9AB0F}
+		{7C6BE777-6DE0-BB63-08D2-B9FA3AB508F2} = {E1916ACD-DB08-71FC-47F6-08A44137F1CA}
+		{C3D83047-4812-9422-D45C-F131AE651329} = {E1916ACD-DB08-71FC-47F6-08A44137F1CA}
+		{041F59CA-D44C-1B6A-49FF-68877951D31A} = {E1916ACD-DB08-71FC-47F6-08A44137F1CA}
+		{B373FC14-9233-75A0-703B-9017E97202DD} = {E1916ACD-DB08-71FC-47F6-08A44137F1CA}
 		{1272105F-73DD-160B-2465-4CC3B2A244BA} = {E40BF17A-E631-09D5-7889-66BEE0F9AB0F}
+		{9422A777-29EF-49D1-7BCC-701D7C88AD28} = {E40BF17A-E631-09D5-7889-66BEE0F9AB0F}
+		{29C71E81-0F56-112B-E97D-F6CA6402E67F} = {E23087C1-201B-93A3-93E6-98D4B96EDAE9}
+		{3399E8A6-E54D-9FC7-2A49-81375B3AD1DE} = {E23087C1-201B-93A3-93E6-98D4B96EDAE9}
+		{D7FD41AC-78C7-AF62-5728-5D2A31DE3246} = {E23087C1-201B-93A3-93E6-98D4B96EDAE9}
+		{E465D6D2-C885-0635-1610-27E66DD8F990} = {E23087C1-201B-93A3-93E6-98D4B96EDAE9}
 	EndGlobalSection
 EndGlobal

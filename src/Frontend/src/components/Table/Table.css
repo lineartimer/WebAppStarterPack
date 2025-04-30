@@ -1,20 +1,18 @@
-.table-container {
+.table {
     display: flex;
     justify-content: center;
-    margin-top: 20px;
 }
 
 table {
     border-collapse: collapse;
-    width: 80%;
+    width: 600px;
 }
 
 th, td {
     border: 1px solid #ccc;
     padding: 10px;
-    text-align: left;
 }
 
 th {
-    background-color: #f3f2ef;
+    background-color: #eee;
 }

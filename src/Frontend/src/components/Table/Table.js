@@ -4,7 +4,7 @@ const Table = ({ data }) => {
     const colNames = data.length > 0 ? Object.keys(data[0]) : [];
 
     return (
-        <div className="table-container">
+        <div className="table">
             <table>
                 <thead>
                     <tr>

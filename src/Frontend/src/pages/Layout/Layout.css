@@ -1,0 +1,32 @@
+.container, .container-fluid {
+    padding: 0; /* Getting rid of Bootstrap's default setting of 12px for left and right paddings. */
+    background-color: white;
+}
+
+.container-fluid {
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+.layout {
+    background-color: white;
+}
+
+header, footer {
+    padding: 20px;
+}
+
+header a, header a:hover {
+    text-decoration: none;
+}
+
+main {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.user-wrapper {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}

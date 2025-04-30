@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import "./Login.css";
-import login from "../../services/login";
+import Logo from "../../components/Logo/Logo";
 import config from "../../config/config";
+import login from "../../services/login";
 
 const Login = ({ loginCallBack: loginCallBack }) => {
     const [username, setUsername] = useState("");
@@ -25,7 +26,7 @@ const Login = ({ loginCallBack: loginCallBack }) => {
         setUsernameError(username ? "" : config.userNameMissingError);
         setPasswordError(password ? "" : config.passwordMissingError);
 
-        if(!username || !password) {
+        if (!username || !password) {
             return;
         }
 
@@ -51,23 +52,32 @@ const Login = ({ loginCallBack: loginCallBack }) => {
     }
     else {
         return (
-            <div className="login-container">
-                <form className="login-form" onSubmit={onLogin}>
-                    <h2>Sign in</h2>
-                    <div className="textbox-container">
-                        <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} className={usernameError ? "error" : ""} />
-                    </div>
-                    {usernameError && <div className="error-message">{usernameError}</div>}
-                    <div className="textbox-container">
-                        <input type={showPassword ? "text" : "password"} placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} className={passwordError ? "error" : ""} />
-                        <button type="button" className="show-hide-button" onMouseDown={handleShowPassword} onMouseUp={handleHidePassword} onMouseLeave={handleHidePassword}>
-                            {showPassword ? "Hide" : "Show"}
-                        </button>
-                    </div>
-                    {passwordError && <div className="error-message">{passwordError}</div>}
-                    {error && <div className="error-message">{error}</div>}
-                    <button type="submit" className="login-button">Sign in</button>
-                </form>
+            <div>
+                <div className="login-logo">
+                    <Logo />
+                </div>
+                <div className="login-window">
+                    <form className="login-form" onSubmit={onLogin}>
+                        <h2>Sign in</h2>
+                        <div className="login-textbox">
+                            <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} className={usernameError ? "inputerror" : ""} />
+                            {usernameError && <div className="error-message">{usernameError}</div>}
+                        </div>
+                        <div>
+                            <div className="login-textbox">
+                                <div className="pwd-textbox">
+                                    <input type={showPassword ? "text" : "password"} placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} className={passwordError ? "inputerror" : ""} />
+                                    <button type="button" className="show-hide-button" onMouseDown={handleShowPassword} onMouseUp={handleHidePassword} onMouseLeave={handleHidePassword}>
+                                        {showPassword ? "Hide" : "Show"}
+                                    </button>
+                                </div>
+                                {passwordError && <div className="error-message">{passwordError}</div>}
+                            </div>
+                        </div>
+                        {error && <div className="error-message">{error}</div>}
+                        <button type="submit" className="login-button">Sign in</button>
+                    </form>
+                </div>
             </div>
         );
     }

@@ -1,41 +1,15 @@
-.header {
-    display: flex;
-    justify-content: flex-end;
-    padding: 10px 20px;
-    background-color: #f3f2ef;
-}
-
-.username-link {
-    color: #0073b1;
-    text-decoration: none;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-.username-link:hover {
-    text-decoration: underline;
-}
-
-.logout-window {
-    position: absolute;
-    top: 50px;
-    right: 20px;
-    width: 200px;
-    padding: 10px;
+.home {
     background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    text-align: center;
 }
 
-.logout-window a {
-    color: #0073b1;
-    text-decoration: none;
-    font-size: 14px;
-    cursor: pointer;
+.main {
+    display: flex;
+    align-items: center;
+    min-height: 75vh;
 }
 
-.logout-window a:hover {
-    text-decoration: underline;
+.description {
+    font-size: 40px;
+    font-weight: 400;
+    color: #466;
 }

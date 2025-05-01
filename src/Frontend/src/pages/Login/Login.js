@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import DOMPurify from "dompurify";
 
 import "./Login.css";
 import Logo from "../../components/Logo/Logo";
 import config from "../../config/config";
 import login from "../../services/login";
 
-const Login = ({ loginCallBack: loginCallBack }) => {
+const Login = ({ loginCallBack }) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
@@ -30,8 +31,12 @@ const Login = ({ loginCallBack: loginCallBack }) => {
             return;
         }
 
+        // Sanitize input to prevent XSS (Cross-Site Scripting attacks)
+        var cleanUsername = DOMPurify.sanitize(username);
+        var cleanPassword = DOMPurify.sanitize(password);
+
         setIsLoading(true);
-        const response = await login(username, password);
+        const response = await login(cleanUsername, cleanPassword);
         setIsLoading(false);
 
         if (response.ok) {

@@ -13,7 +13,9 @@
 
 .user-window {
     position: absolute;
-    transform: translateY(5px);
+    width: 200px;
+    transform: translateX(-163px);
+    margin-top: 11px;
     padding: 10px;
     background-color: white;
     border: 1px solid #ccc;

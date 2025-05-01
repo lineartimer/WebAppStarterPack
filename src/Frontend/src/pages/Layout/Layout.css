@@ -8,21 +8,39 @@
     padding-right: 10%;
 }
 
+/* Make main element within the layout page take up available space, so that the entire page fills the viewport's height. */
 .layout {
-    background-color: white;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.border-shadow {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 header, footer {
+    flex-shrink: 0; /* Prevent shrinking */
     padding: 20px;
+}
+
+header {
+    background-color: white;
 }
 
 header a, header a:hover {
     text-decoration: none;
 }
 
+.sticky {
+    position: sticky; /* Making header always appear on top */
+    top: 0;
+    left: 0;
+}
+
 main {
-    padding-left: 20px;
-    padding-right: 20px;
+    flex-grow: 1; /* Take up available space */
+    padding: 0 20px 0 20px;
 }
 
 .user-wrapper {

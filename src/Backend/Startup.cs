@@ -77,7 +77,7 @@ public class Startup
         services.AddCors(options =>
         {
             options.AddPolicy(_policy, builder => builder
-                //.AllowAnyOrigin()
+                //.AllowAnyOrigin() // This is also an option, although not a very safe one
                 .WithOrigins(origins)
                 .AllowAnyMethod()
                 .AllowAnyHeader());

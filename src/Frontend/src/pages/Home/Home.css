@@ -3,9 +3,7 @@
 }
 
 .main {
-    display: flex;
-    align-items: center;
-    min-height: 75vh;
+    margin-top: 20vh;
 }
 
 .description {

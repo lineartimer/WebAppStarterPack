@@ -408,6 +408,7 @@ JWT (Json Web Token):
 - The client sends a token in the Authorization header with each request
 - It's usually sufficient if no third party providers are needed (Google/Facebook etc.)
 - To use it, install the Microsoft.AspNetCore.Authentication.JwtBearer package
+- The jwt.io website can be used to decode a token (e.g. copied over from the client side) and verify that the issuer and the audience properties are set correctly
 
 API key authentication:
 - A machine-to-machine authentication mechanism

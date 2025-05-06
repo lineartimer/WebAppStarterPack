@@ -66,7 +66,7 @@ public class Startup
         if (backendUrl == null)
         {
             // Development environment
-            origins = ["http://localhost:3000", "https://localhost:3000"];
+            origins = ["https://localhost:3000"];
         }
         else
         {
@@ -78,7 +78,7 @@ public class Startup
         {
             options.AddPolicy(_policy, builder => builder
                 //.AllowAnyOrigin() // This is also an option, although not a very safe one
-                .WithOrigins("http://localhost:3000")
+                .WithOrigins(origins)
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials()); // Allow cookies

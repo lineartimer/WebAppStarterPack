@@ -319,6 +319,8 @@ A cookie with the HttpOnly attribute can't be accessed by JavaScript. It can onl
 
 When the SameSite attribute is set to strict, the browser will only send the cookie in response to requests originating from the cookie's origin site.
 
+To use a self-signed https certificate: dotnet dev-certs https --trust
+
 ## Entity Framework Core
 
 Nuget packages:

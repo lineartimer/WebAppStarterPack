@@ -111,7 +111,7 @@ public class AuthController : ControllerBase
         HttpContext.Response.Cookies.Append("AuthToken", token, new CookieOptions
         {
             HttpOnly = true, // Can't be accessed by JavaScript on the cilent side
-            Secure = false, // Only sent over secure connections (HTTPS)
+            Secure = true, // Only sent over secure connections (HTTPS)
             SameSite = SameSiteMode.None, // No cross-site requests
             Expires = DateTime.UtcNow.AddDays(7)
         });

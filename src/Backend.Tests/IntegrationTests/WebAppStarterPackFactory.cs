@@ -8,6 +8,7 @@ public class WebAppStarterPackFactory<TEntryPoint> : WebApplicationFactory<TEntr
 {
     protected override IHost CreateHost(IHostBuilder builder)
     {
+        // Set the SqlServer connection string to null so that the application uses the local Sqlite database
         builder.ConfigureHostConfiguration(config =>
         {
             var projectDirectory = Directory.GetParent(Environment.CurrentDirectory)?.Parent?.Parent?.FullName;

@@ -1,45 +1,71 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import "./Login.css";
-import Logo from "../../components/Logo/Logo";
-import config from "../../config/config";
-import login from "../../services/login";
 
-const Login = ({ loginCallBack: loginCallBack }) => {
+const backEndPortDev = 5000;
+
+const Login = ({ onLogin }) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const [error, setError] = useState("");
     const [usernameError, setUsernameError] = useState("");
     const [passwordError, setPasswordError] = useState("");
-    const [error, setError] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
     const handleShowPassword = () => setShowPassword(true);
     const handleHidePassword = () => setShowPassword(false);
-
     const navigate = useNavigate();
 
-    const onLogin = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        setUsernameError(username ? "" : config.userNameMissingError);
-        setPasswordError(password ? "" : config.passwordMissingError);
-
-        if (!username || !password) {
-            return;
+        var hasError = false;
+        if (!username) {
+            setUsernameError("Please enter your username.");
+            hasError = true;
+        } else {
+            setUsernameError("");
         }
 
+        if (!password) {
+            setPasswordError("Please enter your password.");
+            hasError = true;
+        } else {
+            setPasswordError("");
+        }
+
+        if (hasError) return;
+
         setIsLoading(true);
-        const response = await login(username, password);
+
+        var protocol = window.location.protocol;
+        var server = window.location.hostname;
+    
+        var baseUrl = protocol + "//" + server;
+        if (server == "localhost") {
+            baseUrl += ":" + backEndPortDev;
+        }
+
+        alert(baseUrl);
+        baseUrl.replace("frontend", "backend");
+        alert(baseUrl);
+
+        const loginPayload = { username, password };
+        const response = await fetch(baseUrl + "/Auth/Login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(loginPayload),
+        });
+
         setIsLoading(false);
 
         if (response.ok) {
             const result = await response.json();
-            loginCallBack(result.token, username);
+            onLogin(result.token, username);
             navigate("/");
         } else {
-            setError(config.invalidUserNameOrPasswordError);
+            setError("Invalid username or password.");
         }
     };
 
@@ -50,37 +76,27 @@ const Login = ({ loginCallBack: loginCallBack }) => {
             </div>
         );
     }
-    else {
-        return (
-            <div>
-                <div className="login-logo">
-                    <Logo />
+
+    return (
+        <div className="login-container">
+            <form className="login-form" onSubmit={handleSubmit}>
+                <h2>Sign in</h2>
+                <div className="textbox-container">
+                    <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} className={usernameError ? "error" : ""} />
                 </div>
-                <div className="login-window">
-                    <form className="login-form" onSubmit={onLogin}>
-                        <h2>Sign in</h2>
-                        <div className="login-textbox">
-                            <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} className={usernameError ? "inputerror" : ""} />
-                            {usernameError && <div className="error-message">{usernameError}</div>}
-                        </div>
-                        <div>
-                            <div className="login-textbox">
-                                <div className="pwd-textbox">
-                                    <input type={showPassword ? "text" : "password"} placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} className={passwordError ? "inputerror" : ""} />
-                                    <button type="button" className="show-hide-button" onMouseDown={handleShowPassword} onMouseUp={handleHidePassword} onMouseLeave={handleHidePassword}>
-                                        {showPassword ? "Hide" : "Show"}
-                                    </button>
-                                </div>
-                                {passwordError && <div className="error-message">{passwordError}</div>}
-                            </div>
-                        </div>
-                        {error && <div className="error-message">{error}</div>}
-                        <button type="submit" className="login-button">Sign in</button>
-                    </form>
+                {usernameError && <div className="error-message">{usernameError}</div>}
+                <div className="textbox-container">
+                    <input type={showPassword ? "text" : "password"} placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} className={passwordError ? "error" : ""} />
+                    <button type="button" className="show-hide-button" onMouseDown={handleShowPassword} onMouseUp={handleHidePassword} onMouseLeave={handleHidePassword}>
+                        {showPassword ? "Hide" : "Show"}
+                    </button>
                 </div>
-            </div>
-        );
-    }
+                {passwordError && <div className="error-message">{passwordError}</div>}
+                {error && <div className="error-message">{error}</div>}
+                <button type="submit" className="login-button">Sign in</button>
+            </form>
+        </div>
+    );
 };
 
 export default Login;

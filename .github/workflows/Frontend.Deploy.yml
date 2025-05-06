@@ -1,4 +1,4 @@
-name: Deploy frontend
+name: Frontend
 on: push
 env:
   CONTAINER_APP_NAME: ca-frontend

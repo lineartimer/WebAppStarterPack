@@ -59,19 +59,14 @@ public class Startup
 
     private void AddCors(IServiceCollection services)
     {
-        var origins = new string[] {};
+        var origins = new string[] { "http://localhost:3000", "https://localhost:3000" };
 
         // Attempting to get the backend URL from environment variables (coming from GitHub secrets)
         var backendUrl = Environment.GetEnvironmentVariable("BACKEND_URL");
-        if (backendUrl == null)
+        if (backendUrl != null)
         {
-            // Development environment
-            origins = new string[] { "http://localhost:3000", "https://localhost:3000" };
-        }
-        else
-        {
-            // Production environment
-            origins = new string[] { backendUrl.Replace("backend", "frontend") };
+            // If the backend URL is set, use it as the origin for CORS
+            origins = new string[] { backendUrl };
         }
 
         services.AddCors(options =>

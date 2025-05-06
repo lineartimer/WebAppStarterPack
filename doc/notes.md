@@ -261,6 +261,7 @@ echo export PATH=$PATH:/opt/homebrew/bin >> ~/.zshrc
 - Save the appId, the password and the tenant as GitHub secrets to be able to log in to Azure from the yml file (az login --service-principal -u <appId> -p <password> --tenant <tenant>)
 - The Azure CLI can also be started from the Azure Portal (click the cloud shell icon in the upper right corner)
 - You can manage the created service principals on the Azure Portal under Microsoft Entra ID -> App registrations -> All applications
+- To go back to a previous version, go to the Actions tab on GitHub, select the last successful workflow and click Re-run all jobs
 
 # Backend development
 

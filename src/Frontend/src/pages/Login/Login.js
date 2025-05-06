@@ -44,12 +44,13 @@ const Login = ({ onLogin }) => {
     
         var baseUrl = protocol + "//" + server;
         if (server == "localhost") {
+            // Development environment
             baseUrl += ":" + backEndPortDev;
         }
-
-        alert(baseUrl);
-        baseUrl.replace("frontend", "backend");
-        alert(baseUrl);
+        else {
+            // Production environment
+            baseUrl = baseUrl.replace("frontend", "backend");
+        }
 
         const loginPayload = { username, password };
         const response = await fetch(baseUrl + "/Auth/Login", {

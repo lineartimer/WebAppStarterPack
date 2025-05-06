@@ -1,4 +1,4 @@
-name: Deploy
+name: Deploy backend
 on: push
 env:
   CONTAINER_APP_NAME: ca-backend

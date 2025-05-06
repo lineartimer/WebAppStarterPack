@@ -1,5 +1,5 @@
-name: Tests (backend)
-on: pull_request
+name: Test backend
+on: push
 jobs:
   build:
     runs-on: ubuntu-latest

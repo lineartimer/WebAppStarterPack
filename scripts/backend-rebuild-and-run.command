@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 echo
-echo "Running Backend..."
+echo "Rebuilding and Running Backend..."
 echo
 
 osascript <<eof
@@ -13,7 +13,7 @@ eof
 cd -- "$(dirname -- "$BASH_SOURCE")"
 cd ../src/Backend
 
-# Rebuilding and running the backend
+# Rebuilding and running backend
 dotnet build --no-incremental
 dotnet run
 

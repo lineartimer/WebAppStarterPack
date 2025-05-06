@@ -4,7 +4,7 @@ Web Application Starter Pack
 # Environment
 
 - VS Code
-- VS Code extensions (C# Dev Kit, SQL Server, GitHub Copilot/Chat, Azure App Service, Azure Container Apps, Docker)
+- VS Code extensions (C# Dev Kit, SQL Server, JavaScript Debugger, GitHub Copilot/Chat, Azure App Service, Azure Container Apps, Docker)
 - .NET SDK
 - Node.js
 - Docker Desktop
@@ -313,6 +313,14 @@ curl -v -X GET "<url of endpoint that requires authentication>" -H "Authorizatio
 
 CORS restrictions only work in browsers. They don't work with curl, Postman or similar tools.
 
+Secure cookies are only sent over HTTPS, never over HTTP (except on localhost).
+
+A cookie with the HttpOnly attribute can't be accessed by JavaScript. It can only be accessed when reaching the server. Authentication cookies should be HTTP-only.
+
+When the SameSite attribute is set to strict, the browser will only send the cookie in response to requests originating from the cookie's origin site.
+
+To use a self-signed https certificate: dotnet dev-certs https --trust
+
 ## Entity Framework Core
 
 Nuget packages:
@@ -328,6 +336,8 @@ Connection strings should be stored safely. Either in an environment variable or
 Eager loading vs. lazy loading: to enable lazy loading, install the Microsoft.EntityFrameworkCore.Proxies. But lazy loading might lead to performance problems if not used carefully (N+1 query problem).
 
 When EF Core queries a database, it stores a snapshot of the result set in memory. Any changes to the entities are made against that snapshot and it's written back to the database only later. To speed up read only queries, you can skip the snapshot and conserve system resources by adding the AsNoTracking() method to the query.
+
+LINQ queries are generally safe from SQL injection because they are translated into parameterized SQL queries by Entity Framework.
 
 ### Creating a new database from the code
 
@@ -385,6 +395,8 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
 
 To list user secrets: dotnet user-secrets list
 
+Delete a secret: dotnet user-secrets remove "<secret name>"
+
 To delete all user secrets: dotnet user-secrets clear
 
 ## Authentication
@@ -398,6 +410,7 @@ JWT (Json Web Token):
 - The client sends a token in the Authorization header with each request
 - It's usually sufficient if no third party providers are needed (Google/Facebook etc.)
 - To use it, install the Microsoft.AspNetCore.Authentication.JwtBearer package
+- The jwt.io website can be used to decode a token (e.g. copied over from the client side) and verify that the issuer and the audience properties are set correctly
 
 API key authentication:
 - A machine-to-machine authentication mechanism
@@ -446,7 +459,14 @@ public partial class Program { }
 - Vulnerabilites found by npm install may be fixed by running npm audit --force but it may break the project
 - To stop search engines from indexing a page, add: <meta name="robots" content="noindex, nofollow" />
 - Authentication tokens should not be stored in the browser's local storage because it's vulnerable to cross-site scripting (XSS) attacks. If an attacker injects malicious JavaSctipt into your app, they can access the token. Cookies can be marked as HttpOnly and Secure making them inaccessible to Javascript and safer against XSS. But cookies are vulnerable to cross-site request forgery (CSRF) unless CSRF protection is implemented
-- If no cookies are used by a website, a cookie consent form might not be needed. But a GDPR-compliant privacy policy is still a must.
+- To prevent XSS, user input (e.g. in forms or query parameters) should be sanitized. Libraries like DOMPurify can be used
+- If no cookies are used by a website, a cookie consent form might not be needed. But a GDPR-compliant privacy policy is still a must
+- A good (and free) favicon generator: favicon.io/favicon-generator
+- On the Application tab of the browser's Developer Tools, the cookies and the content of the local storage can be checked
+
+## HTML
+
+Outlines don't take up space in the DOM as opposed to borders do, which do. To prevent movements of elements, use outlines instead of borders.
 
 ## JavaScript
 
@@ -562,7 +582,37 @@ var DemoTable2 = () => {
 
 ChatGPT and other AI tools may leave watermarks in the generated texts (e.g. some kinds of hard to see white spaces).
 
-## GitHub Copilot
+## Prompt Engineering
+
+Two types of LLMs:
+- Base LLM (predicts next word)
+- Instruction Tuned LLM
+
+Use clear and specific instructions:
+- Use delimiters (e.g. triple dashes)
+- Ask for structured output
+
+Give the model time to think:
+- If the model is making reasoning errors by rushing to an incorrect conclusion, reframe the query to request a chain of relevant reasoning before the model provides its final answer. If you give a model a task that's too complex for it to do in a short amount of time, or in a small number of words, it may make up a guess, which is likely to be incorrect. You can ask the model to think longer about the problem, which means spending more computational effort on the task
+- You can try to specify the steps to complete a task
+- You can instruct the model to work out its own solution before rushing to a conclusion because sometimes the model just skims the text and gives an incorrect answer
+
+Hallucinations:
+- The model makes statements that sound plausible but are actually not true
+- To reduce hallucinations, ask the model to first find the relevant information and then answer the question based on relevant information
+
+Make your prompts iteratively better.
+
+You can use LLMs to:
+- Summarize text or expand text
+- Do sentiment analysis (you can either ask the model to do it explicitly, or you can ask it to identify emotions that the writer of the text is expressing)
+- Spell check or grammar check
+- Translate text
+- Transform the tone of a text
+- Transform the formatting of a text (e.g. json to html)
+- Build chatbots
+
+Temperature allows to change the variety of the responses. The higher the temperature, the more randomness there will be in the responses
 
 ## Cursor
 

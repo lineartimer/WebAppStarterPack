@@ -66,21 +66,22 @@ public class Startup
         if (backendUrl == null)
         {
             // Development environment
-            origins = new string[] { "http://localhost:3000", "https://localhost:3000" };
+            origins = ["http://localhost:3000", "https://localhost:3000"];
         }
         else
         {
             // Production environment
-            origins = new string[] { backendUrl.Replace("backend", "frontend") };
+            origins = [backendUrl.Replace("backend", "frontend")];
         }
 
         services.AddCors(options =>
         {
             options.AddPolicy(_policy, builder => builder
                 //.AllowAnyOrigin() // This is also an option, although not a very safe one
-                .WithOrigins(origins)
+                .WithOrigins("http://localhost:3000")
                 .AllowAnyMethod()
-                .AllowAnyHeader());
+                .AllowAnyHeader()
+                .AllowCredentials()); // Allow cookies
         });
     }
 
@@ -173,6 +174,32 @@ public class Startup
                             ValidIssuer = jwtSettings.Issuer,
                             ValidAudience = jwtSettings.Audience,
                             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey))
+                        };
+
+                        // Retrieving token from the cookie
+                        options.Events = new JwtBearerEvents
+                        {
+                            OnMessageReceived = context =>
+                            {
+                                Console.WriteLine("Cookies: " + string.Join(", ", context.Request.Cookies.Keys));
+                                if (context.Request.Cookies.ContainsKey("AuthToken"))
+                                {
+                                    context.Token = context.Request.Cookies["AuthToken"];
+                                    Console.WriteLine("Token retrieved from cookie: " + context.Token);
+                                }
+
+                                return Task.CompletedTask;
+                            },
+                            OnAuthenticationFailed = context =>
+                            {
+                                Console.WriteLine("Authentication failed: " + context.Exception.Message);
+                                return Task.CompletedTask;
+                            },
+                            OnTokenValidated = context =>
+                            {
+                                Console.WriteLine("Token validated successfully.");
+                                return Task.CompletedTask;
+                            }
                         };
                     });
     }

@@ -4,7 +4,7 @@ Web Application Starter Pack
 # Environment
 
 - VS Code
-- VS Code extensions (C# Dev Kit, SQL Server, GitHub Copilot/Chat, Azure App Service, Azure Container Apps, Docker)
+- VS Code extensions (C# Dev Kit, SQL Server, JavaScript Debugger, GitHub Copilot/Chat, Azure App Service, Azure Container Apps, Docker)
 - .NET SDK
 - Node.js
 - Docker Desktop
@@ -460,6 +460,7 @@ public partial class Program { }
 - To prevent XSS, user input (e.g. in forms or query parameters) should be sanitized. Libraries like DOMPurify can be used
 - If no cookies are used by a website, a cookie consent form might not be needed. But a GDPR-compliant privacy policy is still a must
 - A good (and free) favicon generator: favicon.io/favicon-generator
+- On the Application tab of the browser's Developer Tools, the cookies and the content of the local storage can be checked
 
 ## HTML
 
@@ -579,7 +580,37 @@ var DemoTable2 = () => {
 
 ChatGPT and other AI tools may leave watermarks in the generated texts (e.g. some kinds of hard to see white spaces).
 
-## GitHub Copilot
+## Prompt Engineering
+
+Two types of LLMs:
+- Base LLM (predicts next word)
+- Instruction Tuned LLM
+
+Use clear and specific instructions:
+- Use delimiters (e.g. triple dashes)
+- Ask for structured output
+
+Give the model time to think:
+- If the model is making reasoning errors by rushing to an incorrect conclusion, reframe the query to request a chain of relevant reasoning before the model provides its final answer. If you give a model a task that's too complex for it to do in a short amount of time, or in a small number of words, it may make up a guess, which is likely to be incorrect. You can ask the model to think longer about the problem, which means spending more computational effort on the task
+- You can try to specify the steps to complete a task
+- You can instruct the model to work out its own solution before rushing to a conclusion because sometimes the model just skims the text and gives an incorrect answer
+
+Hallucinations:
+- The model makes statements that sound plausible but are actually not true
+- To reduce hallucinations, ask the model to first find the relevant information and then answer the question based on relevant information
+
+Make your prompts iteratively better.
+
+You can use LLMs to:
+- Summarize text or expand text
+- Do sentiment analysis (you can either ask the model to do it explicitly, or you can ask it to identify emotions that the writer of the text is expressing)
+- Spell check or grammar check
+- Translate text
+- Transform the tone of a text
+- Transform the formatting of a text (e.g. json to html)
+- Build chatbots
+
+Temperature allows to change the variety of the responses. The higher the temperature, the more randomness there will be in the responses
 
 ## Cursor
 

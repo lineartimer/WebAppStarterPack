@@ -84,8 +84,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Login", "Login", "{B373FC14
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "services", "services", "{1272105F-73DD-160B-2465-4CC3B2A244BA}"
 	ProjectSection(SolutionItems) = preProject
-		Frontend\src\services\login.js = Frontend\src\services\login.js
-		Frontend\src\services\data.js = Frontend\src\services\data.js
+		Frontend\src\services\backend.js = Frontend\src\services\backend.js
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "utils", "utils", "{9422A777-29EF-49D1-7BCC-701D7C88AD28}"

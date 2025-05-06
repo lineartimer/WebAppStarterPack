@@ -10,17 +10,15 @@ import User from "../../components/User/User";
 const Layout = ({ username, fullWidth }) => {
     return (
         <div className={fullWidth ? "container-fluid" : "container"}>
-            <LayoutImpl username={username} fullWidth={fullWidth} />
+            <LayoutImpl username={username} />
         </div>
     );
 };
 
-const LayoutImpl = ({ username, fullWidth }) => {
-    var layoutClass = fullWidth ? "layout" : "layout border-shadow";
-
+const LayoutImpl = ({ username }) => {
     return (
-        <div className={layoutClass}>
-            <header className={fullWidth ? "" : "sticky"}>
+        <div className="layout">
+            <header>
                 <div className="row">
                     <div className="col-4">
                         <Logo />

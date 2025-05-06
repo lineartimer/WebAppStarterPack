@@ -313,12 +313,6 @@ curl -v -X GET "<url of endpoint that requires authentication>" -H "Authorizatio
 
 CORS restrictions only work in browsers. They don't work with curl, Postman or similar tools.
 
-Secure cookies are only sent over HTTPS, never over HTTP (except on localhost).
-
-A cookie with the HttpOnly attribute can't be accessed by JavaScript. It can only be accessed when reaching the server. Authentication cookies should be HTTP-only.
-
-When the SameSite attribute is set to strict, the browser will only send the cookie in response to requests originating from the cookie's origin site.
-
 ## Entity Framework Core
 
 Nuget packages:
@@ -334,8 +328,6 @@ Connection strings should be stored safely. Either in an environment variable or
 Eager loading vs. lazy loading: to enable lazy loading, install the Microsoft.EntityFrameworkCore.Proxies. But lazy loading might lead to performance problems if not used carefully (N+1 query problem).
 
 When EF Core queries a database, it stores a snapshot of the result set in memory. Any changes to the entities are made against that snapshot and it's written back to the database only later. To speed up read only queries, you can skip the snapshot and conserve system resources by adding the AsNoTracking() method to the query.
-
-LINQ queries are generally safe from SQL injection because they are translated into parameterized SQL queries by Entity Framework.
 
 ### Creating a new database from the code
 
@@ -408,7 +400,6 @@ JWT (Json Web Token):
 - The client sends a token in the Authorization header with each request
 - It's usually sufficient if no third party providers are needed (Google/Facebook etc.)
 - To use it, install the Microsoft.AspNetCore.Authentication.JwtBearer package
-- The jwt.io website can be used to decode a token (e.g. copied over from the client side) and verify that the issuer and the audience properties are set correctly
 
 API key authentication:
 - A machine-to-machine authentication mechanism
@@ -460,10 +451,6 @@ public partial class Program { }
 - To prevent XSS, user input (e.g. in forms or query parameters) should be sanitized. Libraries like DOMPurify can be used
 - If no cookies are used by a website, a cookie consent form might not be needed. But a GDPR-compliant privacy policy is still a must
 - A good (and free) favicon generator: favicon.io/favicon-generator
-
-## HTML
-
-Outlines don't take up space in the DOM as opposed to borders do, which do. To prevent movements of elements, use outlines instead of borders.
 
 ## JavaScript
 

@@ -31,19 +31,17 @@ h2 {
 input {
     width: 100%;
     padding: 10px;
-    border: none;
+    border: 1px solid #222;
     border-radius: 4px;
-    outline: 1px solid #222;
     font-size: 16px;
 }
 
 input:focus {
     border: none;
-    outline: 2px solid #06b;
 }
 
 .inputerror {
-    outline: 2px solid #e42;
+    border: 2px solid #e42;
 }
 
 .login-textbox {
@@ -93,13 +91,13 @@ input:focus {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f6f6f6;
+    background-color: #ccc;
 }
 
 .loading-spinner {
     width: 50px;
     height: 50px;
-    border: 5px solid #f6f6f6;
+    border: 5px solid #ccc;
     border-top: 5px solid #06b;
     border-radius: 50%;
     animation: spin 1s linear infinite;

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import "./Data.css";
 import Table from "../../components/Table/Table";
-import { getData } from "../../services/data";
+import getData from "../../services/getData";
 import config from "../../config/config";
 
 const Data = ({ token, username }) => {

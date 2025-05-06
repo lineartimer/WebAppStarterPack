@@ -9,21 +9,11 @@
     }
   },
   "profiles": {
-    "http": {
+    "Backend": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
-      "applicationUrl": "http://localhost:5000",
-      "launchUrl": "Data",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
-    },
-    "https": {
-      "commandName": "Project",
-      "dotnetRunMessages": true,
-      "launchBrowser": true,
-      "applicationUrl": "https://localhost:5000;http://localhost:5000",
+      "applicationUrl": "https://localhost:5000",
       "launchUrl": "Data",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

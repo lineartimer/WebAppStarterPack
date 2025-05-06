@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 echo
-echo "Rebuilding Frontend..."
+echo "Building Frontend..."
 echo
 
 osascript <<eof

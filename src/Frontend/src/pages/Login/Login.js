@@ -4,8 +4,8 @@ import DOMPurify from "dompurify";
 
 import "./Login.css";
 import Logo from "../../components/Logo/Logo";
-import { login } from "../../services/backend";
 import config from "../../config/config";
+import login from "../../services/login";
 
 const Login = ({ loginCallBack }) => {
     const [username, setUsername] = useState("");
@@ -40,8 +40,8 @@ const Login = ({ loginCallBack }) => {
         setIsLoading(false);
 
         if (response.ok) {
-            //const result = await response.json();
-            loginCallBack(/* result.token */ null, username);
+            const result = await response.json();
+            loginCallBack(result.token, username);
             navigate("/");
         } else {
             setError(config.invalidUserNameOrPasswordError);

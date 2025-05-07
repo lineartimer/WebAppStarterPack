@@ -1,15 +1,9 @@
-.login-window {
-    display: flex; /* Allows controlling the layout one-dimension at a time */
-    justify-content: center; /* Center items horizontally */
-    align-items: center; /* Center items vertically */
-    height: 100vh; /* 100% of viewport's height */
-    background-color: white;
-}
-
-.login-logo {
-    position: absolute;
-    top: 30px;
-    left: 50px;
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f3f2ef;
 }
 
 .login-form {
@@ -19,39 +13,46 @@
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     text-align: center;
+    font-family: Arial, sans-serif;
 }
 
-h2 {
+.login-form h2 {
     margin-bottom: 20px;
-    font-size: 32px;
-    font-weight: 600;
-    color: #222;
+    font-size: 24px;
+    color: #333;
 }
 
-input {
+.login-form input {
     width: 100%;
     padding: 10px;
+    border: 1px solid #666;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.login-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #0073b1;
+    color: white;
     border: none;
     border-radius: 4px;
-    outline: 1px solid #222;
     font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
 }
 
-input:focus {
-    border: none;
-    outline: 2px solid #06b;
+.login-button:hover {
+    background-color: #005582;
 }
 
-.inputerror {
-    outline: 2px solid #e42;
+.login-form input.error {
+    border: 1px solid #d93025;
 }
 
-.login-textbox {
+.textbox-container {
+    position: relative;
     margin-bottom: 20px;
-}
-
-.pwd-textbox {
-    position: relative; /* Must be relative, so that the absolute position elements inside will be realtive to this element */
 }
 
 .show-hide-button {
@@ -61,30 +62,15 @@ input:focus {
     transform: translateY(-50%);
     background: none;
     border: none;
-    color: #06b;
+    color: #0073b1;
     cursor: pointer;
-    font-size: 16px;
-}
-
-.login-button {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    font-weight: 600;
-    background-color: #06b;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.login-button:hover {
-    background-color: #048;
+    font-size: 14px;
 }
 
 .error-message {
-    color: #e42;
-    font-size: 16px;
+    color: #d93025;
+    font-size: 14px;
+    margin-bottom: 10px;
     text-align: left;
 }
 
@@ -93,14 +79,14 @@ input:focus {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f6f6f6;
+    background-color: #f3f2ef;
 }
 
 .loading-spinner {
     width: 50px;
     height: 50px;
-    border: 5px solid #f6f6f6;
-    border-top: 5px solid #06b;
+    border: 5px solid #f3f2ef;
+    border-top: 5px solid #0073b1;
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
@@ -109,7 +95,6 @@ input:focus {
     0% {
         transform: rotate(0deg);
     }
-
     100% {
         transform: rotate(360deg);
     }

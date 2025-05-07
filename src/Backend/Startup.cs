@@ -46,6 +46,7 @@ public class Startup
         app.UseCors(_policy);
 
         app.UseHttpsRedirection();
+        //app.UseStaticFiles(); // This would serve static files (html, css, js etc.)
         app.UseRouting();
 
         app.UseAuthentication();

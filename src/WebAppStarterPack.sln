@@ -17,6 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{CE
 	ProjectSection(SolutionItems) = preProject
 		Frontend\package.json = Frontend\package.json
 		Frontend\Dockerfile = Frontend\Dockerfile
+		nginx.conf = nginx.conf
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E40BF17A-E631-09D5-7889-66BEE0F9AB0F}"

@@ -52,7 +52,7 @@ public class Startup
         app.UseCors(_policy);
 
         app.UseHttpsRedirection();
-        //app.UseStaticFiles(); // This would allow the backend to serve static files (html, css, js etc.)
+        //app.UseStaticFiles(); // This would allow the backend to serve static files like html, css, js etc.
         app.UseRouting();
 
         app.UseAuthentication();
@@ -73,7 +73,7 @@ public class Startup
         if (backendUrl == null)
         {
             // Development environment
-            origins = ["http://localhost:3000"];
+            origins = ["https://localhost:3000"];
         }
         else
         {
@@ -159,7 +159,7 @@ public class Startup
             }
         }
 
-        var issuer = Environment.GetEnvironmentVariable("BACKEND_URL") ?? "localhost:5000";
+        var issuer = Environment.GetEnvironmentVariable("BACKEND_URL") ?? "https://localhost:5000";
 
         var jwtSettings = new JwtConfig
         {
@@ -188,13 +188,9 @@ public class Startup
                         {
                             OnMessageReceived = context =>
                             {
-                                var cookies = string.Join(", ", context.Request.Cookies.Keys);
-                                Console.WriteLine(string.IsNullOrEmpty(cookies) ? "No cookies sent with the request." : $"Cookies: {cookies}");
-                                
                                 if (context.Request.Cookies.ContainsKey("AuthToken"))
                                 {
                                     context.Token = context.Request.Cookies["AuthToken"];
-                                    Console.WriteLine("Token retrieved from cookie: " + context.Token);
                                 }
 
                                 return Task.CompletedTask;
@@ -202,12 +198,6 @@ public class Startup
                             OnAuthenticationFailed = context =>
                             {
                                 Console.WriteLine("Authentication failed: " + context.Exception.Message);
-
-                                return Task.CompletedTask;
-                            },
-                            OnTokenValidated = context =>
-                            {
-                                Console.WriteLine("Token validated successfully.");
 
                                 return Task.CompletedTask;
                             }

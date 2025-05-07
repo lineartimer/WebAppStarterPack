@@ -112,13 +112,25 @@ public class AuthController : ControllerBase
         {
             HttpOnly = true, // Can't be accessed by JavaScript on the cilent side
             Secure = true, // Only sent over secure connections (HTTPS)
-            SameSite = SameSiteMode.None, // No cross-site requests
+            SameSite = SameSiteMode.Strict, // No cross-site requests
             Expires = DateTime.UtcNow.AddDays(7)
         });
 
         return Ok();
+    }
 
-        // return Ok(new { Token = token });
+    [HttpPost("Logout")]
+    public IActionResult Logout()
+    {
+        HttpContext.Response.Cookies.Append("AuthToken", string.Empty, new CookieOptions
+        {
+            HttpOnly = true, // Keep it secure
+            Secure = true, // Use HTTPS in production
+            SameSite = SameSiteMode.None, // Match your auth setup
+            Expires = DateTime.UtcNow.AddYears(-1) // Expire the cookie immediately by setting a past date
+        });
+
+        return Ok();
     }
 
     private string GenerateJwtToken(User user, Role role)

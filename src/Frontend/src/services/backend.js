@@ -5,17 +5,25 @@ export const login = async (username, password) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
+        credentials: "include"
     });
 
     return response;
 };
 
-export const getData = async (token) => {
+export const logout = async () => {
+    await fetch(`${getBaseUrl()}/Auth/Logout`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include"
+    });
+};
+
+export const getData = async () => {
     const response = await fetch(getBaseUrl() + "/Data", {
         method: "GET",
-        // headers: { Authorization: `Bearer ${token}` }
-        credentials: "include" // That's also an option, altough not a very safe one
-        // //credentials: "same-origin"
+        headers: { "Content-Type": "application/json" },
+        credentials: "include"
     });
 
     return response;

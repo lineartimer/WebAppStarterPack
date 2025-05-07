@@ -1,27 +1,28 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import "./Data.css";
 import Table from "../../components/Table/Table";
 import { getData } from "../../services/backend";
-import config from "../../config/config";
 
-const Data = ({ token }) => {
+const Data = () => {
     const [data, setData] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await getData(token);
+            const response = await getData();
 
             if (response.ok) {
                 const result = await response.json();
                 setData(result);
             } else {
-                console.error(config.failedToGetData);
+                navigate("/Login");
             }
         };
 
         fetchData();
-    }, [token]);
+    });
 
     return (
         <div>

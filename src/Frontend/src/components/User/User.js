@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
 
 import "./User.css";
+import { logout } from "../../services/backend";
 
 const User = ({ username }) => {
     const [showUserWindow, setShowUserWindow] = useState(false);
@@ -22,8 +23,8 @@ const User = ({ username }) => {
         };
     }, []);
 
-    const onLogout = () => {
-        localStorage.removeItem("token");
+    const onLogout = async () => {
+        await logout();
         localStorage.removeItem("username");
 
         navigate("/");

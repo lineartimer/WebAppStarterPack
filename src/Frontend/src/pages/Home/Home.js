@@ -10,7 +10,7 @@ const Home = ({ token, username }) => {
 
     useEffect(() => {
         const fetchData = async () => {
-            var response = getData(token);
+            var response = await getData(token);
 
             if (response.ok) {
                 const result = await response.json();

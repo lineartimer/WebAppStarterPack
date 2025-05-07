@@ -1,10 +1,9 @@
 import config from "../config/config";
 
 const getBaseUrl = () => {
-    const protocol = window.location.protocol;
     const server = window.location.hostname;
 
-    let baseUrl = `${protocol}//${server}`;
+    let baseUrl = `https://${server}`;
     if (server === "localhost") {
         // Development environment
         baseUrl += `:${config.backEndPortDev}`;

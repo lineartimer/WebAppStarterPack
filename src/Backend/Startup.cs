@@ -66,7 +66,7 @@ public class Startup
         if (backendUrl == null)
         {
             // Development environment
-            origins = ["https://localhost:3000"];
+            origins = ["http://localhost:3000"];
         }
         else
         {

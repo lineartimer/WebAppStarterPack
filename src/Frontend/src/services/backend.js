@@ -13,8 +13,9 @@ export const login = async (username, password) => {
 export const getData = async (token) => {
     const response = await fetch(getBaseUrl() + "/Data", {
         method: "GET",
-        credentials: "include", // That's also an option, altough not a very safe one
-        //credentials: "same-origin"
+        headers: { Authorization: `Bearer ${token}` }
+        // credentials: "include", // That's also an option, altough not a very safe one
+        // //credentials: "same-origin"
     });
 
     return response;

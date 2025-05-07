@@ -39,7 +39,7 @@ const Login = ({ onLogin }) => {
 
         setIsLoading(true);
         
-        var response = login(username, password);
+        var response = await login(username, password);
 
         setIsLoading(false);
 

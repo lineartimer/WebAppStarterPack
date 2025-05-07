@@ -112,6 +112,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{18D3211A-1
 		Frontend\src\pages\Data\Data.js = Frontend\src\pages\Data\Data.js
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Header", "Header", "{3F2A2B73-8306-CC13-97B8-83639F89A1A0}"
+	ProjectSection(SolutionItems) = preProject
+		Frontend\src\components\Header\Header.css = Frontend\src\components\Header\Header.css
+		Frontend\src\components\Header\Header.js = Frontend\src\components\Header\Header.js
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -148,5 +154,6 @@ Global
 		{D7FD41AC-78C7-AF62-5728-5D2A31DE3246} = {E23087C1-201B-93A3-93E6-98D4B96EDAE9}
 		{041F59CA-D44C-1B6A-49FF-68877951D31A} = {E1916ACD-DB08-71FC-47F6-08A44137F1CA}
 		{18D3211A-1ABC-BB8F-983D-2629669F5BEC} = {E1916ACD-DB08-71FC-47F6-08A44137F1CA}
+		{3F2A2B73-8306-CC13-97B8-83639F89A1A0} = {E23087C1-201B-93A3-93E6-98D4B96EDAE9}
 	EndGlobalSection
 EndGlobal

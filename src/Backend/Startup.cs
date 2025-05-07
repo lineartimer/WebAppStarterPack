@@ -25,6 +25,12 @@ public class Startup
         AddDbContext(services);
         AddAuthentication(services);
 
+        // Suppress EF Core query logs
+        services.AddLogging(builder =>
+        {
+            builder.AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.Warning);
+        });
+
         // Require authentiacation for all controllers by default
         services.AddControllers(options =>
                 {
@@ -182,7 +188,9 @@ public class Startup
                         {
                             OnMessageReceived = context =>
                             {
-                                Console.WriteLine("Cookies: " + string.Join(", ", context.Request.Cookies.Keys));
+                                var cookies = string.Join(", ", context.Request.Cookies.Keys);
+                                Console.WriteLine(string.IsNullOrEmpty(cookies) ? "No cookies sent with the request." : $"Cookies: {cookies}");
+                                
                                 if (context.Request.Cookies.ContainsKey("AuthToken"))
                                 {
                                     context.Token = context.Request.Cookies["AuthToken"];
@@ -194,11 +202,13 @@ public class Startup
                             OnAuthenticationFailed = context =>
                             {
                                 Console.WriteLine("Authentication failed: " + context.Exception.Message);
+
                                 return Task.CompletedTask;
                             },
                             OnTokenValidated = context =>
                             {
                                 Console.WriteLine("Token validated successfully.");
+
                                 return Task.CompletedTask;
                             }
                         };

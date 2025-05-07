@@ -2,8 +2,10 @@ import "./Footer.css";
 
 const Footer = () => {
     return (
-        <div className="footer">
-            Copyright © {(new Date()).getFullYear()}, Whoever.
+        <div className="row">
+            <div className="col-12">
+                Copyright © {(new Date()).getFullYear()}, Whoever.
+            </div>
         </div>
     );
 };

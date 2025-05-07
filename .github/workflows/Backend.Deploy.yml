@@ -1,5 +1,5 @@
 name: Deploy backend
-on: pull_request
+on: push
 env:
   CONTAINER_APP_NAME: ca-backend
   RESOURCE_GROUP: rg-WebAppStarterPack
@@ -16,23 +16,23 @@ jobs:
       - name: Build
         working-directory: ./src/Backend
         run: dotnet build --configuration Release
-  # test:
-  #   needs: build
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v4
-  #     - name: Set up .NET Core
-  #       uses: actions/setup-dotnet@v4
-  #       with:
-  #         dotnet-version: "8.0.x"
-  #     - name: Test
-  #       working-directory: ./src/Backend.Tests
-  #       run: |
-  #         dotnet build
-  #         dotnet test bin/Debug/net8.0/Backend.Tests.dll
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+      - name: Test
+        working-directory: ./src/Backend.Tests
+        run: |
+          dotnet build
+          dotnet test bin/Debug/net8.0/Backend.Tests.dll
   deploy:
-    # needs: test
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

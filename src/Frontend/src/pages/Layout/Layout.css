@@ -42,9 +42,3 @@ main {
     flex-grow: 1; /* Take up available space */
     padding: 0 20px 0 20px;
 }
-
-.user-wrapper {
-    display: flex;
-    justify-content: end;
-    align-items: center;
-}

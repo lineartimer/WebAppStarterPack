@@ -1,9 +1,15 @@
-.login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f3f2ef;
+.login-window {
+    display: flex; /* Allows controlling the layout one-dimension at a time */
+    justify-content: center; /* Center items horizontally */
+    align-items: center; /* Center items vertically */
+    height: 100vh; /* 100% of viewport's height */
+    background-color: white;
+}
+
+.login-logo {
+    position: absolute;
+    top: 30px;
+    left: 50px;
 }
 
 .login-form {
@@ -13,46 +19,39 @@
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     text-align: center;
-    font-family: Arial, sans-serif;
 }
 
-.login-form h2 {
+h2 {
     margin-bottom: 20px;
-    font-size: 24px;
-    color: #333;
+    font-size: 32px;
+    font-weight: 600;
+    color: #222;
 }
 
-.login-form input {
+input {
     width: 100%;
     padding: 10px;
-    border: 1px solid #666;
-    border-radius: 4px;
-    font-size: 14px;
-}
-
-.login-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #0073b1;
-    color: white;
     border: none;
     border-radius: 4px;
+    outline: 1px solid #222;
     font-size: 16px;
-    cursor: pointer;
-    font-weight: bold;
 }
 
-.login-button:hover {
-    background-color: #005582;
+input:focus {
+    border: none;
+    outline: 2px solid #06b;
 }
 
-.login-form input.error {
-    border: 1px solid #d93025;
+.inputerror {
+    outline: 2px solid #e42;
 }
 
-.textbox-container {
-    position: relative;
+.login-textbox {
     margin-bottom: 20px;
+}
+
+.pwd-textbox {
+    position: relative; /* Must be relative, so that the absolute position elements inside will be realtive to this element */
 }
 
 .show-hide-button {
@@ -62,15 +61,30 @@
     transform: translateY(-50%);
     background: none;
     border: none;
-    color: #0073b1;
+    color: #06b;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 16px;
+}
+
+.login-button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    background-color: #06b;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.login-button:hover {
+    background-color: #048;
 }
 
 .error-message {
-    color: #d93025;
-    font-size: 14px;
-    margin-bottom: 10px;
+    color: #e42;
+    font-size: 16px;
     text-align: left;
 }
 
@@ -79,14 +93,14 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f3f2ef;
+    background-color: #f6f6f6;
 }
 
 .loading-spinner {
     width: 50px;
     height: 50px;
-    border: 5px solid #f3f2ef;
-    border-top: 5px solid #0073b1;
+    border: 5px solid #f6f6f6;
+    border-top: 5px solid #06b;
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
@@ -95,6 +109,7 @@
     0% {
         transform: rotate(0deg);
     }
+
     100% {
         transform: rotate(360deg);
     }

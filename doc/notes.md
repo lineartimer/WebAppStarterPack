@@ -192,6 +192,9 @@ Containerizing the app:
 
 FROM nginx:alpine
 COPY . /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
 
 - Start Docker Desktop, then cd into the build folder and build the image:
 
@@ -463,6 +466,7 @@ public partial class Program { }
 - If no cookies are used by a website, a cookie consent form might not be needed. But a GDPR-compliant privacy policy is still a must
 - A good (and free) favicon generator: favicon.io/favicon-generator
 - On the Application tab of the browser's Developer Tools, the cookies and the content of the local storage can be checked
+- On the Network tab of the browser's Developer Tools, all the http communication between the frontend and the backend can be checked
 
 ## HTML
 

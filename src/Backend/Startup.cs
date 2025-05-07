@@ -52,7 +52,7 @@ public class Startup
         app.UseCors(_policy);
 
         app.UseHttpsRedirection();
-        //app.UseStaticFiles(); // This would serve static files (html, css, js etc.)
+        //app.UseStaticFiles(); // This would allow the backend to serve static files (html, css, js etc.)
         app.UseRouting();
 
         app.UseAuthentication();
@@ -168,7 +168,7 @@ public class Startup
             Audience = "backend"
         };
         services.AddSingleton(jwtSettings);
-
+        
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options =>
                     {

@@ -40,8 +40,8 @@ const Login = ({ loginCallBack }) => {
         setIsLoading(false);
 
         if (response.ok) {
-            const result = await response.json();
-            loginCallBack( result.token /* null */, username);
+            //const result = await response.json();
+            loginCallBack( /* result.token */ null, username);
             navigate("/");
         } else {
             setError(config.invalidUserNameOrPasswordError);

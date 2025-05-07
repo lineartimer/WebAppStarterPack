@@ -1,32 +1,16 @@
 import React, { useEffect, useState } from "react";
-import "./Home.css";
-import Table from "../../components/Table/Table";
 
-const backEndPortDev = 5000;
+import "./Home.css";
+import { getData } from "../../services/backend";
+import Table from "../../components/Table/Table";
 
 const Home = ({ token, username }) => {
     const [data, setData] = useState([]);
     const [showLogout, setShowLogout] = useState(false);
 
     useEffect(() => {
-        var protocol = window.location.protocol;
-        var server = window.location.hostname;
-    
-        var baseUrl = protocol + "//" + server;
-        if (server == "localhost") {
-            // Development environment
-            baseUrl += ":" + backEndPortDev;
-        }
-        else {
-            // Production environment
-            baseUrl = baseUrl.replace("frontend", "backend");
-        }
-
         const fetchData = async () => {
-            const response = await fetch(baseUrl + "/Data", {
-                method: "GET",
-                headers: { Authorization: `Bearer ${token}` },
-            });
+            var response = getData(token);
 
             if (response.ok) {
                 const result = await response.json();

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Login.css";
 
-const backEndPortDev = 5000;
+import "./Login.css";
+import { login } from "../../services/backend"
 
 const Login = ({ onLogin }) => {
     const [username, setUsername] = useState("");
@@ -38,26 +38,8 @@ const Login = ({ onLogin }) => {
         if (hasError) return;
 
         setIsLoading(true);
-
-        var protocol = window.location.protocol;
-        var server = window.location.hostname;
-    
-        var baseUrl = protocol + "//" + server;
-        if (server == "localhost") {
-            // Development environment
-            baseUrl += ":" + backEndPortDev;
-        }
-        else {
-            // Production environment
-            baseUrl = baseUrl.replace("frontend", "backend");
-        }
-
-        const loginPayload = { username, password };
-        const response = await fetch(baseUrl + "/Auth/Login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(loginPayload),
-        });
+        
+        var response = login(username, password);
 
         setIsLoading(false);
 

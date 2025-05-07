@@ -150,7 +150,7 @@ Supports scale based on traffic. If a container is not being used, it will scale
 
 Azure Container Instance: scale, load-balancing or certificates aren't provided.
 
-### .NET Core Web API (backend)
+### .NET Web API (backend)
 
 Creating an Azure Container Registry:
 - On the Azure Portal create a new container registry with a Basic pricing plan
@@ -197,7 +197,7 @@ COPY . /usr/share/nginx/html
 
 docker build --no-cache -t ca-frontend:latest --platform linux/amd64 .
 
-- (If you build it without specifying the platform, there will be an error in Azure while creating the container app)
+- (Building it without specifying the platform, will cause an error in Azure while creating the container app)
 - When the build is complete, check if it's working in Docker Desktop. Assign port 80 to the host port under optional settings, name the container frontend and run it. Open localhost in a browser to see if it's working
 - You can use ls -a in the yml file to see what's in a directory
 

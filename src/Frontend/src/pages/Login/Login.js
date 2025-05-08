@@ -7,7 +7,7 @@ import Logo from "../../components/Logo/Logo";
 import { login } from "../../services/backend";
 import config from "../../config/config";
 
-const Login = ({ loginCallBack }) => {
+const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
@@ -40,7 +40,7 @@ const Login = ({ loginCallBack }) => {
         setIsLoading(false);
 
         if (response.ok) {
-            loginCallBack(username);
+            localStorage.setItem("username", username);
             navigate("/");
         } else {
             setError(config.invalidUserNameOrPasswordError);

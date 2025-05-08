@@ -1,25 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { Outlet } from 'react-router-dom';
 
 import "./Layout.css"
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
 
-const Layout = ({ username, fullWidth }) => {
+const Layout = ({ fullWidth }) => {
     return (
         <div className={fullWidth ? "container-fluid" : "container"}>
-            <LayoutImpl username={username} fullWidth={fullWidth} />
+            <LayoutImpl fullWidth={fullWidth} />
         </div>
     );
 };
 
-const LayoutImpl = ({ username, fullWidth }) => {
+const LayoutImpl = ({ fullWidth }) => {
     var layoutClass = fullWidth ? "layout" : "layout border-shadow";
 
     return (
         <div className={layoutClass}>
             <header className={fullWidth ? "" : "sticky"}>
-                <Header username={username} />
+                <Header />
             </header>
             <main>
                 {/* Placeholder for the actual page */}

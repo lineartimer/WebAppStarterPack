@@ -3,17 +3,17 @@ import Logo from "../../components/Logo/Logo";
 import Navigation from "../../components/Navigation/Navigation";
 import User from "../../components/User/User";
 
-const Header = ({ username }) => {
+const Header = () => {
     return (
         <div className="row">
             <div className="col-4">
                 <Logo />
             </div>
             <div className="col-6">
-                <Navigation username={username} />
+                <Navigation />
             </div>
             <div className="col-2 user-wrapper">
-                <User username={username} />
+                <User />
             </div>
         </div>
     );

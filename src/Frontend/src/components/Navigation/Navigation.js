@@ -1,6 +1,10 @@
+import React, { useState } from "react";
+
 import "./Navigation.css";
 
-const Navigation = ({ username }) => {
+const Navigation = () => {
+    const [username] = useState(localStorage.getItem("username") || null);
+
     return (
         <div className="navigation">
             {username && (

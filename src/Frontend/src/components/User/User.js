@@ -4,10 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import "./User.css";
 import { logout } from "../../services/backend";
 
-const User = ({ username }) => {
+const User = () => {
+    const [username] = useState(localStorage.getItem("username") || null);
     const [showUserWindow, setShowUserWindow] = useState(false);
-    const navigate = useNavigate();
     const userWindowRef = useRef(null);
+    const navigate = useNavigate();
 
     // Make user window disappear when there's a click anywhere outside it
     const handleClickOutside = (event) => {

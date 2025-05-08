@@ -108,7 +108,7 @@ public class AuthController : ControllerBase
         var token = GenerateJwtToken(user, user.Role);
 
         // Put token in a secure, HTTP-only cookie
-        HttpContext.Response.Cookies.Append("AuthToken", token, new CookieOptions
+        HttpContext?.Response.Cookies.Append("AuthToken", token, new CookieOptions
         {
             HttpOnly = true, // Can't be accessed by JavaScript on the cilent side
             Secure = true, // Only sent over secure connections (HTTPS)

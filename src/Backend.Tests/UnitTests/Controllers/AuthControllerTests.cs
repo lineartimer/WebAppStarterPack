@@ -324,9 +324,6 @@ public class AuthControllerTests
 
         var result = Assert.IsType<BadRequestObjectResult>(response);
         Assert.NotNull(result.Value);
-
-        var tokenProperty = result.Value.GetType().GetProperty("Token");
-        Assert.Null(tokenProperty);
     }
 
     private async Task LoginExcpectUnauthorizedResponse(CredentialDto credentialDto)
@@ -337,9 +334,6 @@ public class AuthControllerTests
 
         var result = Assert.IsType<UnauthorizedObjectResult>(response);
         Assert.NotNull(result.Value);
-
-        var tokenProperty = result.Value.GetType().GetProperty("Token");
-        Assert.Null(tokenProperty);
     }
 
     private async Task LoginExcpectOkResponse(CredentialDto credentialDto)
@@ -348,16 +342,7 @@ public class AuthControllerTests
         
         var result = await auth.Login(credentialDto);
 
-        var okResult = Assert.IsType<OkObjectResult>(result);
-        Assert.NotNull(okResult.Value);
-
-        var tokenProperty = okResult.Value.GetType().GetProperty("Token");
-        Assert.NotNull(tokenProperty);
-
-        var tokenValue = tokenProperty.GetValue(okResult.Value)?.ToString();
-        Assert.NotNull(tokenValue);
-
-        Assert.True(tokenValue.Length > credentialDto.Password.Length);
+        var okResult = Assert.IsType<OkResult>(result);
     }
 
     private async Task SignUpExcpectBadRequestResponse(UserDto userDto)

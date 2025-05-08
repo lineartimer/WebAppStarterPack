@@ -38,7 +38,7 @@ const Data = () => {
         <div>
             {loading && (
                 <div className="loading-overlay">
-                    <div className="loading-spinner"></div>
+                    <div className="loading-spinner-transparent"></div>
                 </div>
             )}
             <Table data={data} />

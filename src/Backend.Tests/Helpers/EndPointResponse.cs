@@ -11,8 +11,10 @@ public class EndPointResponse
 
     public JsonElement Content { get; set; }
 
+    public string? AuthCookie { get; set; }
+
     public override string ToString()
     {
-        return $"Url: {Url},{Environment.NewLine}Status: {Status}{Environment.NewLine},{Environment.NewLine}Content: {Content}";
+        return $"Url: {Url},{Environment.NewLine}Status: {Status},{Environment.NewLine}Content: {Content},{Environment.NewLine}Authentication cookie: {AuthCookie}";
     }
 }

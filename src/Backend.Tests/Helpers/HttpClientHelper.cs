@@ -1,4 +1,3 @@
-using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -29,14 +28,14 @@ public class HttpClientHelper
         return await CallEndpointImpl(url, method, content, null, print);
     }
 
-    public async Task<EndPointResponse> CallEndpoint(string url, HttpMethod method, string token, bool print = false)
+    public async Task<EndPointResponse> CallEndpoint(string url, HttpMethod method, string authCookie, bool print = false)
     {
-        return await CallEndpointImpl(url, method, null, token, print);
+        return await CallEndpointImpl(url, method, null, authCookie, print);
     }
 
-    public async Task<EndPointResponse> CallEndpoint(string url, HttpMethod method, object content, string token, bool print = false)
+    public async Task<EndPointResponse> CallEndpoint(string url, HttpMethod method, object content, string authCookie, bool print = false)
     {
-        return await CallEndpointImpl(url, method, content, token, print);
+        return await CallEndpointImpl(url, method, content, authCookie, print);
     }
     
     public string? GetProperty(EndPointResponse response, string propertyname)
@@ -51,15 +50,11 @@ public class HttpClientHelper
         return property.GetString();
     }
 
-    private async Task<EndPointResponse> CallEndpointImpl(string url, HttpMethod method, object? content, string? token, bool print)
+    private async Task<EndPointResponse> CallEndpointImpl(string url, HttpMethod method, object? content, string? authCookie, bool print)
     {
-        if (token == null)
+        if(authCookie != null)
         {
-            _client.DefaultRequestHeaders.Authorization = null;
-        }
-        else
-        {
-            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            _client.DefaultRequestHeaders.Add("Cookie", authCookie);
         }
 
         var contentStr = (content == null) ? null : new StringContent(JsonSerializer.Serialize(content), Encoding.UTF8, "application/json");
@@ -88,7 +83,8 @@ public class HttpClientHelper
         {
             Url = url,
             Status = response.StatusCode,
-            Content = JsonSerializer.Deserialize<JsonElement>(string.IsNullOrEmpty(responseStr) ? "{}" : responseStr)
+            Content = JsonSerializer.Deserialize<JsonElement>(string.IsNullOrEmpty(responseStr) ? "{}" : responseStr),
+            AuthCookie = response.Headers.Contains("Set-Cookie") ? response.Headers.GetValues("Set-Cookie")?.FirstOrDefault() : null
         };
 
         if (print)

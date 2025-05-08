@@ -15,16 +15,16 @@ public class DataControllerTests : IClassFixture<WebAppStarterPackFactory<Progra
     }
 
     [Fact]
-    public async Task UnauthorizedAccess_ShouldReturnUnauthorized_WithNoToken_ForCommonUser()
+    public async Task UnauthorizedAccess_ShouldReturnUnauthorized_WithNoCookie_ForCommonUser()
     {
         var result = await _client.CallEndpoint("/Data", HttpMethod.Get);
         Assert.Equal(HttpStatusCode.Unauthorized, result.Status);
     }
 
     [Fact]
-    public async Task UnauthorizedAccess_ShouldReturnUnauthorized_WithWrongToken_ForCommonUser()
+    public async Task UnauthorizedAccess_ShouldReturnUnauthorized_WithInvalidCookie_ForCommonUser()
     {
-        var result = await _client.CallEndpoint("/Data", HttpMethod.Get, "wrongtoken");
+        var result = await _client.CallEndpoint("/Data", HttpMethod.Get, TestDataHelper.GetInvalidAuthCookie());
         Assert.Equal(HttpStatusCode.Unauthorized, result.Status);
     }
 
@@ -37,11 +37,11 @@ public class DataControllerTests : IClassFixture<WebAppStarterPackFactory<Progra
             Password = "password1"
         };
 
-        var response = await _client.CallEndpoint("/Auth/Login", HttpMethod.Post, loginDto);
-        var token = _client.GetProperty(response, "token");
-        Assert.NotNull(token);
+        var loginResponse = await _client.CallEndpoint("/Auth/Login", HttpMethod.Post, loginDto);
+        Assert.NotNull(loginResponse.AuthCookie);
+        Assert.NotEqual(string.Empty, loginResponse.AuthCookie);
 
-        var result = await _client.CallEndpoint("/Data", HttpMethod.Get, token);
+        var result = await _client.CallEndpoint("/Data", HttpMethod.Get, loginResponse.AuthCookie);
         Assert.Equal(HttpStatusCode.OK, result.Status);
         Assert.True(result.Content.GetArrayLength() > 0);
     }
@@ -55,11 +55,11 @@ public class DataControllerTests : IClassFixture<WebAppStarterPackFactory<Progra
             Password = "password3"
         };
         
-        var response = await _client.CallEndpoint("/Auth/Login", HttpMethod.Post, loginDto);
-        var token = _client.GetProperty(response, "token");
-        Assert.NotNull(token);
+        var loginResponse = await _client.CallEndpoint("/Auth/Login", HttpMethod.Post, loginDto);
+        Assert.NotNull(loginResponse.AuthCookie);
+        Assert.NotEqual(string.Empty, loginResponse.AuthCookie);
 
-        var result = await _client.CallEndpoint("/Data", HttpMethod.Get, token);
+        var result = await _client.CallEndpoint("/Data", HttpMethod.Get, loginResponse.AuthCookie);
         Assert.Equal(HttpStatusCode.OK, result.Status);
         Assert.True(result.Content.GetArrayLength() > 0);
     }

@@ -4,7 +4,7 @@ import DOMPurify from "dompurify";
 
 import "./Login.css";
 import Logo from "../../components/Logo/Logo";
-import { login } from "../../services/backend";
+import { login, responseStatus } from "../../services/backend";
 import config from "../../config/config";
 
 const Login = () => {
@@ -39,11 +39,17 @@ const Login = () => {
         const response = await login(cleanUsername, cleanPassword);
         setIsLoading(false);
 
-        if (response.ok) {
+        if (response.status == responseStatus.Ok) {
             localStorage.setItem("username", username);
-            navigate("/");
-        } else {
+
+            var loginRedirectUrl = localStorage.getItem("loginRedirectUrl") || null;
+            navigate(loginRedirectUrl ? loginRedirectUrl : "/");
+        } else if (response.status == responseStatus.UnAuthorized) {
             setError(config.invalidUserNameOrPasswordError);
+        }
+        else {
+            localStorage.removeItem("loginRedirectUrl");
+            navigate("/Error");
         }
     };
 

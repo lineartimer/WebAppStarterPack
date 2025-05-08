@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import "./App.css"
 import Data from "./pages/Data/Data";
+import Error from "./pages/Error/Error";
 import Home from "./pages/Home/Home";
 import Layout from "./pages/Layout/Layout";
 import Login from "./pages/Login/Login";
@@ -12,6 +13,7 @@ const App = () => {
         <Router>
             <Routes>
                 <Route path="/Login" element={<Login />} />
+                <Route path="/Error" element={<Error />} />
 
                 {/* Put common elements on the Layout page: full-width pages */}
                 <Route path="/" element={<Layout fullWidth={true} />} >

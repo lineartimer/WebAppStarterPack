@@ -4,7 +4,7 @@ Web Application Starter Pack
 # Environment
 
 - VS Code
-- VS Code extensions (C# Dev Kit, SQL Server, JavaScript Debugger, GitHub Copilot/Chat, Azure App Service, Azure Container Apps, Docker)
+- VS Code extensions (C#/C# Dev Kit, JavaScript Debugger, GitHub Copilot/Chat, Azure Resources/App Service/Container Apps, Docker)
 - .NET SDK
 - Node.js
 - Docker Desktop

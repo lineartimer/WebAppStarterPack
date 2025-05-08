@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Outlet } from 'react-router-dom';
 
 import "./Layout.css"
@@ -14,11 +14,29 @@ const Layout = ({ fullWidth }) => {
 };
 
 const LayoutImpl = ({ fullWidth }) => {
+    const [scrolled, setScrolled] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 0) {
+                setScrolled(true);
+            } else {
+                setScrolled(false);
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll);
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, []);
+
     var layoutClass = fullWidth ? "layout" : "layout border-shadow";
+    var headerClass = `${fullWidth ? "" : "sticky"} ${scrolled ? "scrolled" : ""}`;
 
     return (
         <div className={layoutClass}>
-            <header className={fullWidth ? "" : "sticky"}>
+            <header className={headerClass}>
                 <Header />
             </header>
             <main>

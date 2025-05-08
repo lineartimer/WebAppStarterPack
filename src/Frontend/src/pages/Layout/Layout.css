@@ -38,6 +38,10 @@ header a, header a:hover {
     left: 0;
 }
 
+.scrolled {
+    border-bottom: 1px solid #ccc;
+}
+
 main {
     flex-grow: 1; /* Take up available space */
     padding: 0 20px 0 20px;

@@ -116,7 +116,7 @@ public class AuthController : ControllerBase
             Expires = DateTime.UtcNow.AddDays(7)
         });
 
-        return Ok();
+        return Ok(new { Role = user.Role.Name });
     }
 
     [HttpPost("Logout")]

@@ -2,42 +2,40 @@ import getBaseUrl from "../utils/getBaseUrl";
 
 export const responseStatus = {
     Ok: 200,
+    BadRequest: 400,
     UnAuthorized: 401,
+    Forbidden: 403,
     NotFound: 404,
     InternalServerError: 500
 };
 
-export const login = async (username, password) => {
-    const response = await fetch(`${getBaseUrl()}/Auth/Login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
-        credentials: "include"
-    });
-    
-    return await processResponse(response);
+export const httpMethods = {
+    Get: "GET",
+    Post: "POST",
+    Put: "PUT",
+    Delete: "DELETE"
 };
 
-export const logout = async () => {
-    await fetch(`${getBaseUrl()}/Auth/Logout`, {
-        method: "POST",
-        credentials: "include"
-    });
-};
+export const callEndPoint = async (url, method, payload = null) => {
+    var request = {
+        method: method,
+        credentials: "include" // Include the http-only authentication cookie in the request
+    };
 
-export const getData = async () => {
-    const response = await fetch(getBaseUrl() + "/Data", {
-        method: "GET",
-        credentials: "include"
-    });
+    if(method != httpMethods.Get && payload) {
+        request.headers = { "Content-Type": "application/json" };
+        request.body = JSON.stringify(payload);
+    }
+
+    const response = await fetch(getBaseUrl() + url, request);
     
     return await processResponse(response);
-};
+}
 
 const processResponse = async (response) => {
     var result = {
         status: null,
-        data: null
+        payload: null
     };
 
     if(response)
@@ -46,9 +44,9 @@ const processResponse = async (response) => {
         if(response.ok)
         {
             try {
-                result.data = await response.json();
+                result.payload = await response.json();
             }
-            catch(e) { /* No body in response - not necessarily bad */ }
+            catch(e) { /* No body in response: not necessarily bad */ }
         }
     }
     else {

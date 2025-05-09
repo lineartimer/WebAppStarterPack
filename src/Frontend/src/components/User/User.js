@@ -1,11 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
 
 import "./User.css";
-import { logout } from "../../services/backend";
+import { callEndPoint, httpMethods } from "../../services/backend";
 
 const User = () => {
     const [username] = useState(localStorage.getItem("username") || null);
+    const [role] = useState(localStorage.getItem("role") || null);
     const [showUserWindow, setShowUserWindow] = useState(false);
     const [loggingOut, setLoggingOut] = useState(false);
     const userWindowRef = useRef(null);
@@ -27,8 +28,10 @@ const User = () => {
 
     const onLogout = async () => {
         setLoggingOut(true);
-        await logout();
+
+        await callEndPoint("/Auth/Logout", httpMethods.Post);
         localStorage.removeItem("username");
+        localStorage.removeItem("role");
 
         navigate("/");
         window.location.reload();
@@ -52,6 +55,9 @@ const User = () => {
             )}
             {showUserWindow && (
                 <div className="user-window">
+                    {role == "Admin" && (
+                        <div className="user-role">Role: {role}</div>
+                    )}
                     <a href="#" onClick={onLogout}>Logout</a>
                 </div>
             )}

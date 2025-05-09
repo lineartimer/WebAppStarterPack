@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import DOMPurify from "dompurify";
 
 import "./Login.css";
 import Logo from "../../components/Logo/Logo";
-import { login, responseStatus } from "../../services/backend";
+import { callEndPoint, httpMethods, responseStatus } from "../../services/backend";
 import config from "../../config/config";
 
 const Login = () => {
@@ -24,32 +24,34 @@ const Login = () => {
     const onLogin = async (e) => {
         e.preventDefault();
 
-        setUsernameError(username ? "" : config.userNameMissingError);
-        setPasswordError(password ? "" : config.passwordMissingError);
+        setUsernameError(username ? "" : config.errorMessages.userNameMissingError);
+        setPasswordError(password ? "" : config.errorMessages.passwordMissingError);
 
         if (!username || !password) {
             return;
         }
 
-        // Sanitize input to prevent XSS (Cross-Site Scripting attacks)
-        var cleanUsername = DOMPurify.sanitize(username);
-        var cleanPassword = DOMPurify.sanitize(password);
-
         setIsLoading(true);
-        const response = await login(cleanUsername, cleanPassword);
+        const response = await callEndPoint(config.backendUrls.login, httpMethods.Post, {
+            // Sanitize input to prevent XSS (Cross-Site Scripting attacks)
+            username: DOMPurify.sanitize(username),
+            password: DOMPurify.sanitize(password)
+        })
         setIsLoading(false);
+
+        var loginRedirectUrl = localStorage.getItem("loginRedirectUrl") || null;
+        localStorage.removeItem("loginRedirectUrl");
 
         if (response.status == responseStatus.Ok) {
             localStorage.setItem("username", username);
+            localStorage.setItem("role", response.payload.role);
 
-            var loginRedirectUrl = localStorage.getItem("loginRedirectUrl") || null;
-            navigate(loginRedirectUrl ? loginRedirectUrl : "/");
+            navigate(loginRedirectUrl ? loginRedirectUrl : config.frontendUrls.homePage);
         } else if (response.status == responseStatus.UnAuthorized) {
-            setError(config.invalidUserNameOrPasswordError);
+            setError(config.errorMessages.invalidUserNameOrPasswordError);
         }
         else {
-            localStorage.removeItem("loginRedirectUrl");
-            navigate("/Error");
+            navigate(config.frontendUrls.errorPage);
         }
     };
 
@@ -70,7 +72,7 @@ const Login = () => {
                     <form className="login-form" onSubmit={onLogin}>
                         <h2>Sign in</h2>
                         <div className="login-textbox">
-                            <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} className={usernameError ? "inputerror" : ""} />
+                            <input type="text" placeholder="Username" value={username} autoFocus onChange={(e) => setUsername(e.target.value)} className={usernameError ? "inputerror" : ""} />
                             {usernameError && <div className="error-message">{usernameError}</div>}
                         </div>
                         <div>

@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import "./Data.css";
-import Table from "../../components/Table/Table";
-import { callEndPoint, httpMethods, responseStatus } from "../../services/backend";
+import "./Admin.css";
+import { callEndPoint, responseStatus, httpMethods } from "../../services/backend";
 import config from "../../config/config";
 
-const Data = () => {
+const Admin = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
@@ -14,16 +13,20 @@ const Data = () => {
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
-            var response = await callEndPoint(config.backendUrls.data, httpMethods.Get);
+            var response = await callEndPoint(config.backendUrls.admin, httpMethods.Get);
             setLoading(false);
 
             if(response.status) {
                 if(response.status == responseStatus.Ok) {
-                    setData(response.payload);
+                    setData(response.payload.message);
                 }
                 else if(response.status == responseStatus.UnAuthorized) {
-                    localStorage.setItem("loginRedirectUrl", config.frontendUrls.dataPage);
+                    localStorage.setItem("loginRedirectUrl", config.frontendUrls.adminPage);
                     navigate(config.frontendUrls.loginPage);
+                }
+                else if(response.status == responseStatus.Forbidden) {
+                    localStorage.setItem("loginRedirectUrl", config.frontendUrls.homePage);
+                    navigate(config.frontendUrls.homePage);
                 }
                 else {
                     navigate(config.frontendUrls.errorPage);
@@ -41,9 +44,15 @@ const Data = () => {
                     <div className="loading-spinner-transparent"></div>
                 </div>
             )}
-            <Table data={data} />
+            <div className="main">
+                <div className="row">
+                    <div className="col-12">
+                        <div className="description">{data}</div>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };
 
-export default Data;
+export default Admin;

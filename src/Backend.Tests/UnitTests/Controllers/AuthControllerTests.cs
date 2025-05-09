@@ -342,7 +342,17 @@ public class AuthControllerTests
         
         var result = await auth.Login(credentialDto);
 
-        var okResult = Assert.IsType<OkResult>(result);
+        var okResult = Assert.IsType<OkObjectResult>(result);
+        Assert.NotNull(okResult);
+        Assert.NotNull(okResult.Value);
+
+        var roleProperty = okResult.Value.GetType().GetProperty("Role");
+        Assert.NotNull(roleProperty);
+        
+        var roleValue = roleProperty.GetValue(okResult.Value)?.ToString();
+        Assert.NotNull(roleValue);
+
+        Assert.True(roleValue.Length > 0);
     }
 
     private async Task SignUpExcpectBadRequestResponse(UserDto userDto)

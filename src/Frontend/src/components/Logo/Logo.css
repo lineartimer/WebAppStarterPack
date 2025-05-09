@@ -28,3 +28,10 @@
     border-radius: 4px;
     background-color: #06b;
 }
+
+/* Adjustments for mobile phones */
+@media only screen and (max-device-width: 390px) and (max-device-height: 844px) and (-webkit-device-pixel-ratio: 3) {
+    .logo {
+        font-size: 72px;
+    }
+}

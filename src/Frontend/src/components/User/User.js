@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
 
 import "./User.css";
-import { callEndPoint, httpMethods } from "../../services/backend";
+import { callEndPoint, httpMethods } from "../../services/http";
 
 const User = () => {
     const [username] = useState(localStorage.getItem("username") || null);

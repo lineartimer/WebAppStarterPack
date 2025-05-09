@@ -1,17 +1,20 @@
-const config = {
-    backEndPortDev: 5000,
-    frontendUrls: {
+export const backend = {
+    portDev: 5000,
+    urls: {
+        login: "/Auth/Login",
+        logout: "/Auth/Logout",
+        admin: "/Admin",
+        data: "/Data"
+    }
+};
+
+export const frontend = {
+    urls: {
         homePage: "/",
         loginPage: "/Login",
         adminPage: "/Admin",
         dataPage: "/Data",
         errorPage: "/Error"
-    },
-    backendUrls: {
-        login: "/Auth/Login",
-        logout: "/Auth/Logout",
-        admin: "/Admin",
-        data: "/Data"
     },
     errorMessages: {
         userNameMissingError: "Please enter your username.",
@@ -20,10 +23,8 @@ const config = {
         failedToGetData: "Failed to get data.",
         generalError: {
             line1: "❌ An error occured we couldn't recover from.",
-            line2: "✅ Please try again reloading the site later.",
+            line2: "✅ Please try again reloading the page later.",
             line3: "😢 We're sorry for the inconvenience."
         }
     }
 };
-
-export default config;

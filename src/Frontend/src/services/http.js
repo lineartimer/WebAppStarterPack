@@ -16,7 +16,7 @@ export const httpMethods = {
     Delete: "DELETE"
 };
 
-export const callEndPoint = async (url, method, payload = null) => {
+export const callEndPoint = async (url, method, payload = null, timeout = 10000) => {
     var request = {
         method: method,
         credentials: "include" // Include the http-only authentication cookie in the request
@@ -27,10 +27,22 @@ export const callEndPoint = async (url, method, payload = null) => {
         request.body = JSON.stringify(payload);
     }
 
-    const response = await fetch(getBaseUrl() + url, request);
+    var response;
+
+    try {
+        const fetchCaller = async () => fetch(getBaseUrl() + url, request);
+
+        response = await invoke(fetchCaller, timeout, url, request);
+    } catch (e) {}
     
     return await processResponse(response);
 }
+
+const invoke = async (func, timeout, ...args) => {
+    return Promise.race([func(...args), new Promise((_, reject) =>
+        setTimeout(() => reject(new Error()), timeout)
+    )]);
+};
 
 const processResponse = async (response) => {
     var result = {
@@ -46,7 +58,8 @@ const processResponse = async (response) => {
             try {
                 result.payload = await response.json();
             }
-            catch(e) { /* No body in response: not necessarily bad */ }
+            // No body in response: not necessarily bad
+            catch(e) {}
         }
     }
     else {

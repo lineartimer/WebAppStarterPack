@@ -4,8 +4,8 @@ import DOMPurify from "dompurify";
 
 import "./Login.css";
 import Logo from "../../components/Logo/Logo";
-import { callEndPoint, httpMethods, responseStatus } from "../../services/backend";
-import config from "../../config/config";
+import { callEndPoint, httpMethods, responseStatus } from "../../services/http";
+import { backend, frontend } from "../../config/config";
 
 const Login = () => {
     const [username, setUsername] = useState("");
@@ -24,15 +24,15 @@ const Login = () => {
     const onLogin = async (e) => {
         e.preventDefault();
 
-        setUsernameError(username ? "" : config.errorMessages.userNameMissingError);
-        setPasswordError(password ? "" : config.errorMessages.passwordMissingError);
+        setUsernameError(username ? "" : frontend.errorMessages.userNameMissingError);
+        setPasswordError(password ? "" : frontend.errorMessages.passwordMissingError);
 
         if (!username || !password) {
             return;
         }
 
         setIsLoading(true);
-        const response = await callEndPoint(config.backendUrls.login, httpMethods.Post, {
+        const response = await callEndPoint(backend.urls.login, httpMethods.Post, {
             // Sanitize input to prevent XSS (Cross-Site Scripting attacks)
             username: DOMPurify.sanitize(username),
             password: DOMPurify.sanitize(password)
@@ -46,12 +46,12 @@ const Login = () => {
             localStorage.setItem("username", username);
             localStorage.setItem("role", response.payload.role);
 
-            navigate(loginRedirectUrl ? loginRedirectUrl : config.frontendUrls.homePage);
+            navigate(loginRedirectUrl ? loginRedirectUrl : frontend.urls.homePage);
         } else if (response.status == responseStatus.UnAuthorized) {
             setError(config.errorMessages.invalidUserNameOrPasswordError);
         }
         else {
-            navigate(config.frontendUrls.errorPage);
+            navigate(frontend.urls.errorPage);
         }
     };
 

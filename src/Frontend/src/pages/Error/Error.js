@@ -1,6 +1,6 @@
 import "./Error.css";
 import Logo from "../../components/Logo/Logo"
-import config from "../../config/config";
+import { frontend } from "../../config/config";
 
 const Error = () => {
     return (
@@ -11,15 +11,15 @@ const Error = () => {
             <div className="row error">
                 <div className="col-12">
                     <div className="error-description">
-                        {config.errorMessages.generalError.line1}
+                        {frontend.errorMessages.generalError.line1}
                     </div>
                     <div className="error-description">
-                        {config.errorMessages.generalError.line2}
+                        {frontend.errorMessages.generalError.line2}
                     </div>
                     <div className="error-description">
-                        {config.errorMessages.generalError.line3}
+                        {frontend.errorMessages.generalError.line3}
                     </div>
-                    <a href={config.frontendUrls.homePage}>Back</a>
+                    <a href={frontend.urls.homePage}>Back</a>
                 </div>
             </div>
         </div>

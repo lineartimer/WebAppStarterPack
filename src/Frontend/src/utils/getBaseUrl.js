@@ -1,4 +1,4 @@
-import config from "../config/config";
+import { backend } from "../config/config";
 
 const getBaseUrl = () => {
     const server = window.location.hostname;
@@ -6,7 +6,7 @@ const getBaseUrl = () => {
     let baseUrl = `https://${server}`;
     if (server === "localhost") {
         // Development environment
-        baseUrl += `:${config.backEndPortDev}`;
+        baseUrl += `:${backend.portDev}`;
     } else {
         // Production environment
         baseUrl = baseUrl.replace("frontend", "backend");

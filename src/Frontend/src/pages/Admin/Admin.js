@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import "./Admin.css";
-import { callEndPoint, responseStatus, httpMethods } from "../../services/backend";
-import config from "../../config/config";
+import { callEndPoint, responseStatus, httpMethods } from "../../services/http";
+import { backend, frontend } from "../../config/config";
 
 const Admin = () => {
     const [data, setData] = useState([]);
@@ -13,7 +13,7 @@ const Admin = () => {
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
-            var response = await callEndPoint(config.backendUrls.admin, httpMethods.Get);
+            var response = await callEndPoint(backend.urls.admin, httpMethods.Get);
             setLoading(false);
 
             if(response.status) {
@@ -21,15 +21,15 @@ const Admin = () => {
                     setData(response.payload.message);
                 }
                 else if(response.status == responseStatus.UnAuthorized) {
-                    localStorage.setItem("loginRedirectUrl", config.frontendUrls.adminPage);
-                    navigate(config.frontendUrls.loginPage);
+                    localStorage.setItem("loginRedirectUrl", frontend.urls.adminPage);
+                    navigate(frontend.urls.loginPage);
                 }
                 else if(response.status == responseStatus.Forbidden) {
-                    localStorage.setItem("loginRedirectUrl", config.frontendUrls.homePage);
-                    navigate(config.frontendUrls.homePage);
+                    localStorage.setItem("loginRedirectUrl", frontend.urls.homePage);
+                    navigate(frontend.urls.homePage);
                 }
                 else {
-                    navigate(config.frontendUrls.errorPage);
+                    navigate(frontend.urls.errorPage);
                 }
             }
         };

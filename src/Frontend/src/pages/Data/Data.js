@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 
 import "./Data.css";
 import Table from "../../components/Table/Table";
-import { callEndPoint, httpMethods, responseStatus } from "../../services/backend";
-import config from "../../config/config";
+import { f1, callEndPoint, httpMethods, responseStatus } from "../../services/http";
+import { backend, frontend } from "../../config/config";
 
 const Data = () => {
     const [data, setData] = useState([]);
@@ -14,7 +14,7 @@ const Data = () => {
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
-            var response = await callEndPoint(config.backendUrls.data, httpMethods.Get);
+            var response = await callEndPoint(backend.urls.data, httpMethods.Get);
             setLoading(false);
 
             if(response.status) {
@@ -22,11 +22,11 @@ const Data = () => {
                     setData(response.payload);
                 }
                 else if(response.status == responseStatus.UnAuthorized) {
-                    localStorage.setItem("loginRedirectUrl", config.frontendUrls.dataPage);
-                    navigate(config.frontendUrls.loginPage);
+                    localStorage.setItem("loginRedirectUrl", frontend.urls.dataPage);
+                    navigate(frontend.urls.loginPage);
                 }
                 else {
-                    navigate(config.frontendUrls.errorPage);
+                    navigate(frontend.urls.errorPage);
                 }
             }
         };

@@ -42,7 +42,7 @@ input:focus {
     outline: 2px solid #06b;
 }
 
-.inputerror {
+.input-error {
     outline: 2px solid #e42;
 }
 
@@ -103,4 +103,48 @@ input:focus {
     border-top: 5px solid #06b;
     border-radius: 50%;
     animation: spin 1s linear infinite;
+}
+
+/* For mobile devices */
+.mobile h2 {
+    font-size: 36px;
+}
+
+.mobile input {
+    padding: 20px;
+    font-size: 20px;
+    outline: 2px solid #222;
+}
+
+.mobile input:focus {
+    border: none;
+    outline: 4px solid #06b;
+}
+
+.login-form-mobile {
+    width: 600px;
+}
+
+.input-error-mobile {
+    outline: 4px solid #e42 !important;
+}
+
+.show-hide-button-mobile {
+    font-size: 20px;
+}
+
+.login-button-mobile {
+    padding: 20px;
+    font-size: 20px;
+}
+
+.error-message-mobile {
+    font-size: 20px;
+}
+
+.loading-spinner-mobile {
+    width: 120px;
+    height: 120px;
+    border-width: 16px;
+    border-top-width: 16px;
 }

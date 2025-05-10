@@ -8,6 +8,7 @@
     font-size: 40px;
     font-weight: 400;
     color: #466;
+    white-space: nowrap;
 }
 
 .loading-overlay {
@@ -48,4 +49,11 @@
     margin: 0 !important;
     padding: 20px;
     font-size: 32px !important;
+}
+
+.loading-spinner-transparent-mobile {
+    width: 120px;
+    height: 120px;
+    border-width: 16px;
+    border-top-width: 16px;
 }

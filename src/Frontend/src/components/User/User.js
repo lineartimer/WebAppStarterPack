@@ -78,6 +78,9 @@ const User = ({isMobile}) => {
                                 <button className="x" onClick={xClick}>✖</button>
                             </div>
                             <div className="mobile-menu-item">{username}</div>
+                            {!username && (
+                                <a className={isMobile ? "mobile-menu-item login-or-out" : ""} href="/Login">Login</a>
+                            )}
                         </div>
                     )}
                     {role == "Admin" && (
@@ -88,7 +91,9 @@ const User = ({isMobile}) => {
                     {isMobile && (
                         <Navigation isMobile={isMobile} />
                     )}
-                    <a className={isMobile ? "mobile-menu-item logout" : ""} href="#" onClick={onLogout}>Logout</a>
+                    {username && (
+                        <a className={isMobile ? "mobile-menu-item login-or-out" : ""} href="#" onClick={onLogout}>Logout</a>
+                    )}
                 </div>
             )}
         </div>

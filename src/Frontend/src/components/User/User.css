@@ -63,10 +63,10 @@
     border: none;
 }
 
-.logout {
+.login-or-out {
     color: #06b;
 }
 
-.logout:hover {
+.login-or-out:hover {
     background-color: white !important;
 }

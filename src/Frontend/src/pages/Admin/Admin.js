@@ -5,7 +5,7 @@ import "./Admin.css";
 import { callEndPoint, responseStatus, httpMethods } from "../../services/http";
 import { backend, frontend } from "../../config/config";
 
-const Admin = () => {
+const Admin = ({isMobile}) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
@@ -41,7 +41,7 @@ const Admin = () => {
         <div>
             {loading && (
                 <div className="loading-overlay">
-                    <div className="loading-spinner-transparent"></div>
+                    <div className={isMobile ? "loading-spinner-transparent loading-spinner-transparent-mobile" : "loading-spinner-transparent"}></div>
                 </div>
             )}
             <div className="main">

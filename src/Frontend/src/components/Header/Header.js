@@ -3,18 +3,32 @@ import Logo from "../../components/Logo/Logo";
 import Navigation from "../../components/Navigation/Navigation";
 import User from "../../components/User/User";
 
-const Header = () => {
+const Header = ({isMobile}) => {
     return (
-        <div className="row">
-            <div className="col-4">
-                <Logo />
-            </div>
-            <div className="col-6">
-                <Navigation />
-            </div>
-            <div className="col-2 user-wrapper">
-                <User />
-            </div>
+        <div>
+            {!isMobile && (
+                <div className="row">
+                    <div className="col-5">
+                        <Logo isMobile={isMobile} />
+                    </div>
+                    <div className="col-5">
+                        <Navigation isMobile={isMobile}/>
+                    </div>
+                    <div className="col-2 user-wrapper">
+                        <User isMobile={isMobile} />
+                    </div>
+                </div>
+            )}
+            {isMobile && (
+                <div className="row">
+                    <div className="col-10">
+                        <Logo isMobile={isMobile} />
+                    </div>
+                    <div className="col-2 user-wrapper">
+                        <User isMobile={isMobile} />
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

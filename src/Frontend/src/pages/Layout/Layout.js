@@ -15,6 +15,7 @@ const Layout = ({ fullWidth }) => {
 
 const LayoutImpl = ({ fullWidth }) => {
     const [scrolled, setScrolled] = useState(false);
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -25,9 +26,16 @@ const LayoutImpl = ({ fullWidth }) => {
             }
         };
 
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+
         window.addEventListener("scroll", handleScroll);
+        window.addEventListener("resize", handleResize);
+
         return () => {
             window.removeEventListener("scroll", handleScroll);
+            window.removeEventListener("resize", handleResize);
         };
     }, []);
 
@@ -37,7 +45,7 @@ const LayoutImpl = ({ fullWidth }) => {
     return (
         <div className={layoutClass}>
             <header className={headerClass}>
-                <Header />
+                <Header isMobile={isMobile} />
             </header>
             <main>
                 {/* Placeholder for the actual page */}

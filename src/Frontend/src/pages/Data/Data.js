@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import "./Data.css";
 import Table from "../../components/Table/Table";
-import { f1, callEndPoint, httpMethods, responseStatus } from "../../services/http";
+import { callEndPoint, httpMethods, responseStatus } from "../../services/http";
 import { backend, frontend } from "../../config/config";
 
 const Data = () => {

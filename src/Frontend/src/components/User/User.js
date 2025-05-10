@@ -2,9 +2,10 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
 
 import "./User.css";
+import Navigation from "../../components/Navigation/Navigation";
 import { callEndPoint, httpMethods } from "../../services/http";
 
-const User = () => {
+const User = ({isMobile}) => {
     const [username] = useState(localStorage.getItem("username") || null);
     const [role] = useState(localStorage.getItem("role") || null);
     const [showUserWindow, setShowUserWindow] = useState(false);
@@ -12,15 +13,16 @@ const User = () => {
     const userWindowRef = useRef(null);
     const navigate = useNavigate();
 
-    // Make user window disappear when clicking anywhere outside it
-    const handleClickOutside = (event) => {
-        if (userWindowRef.current && !userWindowRef.current.contains(event.target)) {
-            setShowUserWindow(false);
-        }
-    };
-
     useEffect(() => {
+        // Make user window disappear when clicking anywhere outside it
+        const handleClickOutside = (event) => {
+            if (userWindowRef.current && !userWindowRef.current.contains(event.target)) {
+                setShowUserWindow(false);
+            }
+        };
+        
         document.addEventListener("mousedown", handleClickOutside);
+
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
@@ -37,28 +39,56 @@ const User = () => {
         window.location.reload();
     };
 
+    const hamburgerClick = () => {
+        setShowUserWindow(true);
+    };
+
+    const xClick = () => {
+        setShowUserWindow(false);
+    };
+
     return (
-        <div className="user" ref={userWindowRef}>
+        <div className={isMobile ? "" : "user-desktop"} ref={userWindowRef}>
             {loggingOut && (
                 <div className="loading-overlay">
                     <div className="loading-spinner-transparent"></div>
                 </div>
             )}
-            {username && (
-                <a href="#" onClick={(e) => {
-                    e.preventDefault();
-                    setShowUserWindow(!showUserWindow);
-                }}>{username}</a>
+            {!isMobile && (
+                <div>
+                    {username && (
+                        <a href="#" onClick={(e) => {
+                            e.preventDefault();
+                            setShowUserWindow(!showUserWindow);
+                        }}>{username}</a>
+                    )}
+                    {!username && (
+                        <a href="/Login">Login</a>
+                    )}
+                </div>
             )}
-            {!username && (
-                <a href="/Login">Login</a>
+            {isMobile && (
+                <button className="hamburger" onClick={hamburgerClick}>☰</button>
             )}
             {showUserWindow && (
-                <div className="user-window">
-                    {role == "Admin" && (
-                        <div className="user-role">Role: {role}</div>
+                <div className={isMobile ? "user-window-mobile" : "user-window-desktop"}>
+                    {isMobile && (
+                        <div>
+                            <div className="x-wrapper">
+                                <button className="x" onClick={xClick}>✖</button>
+                            </div>
+                            <div className="mobile-menu-item">{username}</div>
+                        </div>
                     )}
-                    <a href="#" onClick={onLogout}>Logout</a>
+                    {role == "Admin" && (
+                        <div className={isMobile ? "mobile-menu-item" : ""}>
+                            <div className="user-role">Role: {role}</div>
+                        </div>
+                    )}
+                    {isMobile && (
+                        <Navigation isMobile={isMobile} />
+                    )}
+                    <a className={isMobile ? "mobile-menu-item logout" : ""} href="#" onClick={onLogout}>Logout</a>
                 </div>
             )}
         </div>

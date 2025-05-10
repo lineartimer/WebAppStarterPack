@@ -1,4 +1,4 @@
-.user {
+.user-desktop {
     position: relative;
 }
 
@@ -11,7 +11,7 @@
     text-decoration: underline;
 }
 
-.user-window {
+.user-window-desktop {
     position: absolute;
     width: 200px;
     transform: translateX(-163px);
@@ -26,4 +26,47 @@
 
 .user-role {
     text-align: left;
+}
+
+/* For mobile devices */
+.hamburger {
+    vertical-align: middle;
+    transform:translateY(-0.13em);
+    font-size: 64px;
+    line-height: 0em;
+    background: none;
+    border: none;
+}
+
+.user-window-mobile {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: white;
+}
+
+.user-window-mobile a:hover {
+    background-color: #f6f6f6;
+}
+
+.x-wrapper {
+    padding: 20px;
+    text-align: right;
+    color: white;
+}
+
+.x {
+    font-size: 40px;
+    background: none;
+    border: none;
+}
+
+.logout {
+    color: #06b;
+}
+
+.logout:hover {
+    background-color: white !important;
 }

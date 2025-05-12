@@ -115,27 +115,9 @@ input:focus {
     border-top-width: 12px;
 }
 
-.mobile h2 {
-    font-size: 36px;
-}
-
 .mobile input {
     padding: 20px;
     font-size: 20px;
-    outline: 2px solid #222;
-}
-
-.mobile input:focus {
-    border: none;
-    outline: 4px solid #06b;
-}
-
-.login-form-mobile {
-    width: 600px;
-}
-
-.input-error-mobile {
-    outline: 4px solid #e42 !important;
 }
 
 .show-hide-button-mobile {

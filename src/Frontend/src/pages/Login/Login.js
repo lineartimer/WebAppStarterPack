@@ -70,16 +70,16 @@ const Login = () => {
                     <Logo />
                 </div>
                 <div className="login-window">
-                    <form className={isMobile() ? "login-form login-form-mobile": "login-form"} onSubmit={onLogin}>
+                    <form className="login-form" onSubmit={onLogin}>
                         <h2>Sign in</h2>
                         <div className="login-textbox">
-                            <input type="text" placeholder="Username" value={username} autoFocus onChange={(e) => setUsername(e.target.value)} className={usernameError ? (isMobile() ? "input-error input-error-mobile" : "input-error") : ""} />
+                            <input type="text" placeholder="Username" value={username} autoFocus onChange={(e) => setUsername(e.target.value)} className={usernameError ? "input-error" : ""} />
                             {usernameError && <div className={isMobile() ? "error-message error-message-mobile" : "error-message"}>{usernameError}</div>}
                         </div>
                         <div>
                             <div className="login-textbox">
                                 <div className="pwd-textbox">
-                                    <input type={showPassword ? "text" : "password"} placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} className={passwordError ? (isMobile() ? "input-error input-error-mobile" : "input-error") : ""} />
+                                    <input type={showPassword ? "text" : "password"} placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} className={passwordError ? "input-error" : ""} />
                                     <button type="button" className={isMobile() ? "show-hide-button show-hide-button-mobile" : "show-hide-button"} onMouseDown={handleShowPassword} onMouseUp={handleHidePassword} onMouseLeave={handleHidePassword}>
                                         {showPassword ? "Hide" : "Show"}
                                     </button>

@@ -1,6 +1,7 @@
 import "./Error.css";
 import Logo from "../../components/Logo/Logo"
 import { frontend } from "../../config/config";
+import { isMobile } from "../../utils/utils";
 
 const Error = () => {
     return (
@@ -10,13 +11,13 @@ const Error = () => {
             </div>
             <div className="row error">
                 <div className="col-12">
-                    <div className="error-description">
+                    <div className={isMobile() ? "description description-mobile" : "description description-desktop"}>
                         {frontend.errorMessages.generalError.line1}
                     </div>
-                    <div className="error-description">
+                    <div className={isMobile() ? "description description-mobile" : "description description-desktop"}>
                         {frontend.errorMessages.generalError.line2}
                     </div>
-                    <div className="error-description">
+                    <div className={isMobile() ? "description description-mobile" : "description description-desktop"}>
                         {frontend.errorMessages.generalError.line3}
                     </div>
                     <a href={frontend.urls.homePage}>Back</a>

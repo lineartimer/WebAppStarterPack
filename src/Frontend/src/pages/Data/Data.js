@@ -5,8 +5,9 @@ import "./Data.css";
 import Table from "../../components/Table/Table";
 import { callEndPoint, httpMethods, responseStatus } from "../../services/http";
 import { backend, frontend } from "../../config/config";
+import { isMobile } from "../../utils/utils";
 
-const Data = ({isMobile}) => {
+const Data = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
@@ -38,7 +39,7 @@ const Data = ({isMobile}) => {
         <div>
             {loading && (
                 <div className="loading-overlay">
-                    <div className={isMobile ? "loading-spinner-transparent loading-spinner-transparent-mobile" : "loading-spinner-transparent"}></div>
+                    <div className={isMobile() ? "spinner-transparent spinner-transparent-mobile" : "spinner-transparent spinner-transparent-desktop"}></div>
                 </div>
             )}
             <Table data={data} />

@@ -6,8 +6,9 @@ import "./Login.css";
 import Logo from "../../components/Logo/Logo";
 import { callEndPoint, httpMethods, responseStatus } from "../../services/http";
 import { backend, frontend } from "../../config/config";
+import { isMobile } from "../../utils/utils";
 
-const Login = ({isMobile}) => {
+const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
@@ -58,36 +59,36 @@ const Login = ({isMobile}) => {
     if (isLoading) {
         return (
             <div className="loading-screen">
-                <div className={isMobile ? "loading-spinner loading-spinner-mobile" : "loading-spinner"}></div>
+                <div className={isMobile() ? "spinner spinner-mobile" : "spinner spinner-desktop"}></div>
             </div>
         );
     }
     else {
         return (
-            <div className={isMobile ? "mobile" : ""}>
+            <div className={isMobile() ? "mobile" : ""}>
                 <div className="login-logo">
-                    <Logo isMobile={isMobile} />
+                    <Logo />
                 </div>
                 <div className="login-window">
-                    <form className={isMobile ? "login-form login-form-mobile": "login-form"} onSubmit={onLogin}>
+                    <form className={isMobile() ? "login-form login-form-mobile": "login-form"} onSubmit={onLogin}>
                         <h2>Sign in</h2>
                         <div className="login-textbox">
-                            <input type="text" placeholder="Username" value={username} autoFocus onChange={(e) => setUsername(e.target.value)} className={usernameError ? (isMobile ? "input-error input-error-mobile" : "input-error") : ""} />
-                            {usernameError && <div className={isMobile ? "error-message error-message-mobile" : "error-message"}>{usernameError}</div>}
+                            <input type="text" placeholder="Username" value={username} autoFocus onChange={(e) => setUsername(e.target.value)} className={usernameError ? (isMobile() ? "input-error input-error-mobile" : "input-error") : ""} />
+                            {usernameError && <div className={isMobile() ? "error-message error-message-mobile" : "error-message"}>{usernameError}</div>}
                         </div>
                         <div>
                             <div className="login-textbox">
                                 <div className="pwd-textbox">
-                                    <input type={showPassword ? "text" : "password"} placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} className={passwordError ? (isMobile ? "input-error input-error-mobile" : "input-error") : ""} />
-                                    <button type="button" className={isMobile ? "show-hide-button show-hide-button-mobile" : "show-hide-button"} onMouseDown={handleShowPassword} onMouseUp={handleHidePassword} onMouseLeave={handleHidePassword}>
+                                    <input type={showPassword ? "text" : "password"} placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} className={passwordError ? (isMobile() ? "input-error input-error-mobile" : "input-error") : ""} />
+                                    <button type="button" className={isMobile() ? "show-hide-button show-hide-button-mobile" : "show-hide-button"} onMouseDown={handleShowPassword} onMouseUp={handleHidePassword} onMouseLeave={handleHidePassword}>
                                         {showPassword ? "Hide" : "Show"}
                                     </button>
                                 </div>
-                                {passwordError && <div className={isMobile ? "error-message error-message-mobile" : "error-message"}>{passwordError}</div>}
+                                {passwordError && <div className={isMobile() ? "error-message error-message-mobile" : "error-message"}>{passwordError}</div>}
                             </div>
                         </div>
-                        {error && <div className={isMobile ? "error-message error-message-mobile" : "error-message"}>{error}</div>}
-                        <button type="submit" className={isMobile ? "login-button login-button-mobile" : "login-button"}>Sign in</button>
+                        {error && <div className={isMobile() ? "error-message error-message-mobile" : "error-message"}>{error}</div>}
+                        <button type="submit" className={isMobile() ? "login-button login-button-mobile" : "login-button"}>Sign in</button>
                     </form>
                 </div>
             </div>

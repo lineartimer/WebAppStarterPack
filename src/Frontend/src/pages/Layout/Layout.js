@@ -5,15 +5,15 @@ import "./Layout.css"
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
 
-const Layout = ({isMobile, fullWidth }) => {
+const Layout = () => {
     return (
-        <div className={fullWidth ? "container-fluid" : "container"}>
-            <LayoutImpl isMobile={isMobile} fullWidth={fullWidth} />
+        <div className="container-fluid">
+            <LayoutImpl />
         </div>
     );
 };
 
-const LayoutImpl = ({ isMobile, fullWidth }) => {
+const LayoutImpl = () => {
     const [scrolled, setScrolled] = useState(false);
 
     useEffect(() => {
@@ -32,13 +32,10 @@ const LayoutImpl = ({ isMobile, fullWidth }) => {
         };
     }, []);
 
-    var layoutClass = fullWidth ? "layout" : "layout border-shadow";
-    var headerClass = `${fullWidth ? "" : "sticky"} ${scrolled ? "scrolled" : ""}`;
-
     return (
-        <div className={layoutClass}>
-            <header className={headerClass}>
-                <Header isMobile={isMobile} />
+        <div className="layout">
+            <header className={`sticky ${scrolled ? "scrolled" : ""}`}>
+                <Header />
             </header>
             <main>
                 {/* Placeholder for the actual page */}

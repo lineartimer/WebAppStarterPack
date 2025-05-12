@@ -96,16 +96,25 @@ input:focus {
     background-color: #f6f6f6;
 }
 
-.loading-spinner {
-    width: 50px;
-    height: 50px;
+.spinner {
     border: 5px solid #f6f6f6;
     border-top: 5px solid #06b;
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
 
-/* For mobile devices */
+.spinner-desktop {
+    width: 50px;
+    height: 50px;
+}
+
+.spinner-mobile {
+    width: 120px;
+    height: 120px;
+    border-width: 16px;
+    border-top-width: 16px;
+}
+
 .mobile h2 {
     font-size: 36px;
 }
@@ -140,11 +149,4 @@ input:focus {
 
 .error-message-mobile {
     font-size: 20px;
-}
-
-.loading-spinner-mobile {
-    width: 120px;
-    height: 120px;
-    border-width: 16px;
-    border-top-width: 16px;
 }

@@ -1,10 +1,11 @@
 import "./Table.css";
+import { isMobile} from "../../utils/utils";
 
 const Table = ({ data }) => {
     const colNames = data.length > 0 ? Object.keys(data[0]) : [];
 
     return (
-        <div className="table">
+        <div className={isMobile() ? "table table-mobile" : "table table-desktop"}>
             <table>
                 <thead>
                     <tr>

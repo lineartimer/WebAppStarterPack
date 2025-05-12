@@ -4,8 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import "./User.css";
 import Navigation from "../../components/Navigation/Navigation";
 import { callEndPoint, httpMethods } from "../../services/http";
+import { isMobile } from "../../utils/utils";
 
-const User = ({isMobile}) => {
+const User = () => {
     const [username] = useState(localStorage.getItem("username") || null);
     const [role] = useState(localStorage.getItem("role") || null);
     const [showUserWindow, setShowUserWindow] = useState(false);
@@ -48,14 +49,14 @@ const User = ({isMobile}) => {
     };
 
     return (
-        <div className={isMobile ? "" : "user-desktop"} ref={userWindowRef}>
+        <div ref={userWindowRef}>
             {loggingOut && (
                 <div className="loading-overlay">
-                    <div className="loading-spinner-transparent"></div>
+                    <div className={isMobile() ? "spinner-transparent spinner-transparent-mobile" : "spinner-transparent spinner-transparent-desktop"}></div>
                 </div>
             )}
-            {!isMobile && (
-                <div>
+            {!isMobile() && (
+                <div className="user-desktop">
                     {username && (
                         <a href="#" onClick={(e) => {
                             e.preventDefault();
@@ -67,32 +68,32 @@ const User = ({isMobile}) => {
                     )}
                 </div>
             )}
-            {isMobile && (
+            {isMobile() && (
                 <button className="hamburger" onClick={hamburgerClick}>☰</button>
             )}
             {showUserWindow && (
-                <div className={isMobile ? "user-window-mobile" : "user-window-desktop"}>
-                    {isMobile && (
+                <div className={isMobile() ? "user-window-mobile" : "user-window-desktop"}>
+                    {isMobile() && (
                         <div>
                             <div className="x-wrapper">
                                 <button className="x" onClick={xClick}>✖</button>
                             </div>
                             <div className="mobile-menu-item">{username}</div>
                             {!username && (
-                                <a className={isMobile ? "mobile-menu-item login-or-out" : ""} href="/Login">Login</a>
+                                <a className={isMobile() ? "mobile-menu-item login-or-out" : ""} href="/Login">Login</a>
                             )}
                         </div>
                     )}
                     {role == "Admin" && (
-                        <div className={isMobile ? "mobile-menu-item" : ""}>
-                            <div className="user-role">Role: {role}</div>
+                        <div className={isMobile() ? "mobile-menu-item" : "user-role"}>
+                            <div>Role: {role}</div>
                         </div>
                     )}
-                    {isMobile && (
-                        <Navigation isMobile={isMobile} />
+                    {isMobile() && (
+                        <Navigation />
                     )}
                     {username && (
-                        <a className={isMobile ? "mobile-menu-item login-or-out" : ""} href="#" onClick={onLogout}>Logout</a>
+                        <a className={isMobile() ? "mobile-menu-item login-or-out" : ""} href="#" onClick={onLogout}>Logout</a>
                     )}
                 </div>
             )}

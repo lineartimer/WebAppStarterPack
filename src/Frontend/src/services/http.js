@@ -1,4 +1,4 @@
-import getBaseUrl from "../utils/getBaseUrl";
+import { backend } from "../config/config";
 
 export const responseStatus = {
     Ok: 200,
@@ -19,7 +19,8 @@ export const httpMethods = {
 export const callEndPoint = async (url, method, payload = null, timeout = 10000) => {
     var request = {
         method: method,
-        credentials: "include" // Include the http-only authentication cookie in the request
+        // Include the http-only authentication cookie in the request
+        credentials: "include"
     };
 
     if(method != httpMethods.Get && payload) {
@@ -38,7 +39,22 @@ export const callEndPoint = async (url, method, payload = null, timeout = 10000)
     return await processResponse(response);
 }
 
-const invoke = async (func, timeout, ...args) => {
+const getBaseUrl = () => {
+    const server = window.location.hostname;
+
+    let baseUrl = `https://${server}`;
+    if (server === "localhost") {
+        // Development environment
+        baseUrl += `:${backend.portDev}`;
+    } else {
+        // Production environment
+        baseUrl = baseUrl.replace("frontend", "backend");
+    }
+
+    return baseUrl;
+};
+
+const invoke = async (func, timeout = 0, ...args) => {
     return Promise.race([func(...args), new Promise((_, reject) =>
         setTimeout(() => reject(new Error()), timeout)
     )]);

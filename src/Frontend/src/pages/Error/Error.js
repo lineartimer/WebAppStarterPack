@@ -2,11 +2,11 @@ import "./Error.css";
 import Logo from "../../components/Logo/Logo"
 import { frontend } from "../../config/config";
 
-const Error = ({isMobile}) => {
+const Error = () => {
     return (
         <div className="error-window">
             <div className="error-logo">
-                <Logo isMobile={isMobile} />
+                <Logo />
             </div>
             <div className="row error">
                 <div className="col-12">

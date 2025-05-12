@@ -1,13 +1,8 @@
 .logo {
-    font-size: 24px;
     font-weight: 600;
     margin: 0;
     padding: 0;
     white-space: nowrap;
-}
-
-.logo-mobile {
-    font-size: 36px;
 }
 
 .logo a {
@@ -18,6 +13,14 @@
 
 .logo a:hover {
     text-decoration: none;
+}
+
+.logo-desktop {
+    font-size: 32px;
+}
+
+.logo-mobile {
+    font-size: 48px;
 }
 
 .logo-first {

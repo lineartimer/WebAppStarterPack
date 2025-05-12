@@ -2,20 +2,20 @@
     position: relative;
 }
 
-.user a {
-    font-size: 16px;
+.user-desktop a {
+    font-size: 18px;
     color: #06b;
 }
 
-.user a:hover {
+.user-desktop a:hover {
     text-decoration: underline;
 }
 
 .user-window-desktop {
     position: absolute;
     width: 200px;
-    transform: translateX(-163px);
-    margin-top: 11px;
+    transform: translateX(-150px);
+    margin-top: 10px;
     padding: 10px;
     background-color: white;
     border: 1px solid #ccc;
@@ -25,6 +25,7 @@
 }
 
 .user-role {
+    font-size: 18px;
     text-align: left;
 }
 
@@ -32,7 +33,7 @@
 .hamburger {
     vertical-align: middle;
     transform:translateY(-0.13em);
-    font-size: 64px;
+    font-size: 96px;
     line-height: 0em;
     background: none;
     border: none;

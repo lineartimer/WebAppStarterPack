@@ -21,6 +21,6 @@ public class AdminControllerTests
 
         var messageValue = messageProperty.GetValue(okResult.Value)?.ToString();
         Assert.NotNull(messageValue);
-        Assert.Equal("This is only for admins.", messageValue);
+        Assert.Equal("This page is for admins only.", messageValue);
     }
 }

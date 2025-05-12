@@ -4,8 +4,9 @@ import { useNavigate } from "react-router-dom";
 import "./Admin.css";
 import { callEndPoint, responseStatus, httpMethods } from "../../services/http";
 import { backend, frontend } from "../../config/config";
+import { isMobile } from "../../utils/utils";
 
-const Admin = ({isMobile}) => {
+const Admin = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
@@ -41,13 +42,13 @@ const Admin = ({isMobile}) => {
         <div>
             {loading && (
                 <div className="loading-overlay">
-                    <div className={isMobile ? "loading-spinner-transparent loading-spinner-transparent-mobile" : "loading-spinner-transparent"}></div>
+                    <div className={isMobile() ? "spinner-transparent spinner-transparent-mobile" : "spinner-transparent spinner-transparent-desktop"}></div>
                 </div>
             )}
             <div className="main">
                 <div className="row">
                     <div className="col-12">
-                        <div className="description">{data}</div>
+                        <div className={isMobile ? "description description-mobile description-big description-big-mobile" : "description description-desktop description-big description-big-desktop"}>{data}</div>
                     </div>
                 </div>
             </div>

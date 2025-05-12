@@ -3,11 +3,6 @@
     background-color: white;
 }
 
-.container-fluid {
-    padding-left: 10%;
-    padding-right: 10%;
-}
-
 /* Make main element within the layout page take up available space, so that the entire page fills the viewport's height. */
 .layout {
     display: flex;
@@ -17,13 +12,9 @@
     background-color: white;
 }
 
-.border-shadow {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
 header, footer {
     flex-shrink: 0; /* Prevent shrinking */
-    padding: 20px;
+    padding: 20px 80px 20px 80px;
 }
 
 header {
@@ -46,5 +37,5 @@ header a, header a:hover {
 
 main {
     flex-grow: 1; /* Take up available space */
-    padding: 0 20px 0 20px;
+    margin: 0 80px 0 80px;
 }

@@ -2,30 +2,31 @@ import "./Header.css";
 import Logo from "../../components/Logo/Logo";
 import Navigation from "../../components/Navigation/Navigation";
 import User from "../../components/User/User";
+import { isMobile } from "../../utils/utils";
 
-const Header = ({isMobile}) => {
+const Header = () => {
     return (
         <div>
-            {!isMobile && (
+            {!isMobile() && (
                 <div className="row">
-                    <div className="col-5">
-                        <Logo isMobile={isMobile} />
+                    <div className="col-4 logo-wrapper">
+                        <Logo />
                     </div>
-                    <div className="col-5">
-                        <Navigation isMobile={isMobile}/>
+                    <div className="col-6 navigation-wrapper">
+                        <Navigation />
                     </div>
                     <div className="col-2 user-wrapper">
-                        <User isMobile={isMobile} />
+                        <User />
                     </div>
                 </div>
             )}
-            {isMobile && (
+            {isMobile() && (
                 <div className="row">
                     <div className="col-10">
-                        <Logo isMobile={isMobile} />
+                        <Logo />
                     </div>
                     <div className="col-2 user-wrapper">
-                        <User isMobile={isMobile} />
+                        <User />
                     </div>
                 </div>
             )}

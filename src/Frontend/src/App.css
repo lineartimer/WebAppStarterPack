@@ -1,14 +1,36 @@
 /* Common styling for all pages */
 .main {
-    margin-top: 20vh;
-    background-color: white;
+    display: flex;
+    justify-content: center;
 }
 
 .description {
-    font-size: 40px;
+    padding-left: 20px;
     font-weight: 400;
     color: #466;
     white-space: nowrap;
+}
+
+.description-desktop {
+    font-size: 32px;
+}
+
+.description-mobile {
+    font-size: 48px;
+}
+
+.description-big {
+    padding-left: 0;
+}
+
+.description-big-desktop {
+    font-size: 48px;
+    margin-top: 10vh;
+}
+
+.description-big-mobile {
+    font-size: 72px;
+    margin-top: 25vh;
 }
 
 .loading-overlay {
@@ -24,13 +46,23 @@
     z-index: 1000;
 }
 
-.loading-spinner-transparent {
-    width: 50px;
-    height: 50px;
+.spinner-transparent {
     border: 5px solid transparent;
     border-top: 5px solid #06b;
     border-radius: 50%;
     animation: spin 1s linear infinite;
+}
+
+.spinner-transparent-desktop {
+    width: 50px;
+    height: 50px;
+}
+
+.spinner-transparent-mobile {
+    width: 120px;
+    height: 120px;
+    border-width: 16px;
+    border-top-width: 16px;
 }
 
 @keyframes spin {
@@ -43,17 +75,9 @@
     }
 }
 
-/* For mobile devices */
 .mobile-menu-item {
     display: block;
     margin: 0 !important;
     padding: 20px;
     font-size: 32px !important;
-}
-
-.loading-spinner-transparent-mobile {
-    width: 120px;
-    height: 120px;
-    border-width: 16px;
-    border-top-width: 16px;
 }

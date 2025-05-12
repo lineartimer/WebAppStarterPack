@@ -97,22 +97,22 @@ input:focus {
 }
 
 .spinner {
-    border: 5px solid #f6f6f6;
-    border-top: 5px solid #06b;
+    border: 6px solid #f6f6f6;
+    border-top: 6px solid #06b;
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
 
 .spinner-desktop {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
 }
 
 .spinner-mobile {
-    width: 120px;
-    height: 120px;
-    border-width: 16px;
-    border-top-width: 16px;
+    width: 80px;
+    height: 80px;
+    border-width: 12px;
+    border-top-width: 12px;
 }
 
 .mobile h2 {

@@ -11,25 +11,9 @@
     white-space: nowrap;
 }
 
-.description-desktop {
-    font-size: 32px;
-}
-
-.description-mobile {
-    font-size: 16px;
-}
-
 .description-big {
     padding-left: 0;
     margin-top: 10vh;
-}
-
-.description-big-desktop {
-    font-size: 48px;
-}
-
-.description-big-mobile {
-    font-size: 24px;
 }
 
 .loading-overlay {
@@ -46,22 +30,10 @@
 }
 
 .spinner-transparent {
-    border: 6px solid transparent;
-    border-top: 6px solid #06b;
+    border: 9px solid transparent;
+    border-top: 9px solid #06b;
     border-radius: 50%;
     animation: spin 1s linear infinite;
-}
-
-.spinner-transparent-desktop {
-    width: 60px;
-    height: 60px;
-}
-
-.spinner-transparent-mobile {
-    width: 80px;
-    height: 80px;
-    border-width: 12px;
-    border-top-width: 12px;
 }
 
 @keyframes spin {
@@ -79,4 +51,36 @@
     margin: 0 !important;
     padding: 20px;
     font-size: 32px !important;
+}
+
+@media only screen and (min-width: 601px) {
+    .description {
+        font-size: 32px;
+    }
+
+    .description-big {
+        font-size: 48px;
+    }
+
+    .spinner-transparent {
+        width: 80px;
+        height: 80px;
+        border-width: 12px;
+        border-top-width: 12px;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .description {
+        font-size: 16px;
+    }
+
+    .description-big {
+        font-size: 24px;
+    }
+
+    .spinner-transparent {
+        width: 60px;
+        height: 60px;
+    }
 }

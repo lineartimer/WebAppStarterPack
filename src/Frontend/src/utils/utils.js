@@ -1,4 +1,6 @@
 export const isMobile = () => {
+    // Determining WHAT to display based on whether the request is coming from a mobile phone/tablet or a desktop device
+    // Determining HOW to display it based on media queries in css
     const userAgent = navigator.userAgent;
     var result = false;
 

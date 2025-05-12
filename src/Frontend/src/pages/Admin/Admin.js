@@ -42,7 +42,7 @@ const Admin = () => {
         <div>
             {loading && (
                 <div className="loading-overlay">
-                    <div className={isMobile() ? "spinner-transparent spinner-transparent-mobile" : "spinner-transparent spinner-transparent-desktop"}></div>
+                    <div className="spinner-transparent"></div>
                 </div>
             )}
             <div className="main">

@@ -32,11 +32,13 @@
 /* For mobile devices */
 .hamburger {
     vertical-align: middle;
+    transform: translateX(20px);
     transform: translateY(-0.15em);
     font-size: 48px;
     line-height: 0em;
     background: none;
     border: none;
+    color: #222;
 }
 
 .user-window-mobile {
@@ -70,4 +72,8 @@
 
 .login-or-out:hover {
     background-color: white !important;
+}
+
+.test2 {
+    background-color: green;
 }

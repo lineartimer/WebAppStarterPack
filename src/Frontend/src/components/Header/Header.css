@@ -11,7 +11,11 @@
 
 .user-wrapper {
     display: flex;
-    /* justify-content: end; */
-    justify-content: center;
+    justify-content: end;
     align-items: center;
+    background-color: red;
+}
+
+.test {
+    background-color: yellow;
 }

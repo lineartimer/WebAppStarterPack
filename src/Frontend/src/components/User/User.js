@@ -69,7 +69,9 @@ const User = () => {
                 </div>
             )}
             {isMobile() && (
-                <button className="hamburger" onClick={hamburgerClick}>☰</button>
+                <div className="test2">
+                    <button className="hamburger" onClick={hamburgerClick}>☰</button>
+                </div>
             )}
             {showUserWindow && (
                 <div className={isMobile() ? "user-window-mobile" : "user-window-desktop"}>

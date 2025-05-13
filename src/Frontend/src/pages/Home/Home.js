@@ -5,7 +5,7 @@ const Home = () => {
         <div className="main">
             <div className="row">
                 <div className="col-12">
-                    <div className="description description-big">A starter template with</div>
+                    <div className="description description-big">A starter template withh</div>
                     <div className="description">✅ a .Net backend,</div>
                     <div className="description">✅ a React frontend and</div>
                     <div className="description">✅ a GitHub CI/CD pipeline</div>

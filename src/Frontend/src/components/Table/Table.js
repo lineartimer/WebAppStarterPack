@@ -1,16 +1,19 @@
 import "./Table.css";
-import { isMobile} from "../../utils/utils";
 
 const Table = ({ data }) => {
     const colNames = data.length > 0 ? Object.keys(data[0]) : [];
 
+    const capitalize = (str) => {
+        return `${str.substring(0, 1).toUpperCase()}${str.substring(1, str.length)}`;
+    }
+    
     return (
-        <div className={isMobile() ? "table table-mobile" : "table table-desktop"}>
+        <div className="table">
             <table>
                 <thead>
                     <tr>
                         {colNames.map((colName, index) => (
-                            <th key={index}>{colName}</th>
+                            <th key={index}>{capitalize(colName)}</th>
                         ))}
                     </tr>
                 </thead>

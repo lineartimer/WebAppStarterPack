@@ -97,22 +97,10 @@ input:focus {
 }
 
 .spinner {
-    border: 6px solid #f6f6f6;
-    border-top: 6px solid #06b;
+    border: 9px solid #f6f6f6;
+    border-top: 9px solid #06b;
     border-radius: 50%;
     animation: spin 1s linear infinite;
-}
-
-.spinner-desktop {
-    width: 60px;
-    height: 60px;
-}
-
-.spinner-mobile {
-    width: 80px;
-    height: 80px;
-    border-width: 12px;
-    border-top-width: 12px;
 }
 
 .mobile input {
@@ -131,4 +119,20 @@ input:focus {
 
 .error-message-mobile {
     font-size: 20px;
+}
+
+@media only screen and (min-width: 601px) {
+    .spinner {
+        width: 80px;
+        height: 80px;
+        border-width: 12px;
+        border-top-width: 12px;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .spinner {
+        width: 60px;
+        height: 60px;
+    }
 }

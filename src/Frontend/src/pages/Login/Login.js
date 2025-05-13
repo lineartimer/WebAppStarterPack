@@ -59,7 +59,7 @@ const Login = () => {
     if (isLoading) {
         return (
             <div className="loading-screen">
-                <div className={isMobile() ? "spinner spinner-mobile" : "spinner spinner-desktop"}></div>
+                <div className="spinner"></div>
             </div>
         );
     }

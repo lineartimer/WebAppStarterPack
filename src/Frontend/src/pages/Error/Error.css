@@ -1,18 +1,15 @@
 .error-window {
-    height: 100vh; /* 100% of viewport's height */
+    height: 100vh;
     background-color: white;
 }
 
 .error-logo {
     position: absolute;
-    top: 30px;
-    left: 50px;
 }
 
 .error {
     padding-top: 25vh;
-    padding-left: 15vw;
-    background-color: white;
+    padding-left: 10vw;
 }
 
 .error a {
@@ -25,12 +22,22 @@
 }
 
 @media only screen and (min-width: 601px) {
+    .error-logo {
+        top: 30px;
+        left: 50px;
+    }
+
     .error a {
         font-size: 24px;
     }
 }
 
 @media only screen and (max-width: 600px) {
+    .error-logo {
+        top: 20px;
+        left: 30px;
+    }
+
     .error a {
         font-size: 12px;
     }

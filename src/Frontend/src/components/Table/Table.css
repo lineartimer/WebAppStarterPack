@@ -3,14 +3,6 @@
     justify-content: center;
 }
 
-.table-desktop {
-    font-size: 18px;
-}
-
-.table-mobile {
-    font-size: 32px;
-}
-
 table {
     border-collapse: collapse;
     width: 750px;
@@ -23,4 +15,16 @@ th, td {
 
 th {
     background-color: #f6f6f6;
+}
+
+@media only screen and (min-width: 601px) {
+    .table {
+        font-size: 18px;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .table {
+        font-size: 14px;
+    }
 }

@@ -52,7 +52,7 @@ const User = () => {
         <div ref={userWindowRef}>
             {loggingOut && (
                 <div className="loading-overlay">
-                    <div className={isMobile() ? "spinner-transparent spinner-transparent-mobile" : "spinner-transparent spinner-transparent-desktop"}></div>
+                    <div className="spinner-transparent"></div>
                 </div>
             )}
             {!isMobile() && (

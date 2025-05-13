@@ -16,7 +16,7 @@ export const httpMethods = {
     Delete: "DELETE"
 };
 
-export const callEndPoint = async (url, method, payload = null, timeout = 10000) => {
+export const callEndPoint = async (url, method, payload = null, timeout = 30000) => {
     var request = {
         method: method,
         // Include the http-only authentication cookie in the request

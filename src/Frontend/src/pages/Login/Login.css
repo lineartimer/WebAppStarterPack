@@ -8,14 +8,14 @@
 
 .login-logo {
     position: absolute;
-    top: 30px;
-    left: 50px;
 }
 
 .login-form {
-    width: 400px;
     padding: 20px;
-    background-color: white;
+    background-color: white;    .login-logo {
+        top: 30px;
+        left: 50px;
+    }
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     text-align: center;
@@ -23,7 +23,6 @@
 
 h2 {
     margin-bottom: 20px;
-    font-size: 32px;
     font-weight: 600;
     color: #222;
 }
@@ -61,9 +60,8 @@ input:focus {
     transform: translateY(-50%);
     background: none;
     border: none;
-    color: #06b;
-    cursor: pointer;
     font-size: 16px;
+    color: #06b;
 }
 
 .login-button {
@@ -75,7 +73,6 @@ input:focus {
     color: white;
     border: none;
     border-radius: 4px;
-    cursor: pointer;
 }
 
 .login-button:hover {
@@ -103,25 +100,20 @@ input:focus {
     animation: spin 1s linear infinite;
 }
 
-.mobile input {
-    padding: 20px;
-    font-size: 20px;
-}
-
-.show-hide-button-mobile {
-    font-size: 20px;
-}
-
-.login-button-mobile {
-    padding: 20px;
-    font-size: 20px;
-}
-
-.error-message-mobile {
-    font-size: 20px;
-}
-
 @media only screen and (min-width: 481px) {
+    .login-logo {
+        top: 30px;
+        left: 50px;
+    }
+
+    .login-form {
+        width: 400px;
+    }
+
+    h2 {
+        font-size: 32px;
+    }
+
     .spinner {
         width: 80px;
         height: 80px;
@@ -132,6 +124,19 @@ input:focus {
 
 /* Galaxy Note 5 */
 @media only screen and (max-width: 480px) {
+    .login-logo {
+        top: 20px;
+        left: 20px;
+    }
+
+    .login-form {
+        width: 80%;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
     .spinner {
         width: 60px;
         height: 60px;

@@ -17,9 +17,6 @@ const Login = () => {
     const [error, setError] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
-    const handleShowPassword = () => setShowPassword(true);
-    const handleHidePassword = () => setShowPassword(false);
-
     const navigate = useNavigate();
 
     const onLogin = async (e) => {
@@ -65,7 +62,7 @@ const Login = () => {
     }
     else {
         return (
-            <div className={isMobile() ? "mobile" : ""}>
+            <div>
                 <div className="login-logo">
                     <Logo />
                 </div>
@@ -74,21 +71,24 @@ const Login = () => {
                         <h2>Sign in</h2>
                         <div className="login-textbox">
                             <input type="text" placeholder="Username" value={username} autoFocus onChange={(e) => setUsername(e.target.value)} className={usernameError ? "input-error" : ""} />
-                            {usernameError && <div className={isMobile() ? "error-message error-message-mobile" : "error-message"}>{usernameError}</div>}
+                            {usernameError && <div className="error-message">{usernameError}</div>}
                         </div>
                         <div>
                             <div className="login-textbox">
                                 <div className="pwd-textbox">
                                     <input type={showPassword ? "text" : "password"} placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} className={passwordError ? "input-error" : ""} />
-                                    <button type="button" className={isMobile() ? "show-hide-button show-hide-button-mobile" : "show-hide-button"} onMouseDown={handleShowPassword} onMouseUp={handleHidePassword} onMouseLeave={handleHidePassword}>
+                                    {!isMobile() && <button type="button" className="show-hide-button" onMouseDown={() => setShowPassword(true)} onMouseUp={() => setShowPassword(false)} onMouseLeave={() => setShowPassword(false)}>
                                         {showPassword ? "Hide" : "Show"}
-                                    </button>
+                                    </button>}
+                                    {isMobile() && <button type="button" className="show-hide-button" onClick={() => showPassword ? setShowPassword(false) : setShowPassword(true)}>
+                                        {showPassword ? "Hide" : "Show"}
+                                    </button>}
                                 </div>
-                                {passwordError && <div className={isMobile() ? "error-message error-message-mobile" : "error-message"}>{passwordError}</div>}
+                                {passwordError && <div className="error-message">{passwordError}</div>}
                             </div>
                         </div>
-                        {error && <div className={isMobile() ? "error-message error-message-mobile" : "error-message"}>{error}</div>}
-                        <button type="submit" className={isMobile() ? "login-button login-button-mobile" : "login-button"}>Sign in</button>
+                        {error && <div className="error-message">{error}</div>}
+                        <button type="submit" className="login-button">Sign in</button>
                     </form>
                 </div>
             </div>

@@ -121,7 +121,7 @@ input:focus {
     font-size: 20px;
 }
 
-@media only screen and (min-width: 601px) {
+@media only screen and (min-width: 481px) {
     .spinner {
         width: 80px;
         height: 80px;
@@ -130,7 +130,8 @@ input:focus {
     }
 }
 
-@media only screen and (max-width: 600px) {
+/* Galaxy Note 5 */
+@media only screen and (max-width: 480px) {
     .spinner {
         width: 60px;
         height: 60px;

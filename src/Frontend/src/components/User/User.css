@@ -32,11 +32,12 @@
 /* For mobile devices */
 .hamburger {
     vertical-align: middle;
-    transform:translateY(-0.13em);
+    transform: translateY(-0.1em);
     font-size: 48px;
     line-height: 0em;
     background: none;
     border: none;
+    color: black;
 }
 
 .user-window-mobile {

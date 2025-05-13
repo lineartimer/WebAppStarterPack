@@ -17,13 +17,14 @@ th {
     background-color: #f6f6f6;
 }
 
-@media only screen and (min-width: 601px) {
+@media only screen and (min-width: 481px) {
     .table {
         font-size: 18px;
     }
 }
 
-@media only screen and (max-width: 600px) {
+/* Galaxy Note 5 */
+@media only screen and (max-width: 480px) {
     .table {
         font-size: 14px;
     }

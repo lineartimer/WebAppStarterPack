@@ -21,7 +21,17 @@
     text-decoration: underline;
 }
 
-@media only screen and (min-width: 601px) {
+.error-description {
+    font-weight: 400;
+    color: #466;
+    white-space: nowrap;
+}
+
+@media only screen and (min-width: 481px) {
+    .error-description {
+        font-size: 32px;
+    }
+
     .error-logo {
         top: 30px;
         left: 50px;
@@ -32,13 +42,18 @@
     }
 }
 
-@media only screen and (max-width: 600px) {
+/* Galaxy Note 5 */
+@media only screen and (max-width: 480px) {
+    .error-description {
+        font-size: 14px;
+    }
+
     .error-logo {
         top: 20px;
-        left: 30px;
+        left: 20px;
     }
 
     .error a {
-        font-size: 12px;
+        font-size: 14px;
     }
 }

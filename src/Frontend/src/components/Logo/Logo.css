@@ -29,13 +29,14 @@
     background-color: #06b;
 }
 
-@media only screen and (min-width: 601px) {
+@media only screen and (min-width: 481px) {
     .logo {
         font-size: 32px;
     }
 }
 
-@media only screen and (max-width: 600px) {
+/* Galaxy Note 5 */
+@media only screen and (max-width: 480px) {
     .logo {
         font-size: 20px;
     }

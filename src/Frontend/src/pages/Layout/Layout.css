@@ -37,7 +37,7 @@ main {
     flex-grow: 1; /* Take up available space */
 }
 
-@media only screen and (min-width: 601px) {
+@media only screen and (min-width: 481px) {
     main {
         margin: 0 80px 0 80px;
     }
@@ -47,13 +47,14 @@ main {
     }
 }
 
-@media only screen and (max-width: 600px) {
+/* Galaxy Note 5 */
+@media only screen and (max-width: 480px) {
     main {
-        margin: 0 40px 0 40px;
+        margin: 0 20px 0 20px;
         padding-top: 10px;
     }
     
     header, footer {
-        padding: 20px 40px 20px 40px;
+        padding: 20px;
     }
 }

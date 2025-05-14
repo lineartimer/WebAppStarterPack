@@ -1,9 +1,9 @@
 body {
     font-family: "Figtree", sans-serif;
     color: #222;
-    background-color: #f6f6f6;
 }
 
+/* Getting rid of Bootstrap's margins and paddings */
 .row, div[class^="col-"] {
     margin: 0;
     padding: 0;

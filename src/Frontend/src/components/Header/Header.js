@@ -9,7 +9,7 @@ const Header = () => {
         <div>
             {!isMobile() && (
                 <div className="row">
-                    <div className="col-4 logo-wrapper">
+                    <div className="col-4">
                         <Logo />
                     </div>
                     <div className="col-6 navigation-wrapper">
@@ -22,7 +22,7 @@ const Header = () => {
             )}
             {isMobile() && (
                 <div className="row">
-                    <div className="col-10 test">
+                    <div className="col-10">
                         <Logo />
                     </div>
                     <div className="col-2 user-wrapper">

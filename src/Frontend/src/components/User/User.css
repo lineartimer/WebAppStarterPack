@@ -30,6 +30,11 @@
 }
 
 /* For mobile devices */
+.hamburger-wrapper {
+    display: flex;
+    justify-content: end;
+}
+
 .hamburger {
     margin: 0;
     padding: 0;
@@ -38,8 +43,7 @@
     font-size: 48px;
     line-height: 0em;
     background: none;
-    /* border: none; */
-    border: 1px solid purple;
+    border: none;
     color: #222;
 }
 
@@ -57,8 +61,9 @@
 }
 
 .x-wrapper {
+    display: flex;
     padding: 20px;
-    text-align: right;
+    justify-content: end;
     color: white;
 }
 
@@ -74,10 +79,4 @@
 
 .login-or-out:hover {
     background-color: white !important;
-}
-
-.test2 {
-    display: flex;
-    justify-content: end;
-    background-color: green;
 }

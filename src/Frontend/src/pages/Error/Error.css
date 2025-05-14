@@ -8,8 +8,8 @@
 }
 
 .error {
-    padding-top: 25vh;
-    padding-left: 10vw;
+    padding-top: 25vh !important;
+    padding-left: 10vw !important;
 }
 
 .error a {

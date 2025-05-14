@@ -69,7 +69,7 @@ const User = () => {
                 </div>
             )}
             {isMobile() && (
-                <div className="test2">
+                <div className="hamburger-wrapper">
                     <button className="hamburger" onClick={hamburgerClick}>☰</button>
                 </div>
             )}

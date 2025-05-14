@@ -29,9 +29,17 @@
     background-color: #06b;
 }
 
-@media only screen and (min-width: 481px) {
+/* Desktop */
+@media only screen and (min-width: 1025px) {
     .logo {
         font-size: 32px;
+    }
+}
+
+/* iPad Pro 12 */
+@media only screen and (min-width: 481px) and (max-width: 1024px) {
+    .logo {
+        font-size: 24px;
     }
 }
 

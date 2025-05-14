@@ -36,13 +36,25 @@ main {
     flex-grow: 1; /* Take up available space */
 }
 
-@media only screen and (min-width: 481px) {
+/* Desktop */
+@media only screen and (min-width: 1025px) {
     main {
         margin: 0 80px 0 80px;
     }
 
     header, footer {
         padding: 20px 80px 20px 80px;
+    }
+}
+
+/* iPad Pro 12 */
+@media only screen and (min-width: 481px) and (max-width: 1024px) {
+    main {
+        margin: 0 50px 0 50px;
+    }
+    
+    header, footer {
+        padding: 20px 40px 20px 40px;
     }
 }
 

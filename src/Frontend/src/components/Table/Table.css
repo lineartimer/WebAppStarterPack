@@ -17,9 +17,17 @@ th {
     background-color: #f6f6f6;
 }
 
-@media only screen and (min-width: 481px) {
+/* Desktop */
+@media only screen and (min-width: 1025px) {
     .table {
         font-size: 18px;
+    }
+}
+
+/* iPad Pro 12 */
+@media only screen and (min-width: 481px) and (max-width: 1024px) {
+    .table {
+        font-size: 16px;
     }
 }
 

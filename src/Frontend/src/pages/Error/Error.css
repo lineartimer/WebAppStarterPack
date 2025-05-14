@@ -27,7 +27,9 @@
     white-space: nowrap;
 }
 
-@media only screen and (min-width: 481px) {
+
+/* Desktop */
+@media only screen and (min-width: 1025px) {
     .error-description {
         font-size: 32px;
     }
@@ -39,6 +41,22 @@
 
     .error a {
         font-size: 24px;
+    }
+}
+
+/* iPad Pro 12 */
+@media only screen and (min-width: 481px) and (max-width: 1024px) {
+    .error-description {
+        font-size: 24px;
+    }
+
+    .error-logo {
+        top: 25px;
+        left: 40px;
+    }
+
+    .error a {
+        font-size: 18px;
     }
 }
 

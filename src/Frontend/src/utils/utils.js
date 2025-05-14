@@ -12,6 +12,6 @@ export const isMobile = () => {
         result = false;
     }
 
-    return true; // For development purposes
-    //return result;
+    //return true; // For development purposes
+    return result;
 }

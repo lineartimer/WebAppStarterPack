@@ -3,3 +3,8 @@ body {
     color: #222;
     background-color: #f6f6f6;
 }
+
+.row, div[class^="col-"] {
+    margin: 0;
+    padding: 0;
+}

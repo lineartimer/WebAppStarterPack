@@ -39,7 +39,7 @@
     margin: 0;
     padding: 0;
     vertical-align: middle;
-    transform: translateY(-0.125em);
+    transform: translateY(-0.1em);
     font-size: 48px;
     line-height: 0em;
     background: none;
@@ -53,6 +53,7 @@
     left: 0;
     width: 100%;
     height: 100vh;
+    background-color: white;
 }
 
 .user-window-mobile a:hover {
@@ -69,8 +70,10 @@
 .x {
     margin: 0;
     padding: 0;
+    line-height: 1em;
     font-size: 36px;
-    background: none;
+    /* background: none; */
+    background-color: red;
     border: none;
 }
 

@@ -1,11 +1,8 @@
 import "./Table.css";
+import { capitalize } from "../../utils/utils"
 
 const Table = ({ data }) => {
     const colNames = data.length > 0 ? Object.keys(data[0]) : [];
-
-    const capitalize = (str) => {
-        return `${str.substring(0, 1).toUpperCase()}${str.substring(1, str.length)}`;
-    }
     
     return (
         <div className="table">

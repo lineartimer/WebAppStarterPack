@@ -72,8 +72,7 @@
     padding: 0;
     line-height: 1em;
     font-size: 36px;
-    /* background: none; */
-    background-color: red;
+    background: none;
     border: none;
 }
 

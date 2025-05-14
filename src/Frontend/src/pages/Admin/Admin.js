@@ -48,7 +48,7 @@ const Admin = () => {
             <div className="main">
                 <div className="row">
                     <div className="col-12">
-                        <div className={isMobile ? "description description-mobile description-big description-big-mobile" : "description description-desktop description-big description-big-desktop"}>{data}</div>
+                        <div className="description description-big">{data}</div>
                     </div>
                 </div>
             </div>

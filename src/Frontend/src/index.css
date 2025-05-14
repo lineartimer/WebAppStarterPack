@@ -3,8 +3,9 @@ body {
     color: #222;
 }
 
-/* Getting rid of Bootstrap's margins and paddings */
-.row, div[class^="col-"] {
+
+/* Getting rid of Bootstrap's default margins and paddings */
+.container, .container-fluid, .row, div[class^="col-"] {
     margin: 0;
     padding: 0;
 }

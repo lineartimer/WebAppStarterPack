@@ -1,5 +1,4 @@
 .container, .container-fluid {
-    padding: 0; /* Getting rid of Bootstrap's default setting of 12px for left and right paddings. */
     background-color: white;
 }
 

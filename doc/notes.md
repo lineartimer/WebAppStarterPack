@@ -265,6 +265,7 @@ echo export PATH=$PATH:/opt/homebrew/bin >> ~/.zshrc
 - The Azure CLI can also be started from the Azure Portal (click the cloud shell icon in the upper right corner)
 - You can manage the created service principals on the Azure Portal under Microsoft Entra ID -> App registrations -> All applications
 - To go back to a previous version, go to the Actions tab on GitHub, select the last successful workflow and click Re-run all jobs
+- If the website is being loaded while the GitHub actions are running, the push may fail silently
 
 # Backend development
 

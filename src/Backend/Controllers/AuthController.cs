@@ -141,7 +141,7 @@ public class AuthController : ControllerBase
         {
             HttpOnly = false,
             Secure = true,
-            SameSite = SameSiteMode.Strict,
+            SameSite = SameSiteMode.None,
             Expires = DateTime.UtcNow.AddYears(-1) // Expire the cookie immediately by setting a past date
         });
 

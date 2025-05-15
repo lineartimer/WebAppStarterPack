@@ -31,7 +31,7 @@ public class Startup
                 options.Cookie.Name = "XSRF-TOKEN"; // Cookie token
                 options.Cookie.HttpOnly = false;
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-                options.Cookie.SameSite = SameSiteMode.Strict;
+                options.Cookie.SameSite = SameSiteMode.None;
             });
 
         // Suppress EF Core query logs

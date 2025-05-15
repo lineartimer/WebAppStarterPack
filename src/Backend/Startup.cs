@@ -25,6 +25,15 @@ public class Startup
         AddDbContext(services);
         AddAuthentication(services);
 
+        services.AddAntiforgery(options =>
+            {
+                options.HeaderName = "X-CSRF-TOKEN"; // Request token
+                options.Cookie.Name = "XSRF-TOKEN"; // Cookie token
+                options.Cookie.HttpOnly = false;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                options.Cookie.SameSite = SameSiteMode.Strict;
+            });
+
         // Suppress EF Core query logs
         services.AddLogging(builder =>
         {

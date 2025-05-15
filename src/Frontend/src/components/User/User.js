@@ -35,6 +35,7 @@ const User = () => {
         await callEndPoint("/Auth/Logout", httpMethods.Post);
         localStorage.removeItem("username");
         localStorage.removeItem("role");
+        localStorage.removeItem("xcsrf");
 
         navigate("/");
         window.location.reload();

@@ -1,16 +1,18 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.EntityFrameworkCore;
 
 using Backend.Configurations;
 using Backend.Data;
 using Backend.Dtos;
+using Backend.Filters;
 using Backend.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Controllers;
 
@@ -21,14 +23,17 @@ public class AuthController : ControllerBase
 {
     private readonly DatabaseContext _db;
     private readonly JwtConfig _jwtSettings;
+    private readonly IAntiforgery _antiforgery;
 
-    public AuthController(DatabaseContext context, JwtConfig jwtSettings)
+    public AuthController(DatabaseContext context, JwtConfig jwtSettings, IAntiforgery antiforgery)
     {
         _db = context;
         _jwtSettings = jwtSettings;
+        _antiforgery = antiforgery;
     }
 
     [HttpPost("SignUp")]
+    [ApiValidateAntiForgeryTokenAttribute]
     public async Task<IActionResult> SignUp(UserDto userDto)
     {
         if (userDto.Username == null || userDto.Email == null || userDto.Password == null || userDto.FirstName == null || userDto.Role == null)
@@ -72,6 +77,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("Login")]
+    [ApiValidateAntiForgeryTokenAttribute]
     public async Task<IActionResult> Login(CredentialDto loginDto)
     {
         if ((loginDto.Username == null && loginDto.Email == null) || loginDto.Password == null)
@@ -120,17 +126,34 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("Logout")]
+    [ApiValidateAntiForgeryTokenAttribute]
     public IActionResult Logout()
     {
         HttpContext.Response.Cookies.Append("AuthToken", string.Empty, new CookieOptions
         {
-            HttpOnly = true, // Keep it secure
-            Secure = true, // Use HTTPS in production
-            SameSite = SameSiteMode.None, // Match your auth setup
+            HttpOnly = true,
+            Secure = true,
+            SameSite = SameSiteMode.Strict,
+            Expires = DateTime.UtcNow.AddYears(-1) // Expire the cookie immediately by setting a past date
+        });
+        
+        HttpContext.Response.Cookies.Append("XSRF-TOKEN", string.Empty, new CookieOptions
+        {
+            HttpOnly = false,
+            Secure = true,
+            SameSite = SameSiteMode.Strict,
             Expires = DateTime.UtcNow.AddYears(-1) // Expire the cookie immediately by setting a past date
         });
 
         return Ok();
+    }
+
+    [HttpGet("GetXcsrfToken")]
+    [AllowAnonymous]
+    public IActionResult GetXcsrfToken()
+    {
+        var tokens = _antiforgery.GetAndStoreTokens(HttpContext);
+        return Ok(new { Xcsrf = tokens.RequestToken });
     }
 
     private string GenerateJwtToken(User user, Role role)

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import "./App.css"
@@ -8,8 +9,18 @@ import Home from "./pages/Home/Home";
 import Layout from "./pages/Layout/Layout";
 import Login from "./pages/Login/Login";
 import { frontend } from "./config/config";
+import { callEndPoint, httpMethods } from "./services/http";
 
 const App = () => {
+    useEffect(() => {
+        const setXsrfToken = async () => {
+            var response = await callEndPoint('/Auth/GetXcsrfToken', httpMethods.Get);
+            localStorage.setItem("xcsrf", response.payload.xcsrf);
+        };
+
+        setXsrfToken();
+    }, []);
+
     return (
         <Router>
             <Routes>

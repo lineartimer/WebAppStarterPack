@@ -16,7 +16,7 @@ export const httpMethods = {
     Delete: "DELETE"
 };
 
-export const callEndPoint = async (url, method, payload = null, timeout = 30000) => {
+export const callEndPoint = async (url, method, xcsrf = null, payload = null, timeout = 30000) => {
     var request = {
         method: method,
         // Include the http-only authentication cookie in the request
@@ -26,6 +26,10 @@ export const callEndPoint = async (url, method, payload = null, timeout = 30000)
     if(method != httpMethods.Get && payload) {
         request.headers = { "Content-Type": "application/json" };
         request.body = JSON.stringify(payload);
+    }
+
+    if (xcsrf) {
+        request.headers = { ...request.headers, 'X-CSRF-TOKEN': xcsrf };
     }
 
     var response;

@@ -30,22 +30,29 @@ const Login = () => {
         }
 
         setIsLoading(true);
-        const response = await callEndPoint(backend.urls.login, httpMethods.Post, {
+        
+        const loginResponse = await callEndPoint(backend.urls.login, httpMethods.Post, localStorage.getItem("xcsrf"), {
             // Sanitize input to prevent XSS (Cross-Site Scripting attacks)
             username: DOMPurify.sanitize(username),
             password: DOMPurify.sanitize(password)
         })
+
+        // After logging in, a new X-CSRF token will be needed because now the request is coming from
+        // an authenticated user as opposed to an anonymous user
+        var xcsrfResponse = await callEndPoint('/Auth/GetXcsrfToken', httpMethods.Get);
+        localStorage.setItem("xcsrf", xcsrfResponse.payload.xcsrf);
+
         setIsLoading(false);
 
         var loginRedirectUrl = localStorage.getItem("loginRedirectUrl") || null;
         localStorage.removeItem("loginRedirectUrl");
 
-        if (response.status == responseStatus.Ok) {
+        if (loginResponse.status == responseStatus.Ok) {
             localStorage.setItem("username", username);
-            localStorage.setItem("role", response.payload.role);
+            localStorage.setItem("role", loginResponse.payload.role);
 
             navigate(loginRedirectUrl ? loginRedirectUrl : frontend.urls.homePage);
-        } else if (response.status == responseStatus.UnAuthorized) {
+        } else if (loginResponse.status == responseStatus.UnAuthorized) {
             setError(frontend.errorMessages.invalidUserNameOrPasswordError);
         }
         else {

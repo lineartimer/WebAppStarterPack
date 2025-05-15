@@ -46,7 +46,7 @@ export const callEndPoint = async (url, method, xcsrf = null, payload = null, ti
 const getBaseUrl = () => {
     const server = window.location.hostname;
 
-    let baseUrl = `https://${server}`;
+    var baseUrl = `https://${server}`;
     if (server === "localhost") {
         // Development environment
         baseUrl += `:${backend.portDev}`;

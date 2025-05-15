@@ -1,5 +1,6 @@
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -48,14 +49,38 @@ public class Startup
                         .Build();
                     options.Filters.Add(new AuthorizeFilter(policy));
                 });
+
+        // In Azure, there's a reverse proxy or load balancer (ingress controller) in front of the Container App, which
+        // handles the incoming HTTPS traffic from the internet. The Azure infrastructure terminates
+        // the SSL connection (decrypts the traffic) then forwards the request to the Container App.
+        // This forwarded request is often plain HTTP. So, the backend sees an HTTP request,
+        // even though the original request from the frontend was HTTPS. The proxy adds headers like
+        // X-Forwarded-Proto (to indicate the original protocol, e.g., "https") and
+        // X-Forwarded-For (to indicate the original client IP). The Forwarded Headers middleware reads these headers
+        // and updates the HttpContext.Request object so that your application behaves as if it received the original HTTPS request.
+        services.Configure<ForwardedHeadersOptions>(options =>
+        {
+            options.ForwardedHeaders =
+                ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            options.KnownNetworks.Clear();
+            options.KnownProxies.Clear();
+        });
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
+        // Needs to be added early in the pipeline
+        app.UseForwardedHeaders();
+
         // Configure the middleware pipeline
         if (env.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
+        }
+        else
+        {
+            // In production, might want to consider HSTS
+            // app.UseHsts();
         }
 
         app.UseCors(_policy);
@@ -65,7 +90,7 @@ public class Startup
         app.UseRouting();
 
         app.UseAuthentication();
-        app.UseAuthorization();
+        app.UseAuthorization(); // Antiforgery system relies on HttpContext.Request.Scheme being correct
 
         app.UseEndpoints(endpoints =>
         {

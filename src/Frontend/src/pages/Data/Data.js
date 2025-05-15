@@ -14,7 +14,7 @@ const Data = () => {
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
-            var response = await callEndPoint(backend.urls.data, httpMethods.Get/*, "aaa"*/);
+            var response = await callEndPoint(backend.urls.data, httpMethods.Get);
             setLoading(false);
 
             if(response.status) {

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Threading.Tasks;
 
-namespace Backend.Filters // Adjust the namespace to match your project
+namespace Backend.Filters
 {
     public class ApiValidateAntiForgeryTokenAttribute : ActionFilterAttribute
     {
@@ -18,7 +18,7 @@ namespace Backend.Filters // Adjust the namespace to match your project
             try
             {
                 await antiforgery.ValidateRequestAsync(context.HttpContext);
-                await next(); // Proceed if validation succeeds
+                await next();
             }
             catch (AntiforgeryValidationException e)
             {

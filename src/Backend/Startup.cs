@@ -31,7 +31,7 @@ public class Startup
                 options.Cookie.Name = "XSRF-TOKEN"; // Cookie token
                 options.Cookie.HttpOnly = false;
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-                options.Cookie.SameSite = SameSiteMode.Strict;
+                options.Cookie.SameSite = SameSiteMode.None;
             });
 
         // Suppress EF Core query logs
@@ -75,26 +75,29 @@ public class Startup
 
     private void AddCors(IServiceCollection services)
     {
-        var origins = new string[] {};
+        var origins = new List<string>();
 
         // Attempting to get the backend URL from environment variables (coming from GitHub secrets)
         var backendUrl = Environment.GetEnvironmentVariable("BACKEND_URL");
         if (backendUrl == null)
         {
             // Development environment
-            origins = ["https://localhost:3000"];
+            origins.Add("https://localhost:3000");
         }
         else
         {
             // Production environment
-            origins = [backendUrl.Replace("backend", "frontend")];
+            var frontendUrl = backendUrl.TrimEnd('/').Replace("backend", "frontend");
+            origins.Add(frontendUrl);
+
+            Console.WriteLine($"Allowed CORS origin: {frontendUrl}");
         }
 
         services.AddCors(options =>
         {
             options.AddPolicy(_policy, builder => builder
                 //.AllowAnyOrigin() // This is also an option, although not a very safe one
-                .WithOrigins(origins)
+                .WithOrigins(origins.ToArray())
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials()); // Allow cookies

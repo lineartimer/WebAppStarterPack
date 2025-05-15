@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import "./Admin.css";
 import { callEndPoint, responseStatus, httpMethods } from "../../services/http";
 import { backend, frontend } from "../../config/config";
-import { isMobile } from "../../utils/utils";
 
 const Admin = () => {
     const [data, setData] = useState([]);

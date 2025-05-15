@@ -475,8 +475,7 @@ Outlines don't take up space in the DOM as opposed to borders do, which do. To p
 
 ## JavaScript
 
-Use:
-- Template literals to build strings (that stange quotation-mark-like character is the backtick): `Some text ${someVariable}`
+Use template literals to build strings (that stange quotation-mark-like character is the backtick): `Some text ${someVariable}`
 
 Different ways to define functions:
 
@@ -498,6 +497,14 @@ normalFunction();
 functionAssignedToAVariable();
 arrowFunction();
 await asyncFunction();
+
+Members can be dynamically added to objects:
+
+var o = {
+    "str1": "Some string"
+};
+
+o = { ...o, "str2": "Some other string"}
 
 ## React
 

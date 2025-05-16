@@ -37,11 +37,28 @@ public class AdminControllerTests : IClassFixture<WebAppStarterPackFactory<Progr
             Password = "password1"
         };
 
-        var loginResponse = await _client.CallEndpoint("/Auth/Login", HttpMethod.Post, loginDto);
-        Assert.NotNull(loginResponse.AuthCookie);
-        Assert.NotEqual(string.Empty, loginResponse.AuthCookie);
+        // Get X-CSRF token
+        var xcsrfResponseAnonymous = await _client.CallEndpoint("/Auth/GetXcsrfToken", HttpMethod.Get, print: true);
+        Assert.Equal(HttpStatusCode.OK, xcsrfResponseAnonymous.Status);
+        string? xcsrfAnonymous = _client.GetProperty(xcsrfResponseAnonymous, "xcsrf");
+        Assert.False(string.IsNullOrEmpty(xcsrfAnonymous));
+        Assert.NotNull(xcsrfResponseAnonymous.SetCookieHeaders);
+        Assert.Contains(xcsrfResponseAnonymous.SetCookieHeaders, h => h.StartsWith("XSRF="));
 
-        var result = await _client.CallEndpoint("/Admin", HttpMethod.Get, loginResponse.AuthCookie);
+        // Log in
+        var loginResponse = await _client.CallEndpoint("/Auth/Login", HttpMethod.Post, loginDto, xcsrfAnonymous, print: true);
+        Assert.Equal(HttpStatusCode.OK, loginResponse.Status);
+        Assert.NotNull(loginResponse.SetCookieHeaders);
+        Assert.Contains(loginResponse.SetCookieHeaders, h => h.StartsWith("Auth="));
+
+        // Get another X-CSRF token (we are now authenticated)
+        var xcsrfResponseAuthenticated = await _client.CallEndpoint("/Auth/GetXcsrfToken", HttpMethod.Get, print: true);
+        Assert.Equal(HttpStatusCode.OK, xcsrfResponseAuthenticated.Status);
+        string? xcsrfAuthenticated = _client.GetProperty(xcsrfResponseAuthenticated, "xcsrf");
+        Assert.False(string.IsNullOrEmpty(xcsrfAuthenticated));
+
+        // Try loading admin page
+        var result = await _client.CallEndpoint("/Admin", HttpMethod.Get, xcsrfAuthenticated, print: true);
         Assert.Equal(HttpStatusCode.Forbidden, result.Status);
         Assert.Equal(0, result.Content.GetPropertyCount());
     }
@@ -55,11 +72,28 @@ public class AdminControllerTests : IClassFixture<WebAppStarterPackFactory<Progr
             Password = "password3"
         };
         
-        var loginResponse = await _client.CallEndpoint("/Auth/Login", HttpMethod.Post, loginDto);
-        Assert.NotNull(loginResponse.AuthCookie);
-        Assert.NotEqual(string.Empty, loginResponse.AuthCookie);
+        // Get X-CSRF token
+        var xcsrfResponseAnonymous = await _client.CallEndpoint("/Auth/GetXcsrfToken", HttpMethod.Get, print: true);
+        Assert.Equal(HttpStatusCode.OK, xcsrfResponseAnonymous.Status);
+        string? xcsrfAnonymous = _client.GetProperty(xcsrfResponseAnonymous, "xcsrf");
+        Assert.False(string.IsNullOrEmpty(xcsrfAnonymous));
+        Assert.NotNull(xcsrfResponseAnonymous.SetCookieHeaders);
+        Assert.Contains(xcsrfResponseAnonymous.SetCookieHeaders, h => h.StartsWith("XSRF="));
 
-        var result = await _client.CallEndpoint("/Admin", HttpMethod.Get, loginResponse.AuthCookie);
+        // Log in
+        var loginResponse = await _client.CallEndpoint("/Auth/Login", HttpMethod.Post, loginDto, xcsrfAnonymous, print: true);
+        Assert.Equal(HttpStatusCode.OK, loginResponse.Status);
+        Assert.NotNull(loginResponse.SetCookieHeaders);
+        Assert.Contains(loginResponse.SetCookieHeaders, h => h.StartsWith("Auth="));
+
+        // Get another X-CSRF token (we are now authenticated)
+        var xcsrfResponseAuthenticated = await _client.CallEndpoint("/Auth/GetXcsrfToken", HttpMethod.Get, print: true);
+        Assert.Equal(HttpStatusCode.OK, xcsrfResponseAuthenticated.Status);
+        string? xcsrfAuthenticated = _client.GetProperty(xcsrfResponseAuthenticated, "xcsrf");
+        Assert.False(string.IsNullOrEmpty(xcsrfAuthenticated));
+
+        // Try loading admin page
+        var result = await _client.CallEndpoint("/Admin", HttpMethod.Get, xcsrfAuthenticated, print: true);
         Assert.Equal(HttpStatusCode.OK, result.Status);
 
         var message = _client.GetProperty(result, "message");

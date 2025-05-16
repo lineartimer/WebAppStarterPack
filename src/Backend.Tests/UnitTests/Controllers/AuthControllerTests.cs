@@ -1,19 +1,54 @@
+using Microsoft.AspNetCore.Antiforgery;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Moq;
 
+using Backend.Configurations;
 using Backend.Controllers;
+using Backend.Data;
 using Backend.Dtos;
 using Backend.Tests.Helpers;
-using Backend.Data;
 
 namespace Backend.Tests.UnitTests.Controllers;
 
 public class AuthControllerTests
 {
-    private DatabaseContext _db;
+    private readonly DatabaseContext _db;
+    private readonly JwtConfig _jwtConfig;
+    private readonly Mock<IAntiforgery> _mockAntiforgery;
 
     public AuthControllerTests()
     {
         _db = DatabaseHelper.CreateInMemoryDatabaseContext();
+        _jwtConfig = JwtHelper.JwtConfig;
+        _mockAntiforgery = new Mock<IAntiforgery>();
+    }
+
+    [Fact]
+    public void GetXcsrfToken_ShouldReturnOkResultWithToken()
+    {
+        var xcsrfToken = "ThisIsAnXCSRFTokenForTestingPurposesOnly";
+        var xsrfCookie = "ThisIsAnXSRFCookieForTestingPurposesOnly";
+        var headerName = "X-CSRF-Token";
+
+        var tokenSet = new AntiforgeryTokenSet(xcsrfToken, xsrfCookie, headerName, null);
+
+        _mockAntiforgery.Setup(af => af.GetAndStoreTokens(It.IsAny<HttpContext>()))
+            .Returns(tokenSet);
+
+        var controller = CreateAuthController();
+        var response = controller.GetXcsrfToken();
+
+        var result = Assert.IsType<OkObjectResult>(response);
+        Assert.NotNull(result.Value);
+
+        var xcsrfProperty = result.Value.GetType().GetProperty("Xcsrf");
+        Assert.NotNull(xcsrfProperty);
+        var xcsrfValue = xcsrfProperty.GetValue(result.Value)?.ToString();
+
+        Assert.Equal(xcsrfToken, xcsrfValue);
+
+        _mockAntiforgery.Verify(af => af.GetAndStoreTokens(controller.HttpContext), Times.Once);
     }
 
     [Fact]
@@ -315,11 +350,24 @@ public class AuthControllerTests
         // Log in new user
         await LoginExcpectOkResponse(credentialDto);
     }
+    
+    private AuthController CreateAuthController()
+    {
+        var controller = new AuthController(_db, _jwtConfig, _mockAntiforgery.Object)
+        {
+            ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext()
+            }
+        };
+
+        return controller;
+    }
 
     private async Task LoginExcpectBadRequestResponse(CredentialDto credentialDto)
     {
-        var auth = new AuthController(_db, JwtHelper.JwtConfig);
-        
+        var auth = CreateAuthController();
+
         var response = await auth.Login(credentialDto);
 
         var result = Assert.IsType<BadRequestObjectResult>(response);
@@ -328,7 +376,7 @@ public class AuthControllerTests
 
     private async Task LoginExcpectUnauthorizedResponse(CredentialDto credentialDto)
     {
-        var auth = new AuthController(_db, JwtHelper.JwtConfig);
+        var auth = CreateAuthController();
         
         var response = await auth.Login(credentialDto);
 
@@ -338,7 +386,7 @@ public class AuthControllerTests
 
     private async Task LoginExcpectOkResponse(CredentialDto credentialDto)
     {
-        var auth = new AuthController(_db, JwtHelper.JwtConfig);
+        var auth = CreateAuthController();
         
         var result = await auth.Login(credentialDto);
 
@@ -357,7 +405,7 @@ public class AuthControllerTests
 
     private async Task SignUpExcpectBadRequestResponse(UserDto userDto)
     {
-        var auth = new AuthController(_db, JwtHelper.JwtConfig);
+        var auth = CreateAuthController();
         
         var response = await auth.SignUp(userDto);
 
@@ -367,7 +415,7 @@ public class AuthControllerTests
 
     private async Task SignUpExcpectOkResponse(UserDto userDto)
     {
-        var auth = new AuthController(_db, JwtHelper.JwtConfig);
+        var auth = CreateAuthController();
         
         var signUpResult = await auth.SignUp(userDto);
         Assert.IsType<OkResult>(signUpResult);

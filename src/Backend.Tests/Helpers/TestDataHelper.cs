@@ -1,6 +1,5 @@
 using System.Globalization;
 using Backend.Dtos;
-using Microsoft.Identity.Client;
 
 namespace Backend.Tests.Helpers;
 

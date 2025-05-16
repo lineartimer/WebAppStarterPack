@@ -33,7 +33,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpGet("GetXcsrfToken")]
-    [AllowWithoutAntiforgeryToken]
+    [AllowNoAntiforgeryToken]
     public IActionResult GetXcsrfToken()
     {
         var tokens = _antiforgery.GetAndStoreTokens(HttpContext);
@@ -120,7 +120,7 @@ public class AuthController : ControllerBase
         var token = GenerateJwtToken(user, user.Role);
 
         // Put token in a secure, HTTP-only cookie
-        HttpContext?.Response.Cookies.Append("Auth-Token", token, new CookieOptions
+        HttpContext?.Response.Cookies.Append("Auth", token, new CookieOptions
         {
             HttpOnly = true, // Can't be accessed by JavaScript on the cilent side
             Secure = true, // Only sent over secure connections (HTTPS)
@@ -134,7 +134,7 @@ public class AuthController : ControllerBase
     [HttpPost("Logout")]
     public IActionResult Logout()
     {
-        HttpContext.Response.Cookies.Append("Auth-Token", string.Empty, new CookieOptions
+        HttpContext.Response.Cookies.Append("Auth", string.Empty, new CookieOptions
         {
             HttpOnly = true,
             Secure = true,
@@ -142,7 +142,7 @@ public class AuthController : ControllerBase
             Expires = DateTime.UtcNow.AddYears(-1) // Expire cookie immediately by setting a past date
         });
         
-        HttpContext.Response.Cookies.Append("XSRF-Token", string.Empty, new CookieOptions
+        HttpContext.Response.Cookies.Append("XSRF", string.Empty, new CookieOptions
         {
             HttpOnly = false,
             Secure = true,

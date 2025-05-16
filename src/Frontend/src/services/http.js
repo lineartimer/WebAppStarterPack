@@ -29,7 +29,7 @@ export const callEndPoint = async (url, method, xcsrf = null, payload = null, ti
     }
 
     if (xcsrf) {
-        request.headers = { ...request.headers, 'X-CSRF-Token': xcsrf };
+        request.headers = { ...request.headers, 'X-CSRF': xcsrf };
     }
 
     var response;

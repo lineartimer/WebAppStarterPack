@@ -10,7 +10,7 @@ public class ApiValidateAntiForgeryToken : ActionFilterAttribute
     {
         // Skip antiforgery validation if the action or its controller has the ignore attribute
         var endpoint = context.HttpContext.GetEndpoint();
-        if (endpoint?.Metadata.GetMetadata<AllowWithoutAntiforgeryToken>() != null)
+        if (endpoint?.Metadata.GetMetadata<AllowNoAntiforgeryToken>() != null)
         {
             await next();
             return;
@@ -29,7 +29,10 @@ public class ApiValidateAntiForgeryToken : ActionFilterAttribute
         }
         catch (AntiforgeryValidationException e)
         {
-            context.Result = new BadRequestObjectResult("Invalid anti-forgery token: " + e.Message);
+            context.Result = new BadRequestObjectResult(new
+            {
+                ErrorMessage = $"Invalid anti-forgery token: {e.Message}"
+            });
         }
     }
 }

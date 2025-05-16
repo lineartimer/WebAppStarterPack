@@ -1,3 +1,4 @@
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -9,10 +10,15 @@ public class HttpClientHelper
 {
     private readonly HttpClient _client;
     private readonly ITestOutputHelper _output;
-    
+
     public HttpClientHelper(WebApplicationFactory<Program> factory, ITestOutputHelper output)
     {
-        _client = factory.CreateClient();
+        var clientOptions = new WebApplicationFactoryClientOptions
+        {
+            BaseAddress = new Uri("https://localhost"),
+        };
+
+        _client = factory.CreateClient(clientOptions);
         _output = output;
     }
 
@@ -28,16 +34,16 @@ public class HttpClientHelper
         return await CallEndpointImpl(url, method, content, null, print);
     }
 
-    public async Task<EndPointResponse> CallEndpoint(string url, HttpMethod method, string authCookie, bool print = false)
+    public async Task<EndPointResponse> CallEndpoint(string url, HttpMethod method, string xcsrf, bool print = false)
     {
-        return await CallEndpointImpl(url, method, null, authCookie, print);
+        return await CallEndpointImpl(url, method, null, xcsrf, print);
     }
 
-    public async Task<EndPointResponse> CallEndpoint(string url, HttpMethod method, object content, string authCookie, bool print = false)
+    public async Task<EndPointResponse> CallEndpoint(string url, HttpMethod method, object content, string xcsrf, bool print = false)
     {
-        return await CallEndpointImpl(url, method, content, authCookie, print);
+        return await CallEndpointImpl(url, method, content, xcsrf, print);
     }
-    
+
     public string? GetProperty(EndPointResponse response, string propertyname)
     {
         JsonElement property;
@@ -50,48 +56,49 @@ public class HttpClientHelper
         return property.GetString();
     }
 
-    private async Task<EndPointResponse> CallEndpointImpl(string url, HttpMethod method, object? content, string? authCookie, bool print)
+    private async Task<EndPointResponse> CallEndpointImpl(string url, HttpMethod method, object? content, string? xcsrf, bool print)
     {
-        if(authCookie != null)
+        var requestMessage = new HttpRequestMessage(method, url);
+
+        // Set Accept header for consistent API interaction
+        requestMessage.Headers.Accept.Clear();
+        requestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+        if (content != null)
         {
-            _client.DefaultRequestHeaders.Add("Cookie", authCookie);
+            requestMessage.Content = new StringContent(JsonSerializer.Serialize(content), Encoding.UTF8, "application/json");
         }
 
-        var contentStr = (content == null) ? null : new StringContent(JsonSerializer.Serialize(content), Encoding.UTF8, "application/json");
-
-        HttpResponseMessage response;
-        switch(method.Method)
+        if (!string.IsNullOrEmpty(xcsrf))
         {
-            case "GET":
-                response = await _client.GetAsync(url);
-                break;
-            case "POST":
-                response = await _client.PostAsync(url, contentStr);
-                break;
-            case "PUT":
-                response = await _client.PutAsync(url, contentStr);
-                break;
-            case "DELETE":
-                response = await _client.DeleteAsync(url);
-                break;
-            default:
-                throw new Exception($"Only GET, POST, PUT and DELETE methods are supported.");
+            requestMessage.Headers.Add("X-CSRF", xcsrf);
         }
+
+        // Cookies are handled automatically by HttpClient's CookieContainer, only X-CSRF token needs to be set manually
+        HttpResponseMessage response = await _client.SendAsync(requestMessage);
 
         var responseStr = await response.Content.ReadAsStringAsync();
+        var responseContentElement = JsonSerializer.Deserialize<JsonElement>(string.IsNullOrEmpty(responseStr) ? "{}" : responseStr);
+
+        List<string>? setCookieHeaders = null;
+        if (response.Headers.TryGetValues("Set-Cookie", out IEnumerable<string>? cookies))
+        {
+            setCookieHeaders = cookies.ToList();
+        }
+
         var result = new EndPointResponse
         {
             Url = url,
             Status = response.StatusCode,
-            Content = JsonSerializer.Deserialize<JsonElement>(string.IsNullOrEmpty(responseStr) ? "{}" : responseStr),
-            AuthCookie = response.Headers.Contains("Set-Cookie") ? response.Headers.GetValues("Set-Cookie")?.FirstOrDefault() : null
+            Content = responseContentElement,
+            SetCookieHeaders = setCookieHeaders
         };
 
         if (print)
         {
             _output.WriteLine(result.ToString());
         }
-        
+
         return result;
     }
 }

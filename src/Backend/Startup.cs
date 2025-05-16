@@ -56,8 +56,7 @@ public class Startup
         // and updates the HttpContext.Request object so that your application behaves as if it received the original HTTPS request.
         services.Configure<ForwardedHeadersOptions>(options =>
         {
-            options.ForwardedHeaders =
-                ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
             options.KnownNetworks.Clear();
             options.KnownProxies.Clear();
         });
@@ -72,11 +71,6 @@ public class Startup
         if (env.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
-        }
-        else
-        {
-            // In production, might want to consider HSTS
-            // app.UseHsts();
         }
 
         app.UseCors(_policy);
@@ -221,9 +215,9 @@ public class Startup
                         {
                             OnMessageReceived = context =>
                             {
-                                if (context.Request.Cookies.ContainsKey("Auth-Token"))
+                                if (context.Request.Cookies.ContainsKey("Auth"))
                                 {
-                                    context.Token = context.Request.Cookies["Auth-Token"];
+                                    context.Token = context.Request.Cookies["Auth"];
                                 }
 
                                 return Task.CompletedTask;
@@ -239,10 +233,12 @@ public class Startup
 
         services.AddAntiforgery(options =>
             {
-                options.HeaderName = "X-CSRF-Token"; // Request token
-                options.Cookie.Name = "XSRF-Token"; // Cookie token
+                options.HeaderName = "X-CSRF"; // Request token
+                options.Cookie.Name = "XSRF"; // Cookie token
                 options.Cookie.HttpOnly = false;
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                // This will work even though the frontend and the backend have different urls
+                // because azurecontainerapps.io is on the public suffix list
                 options.Cookie.SameSite = SameSiteMode.Strict;
             });
     }

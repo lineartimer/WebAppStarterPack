@@ -32,8 +32,15 @@ public class AuthController : ControllerBase
         _antiforgery = antiforgery;
     }
 
+    [HttpGet("GetXcsrfToken")]
+    [AllowWithoutAntiforgeryToken]
+    public IActionResult GetXcsrfToken()
+    {
+        var tokens = _antiforgery.GetAndStoreTokens(HttpContext);
+        return Ok(new { Xcsrf = tokens.RequestToken });
+    }
+
     [HttpPost("SignUp")]
-    [ApiValidateAntiForgeryTokenAttribute]
     public async Task<IActionResult> SignUp(UserDto userDto)
     {
         if (userDto.Username == null || userDto.Email == null || userDto.Password == null || userDto.FirstName == null || userDto.Role == null)
@@ -77,7 +84,6 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("Login")]
-    [ApiValidateAntiForgeryTokenAttribute]
     public async Task<IActionResult> Login(CredentialDto loginDto)
     {
         if ((loginDto.Username == null && loginDto.Email == null) || loginDto.Password == null)
@@ -114,11 +120,11 @@ public class AuthController : ControllerBase
         var token = GenerateJwtToken(user, user.Role);
 
         // Put token in a secure, HTTP-only cookie
-        HttpContext?.Response.Cookies.Append("AuthToken", token, new CookieOptions
+        HttpContext?.Response.Cookies.Append("Auth-Token", token, new CookieOptions
         {
             HttpOnly = true, // Can't be accessed by JavaScript on the cilent side
             Secure = true, // Only sent over secure connections (HTTPS)
-            SameSite = SameSiteMode.None,
+            SameSite = SameSiteMode.Strict,
             Expires = DateTime.UtcNow.AddDays(7)
         });
 
@@ -126,34 +132,25 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("Logout")]
-    [ApiValidateAntiForgeryTokenAttribute]
     public IActionResult Logout()
     {
-        HttpContext.Response.Cookies.Append("AuthToken", string.Empty, new CookieOptions
+        HttpContext.Response.Cookies.Append("Auth-Token", string.Empty, new CookieOptions
         {
             HttpOnly = true,
             Secure = true,
-            SameSite = SameSiteMode.None,
-            Expires = DateTime.UtcNow.AddYears(-1) // Expire the cookie immediately by setting a past date
+            SameSite = SameSiteMode.Strict,
+            Expires = DateTime.UtcNow.AddYears(-1) // Expire cookie immediately by setting a past date
         });
         
-        HttpContext.Response.Cookies.Append("XSRF-TOKEN", string.Empty, new CookieOptions
+        HttpContext.Response.Cookies.Append("XSRF-Token", string.Empty, new CookieOptions
         {
             HttpOnly = false,
             Secure = true,
-            SameSite = SameSiteMode.None,
-            Expires = DateTime.UtcNow.AddYears(-1) // Expire the cookie immediately by setting a past date
+            SameSite = SameSiteMode.Strict,
+            Expires = DateTime.UtcNow.AddYears(-1) // Expire cookie immediately by setting a past date
         });
 
         return Ok();
-    }
-
-    [HttpGet("GetXcsrfToken")]
-    [AllowAnonymous]
-    public IActionResult GetXcsrfToken()
-    {
-        var tokens = _antiforgery.GetAndStoreTokens(HttpContext);
-        return Ok(new { Xcsrf = tokens.RequestToken });
     }
 
     private string GenerateJwtToken(User user, Role role)

@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+using Backend.Configurations;
 using Backend.Data;
-using Backend.Filters;
 using Backend.Models;
 
 namespace Backend.Controllers;
@@ -56,7 +56,6 @@ public class DataController : ControllerBase
 
     // POST: /Data
     [HttpPost]
-    [ApiValidateAntiForgeryToken]
     public async Task<IActionResult> Create(Datum datum)
     {
         _db.Data.Add(datum);
@@ -68,7 +67,6 @@ public class DataController : ControllerBase
     
     // POST: /Data/Bulk
     [HttpPost("Bulk")]
-    [ApiValidateAntiForgeryTokenAttribute]
     public async Task<IActionResult> CreateBulk(List<Datum> data)
     {
         if (data == null || data.Count == 0)
@@ -85,7 +83,6 @@ public class DataController : ControllerBase
 
     // PUT: /Data
     [HttpPut]
-    [ApiValidateAntiForgeryTokenAttribute]
     public async Task<IActionResult> Update(Datum datum)
     {
         if (!_db.Data.Any(e => e.Id == datum.Id))
@@ -101,7 +98,6 @@ public class DataController : ControllerBase
 
     // DELETE: /Data/{id}
     [HttpDelete("{id}")]
-    [ApiValidateAntiForgeryTokenAttribute]
     public async Task<IActionResult> Delete(int id)
     {
         var datum = await _db.Data.FindAsync(id);
@@ -119,7 +115,6 @@ public class DataController : ControllerBase
     
     // DELETE: /Data/ByIds
     [HttpDelete("ByIds")]
-    [ApiValidateAntiForgeryTokenAttribute]
     public async Task<IActionResult> DeleteByIds(List<int> ids)
     {
         if (ids == null || ids.Count == 0)
@@ -142,7 +137,6 @@ public class DataController : ControllerBase
 
     // DELETE: /Data/All
     [HttpDelete("All")]
-    [ApiValidateAntiForgeryTokenAttribute]
     public async Task<IActionResult> DeleteAll()
     {
         var dataToDelete = await _db.Data.ToListAsync();

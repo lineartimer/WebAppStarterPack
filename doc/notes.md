@@ -182,7 +182,7 @@ Creating a Container App:
 - For CPU and memory, select 0.25 CPU cores and 0.5 GB memory
 - On the Ingress tab, enable Ingress and select Accepting traffic from anywhere
 
-To check the console go to the Container App on Azure Portal and under Monitoring, select Logs. Look for a table ContainerAppConsoleLogs_CL.
+To check the console, go to the Container App on Azure Portal and under Monitoring, select Logs. Look for a table with the name ContainerAppConsoleLogs_CL.
 
 ### React website (frontend)
 

@@ -1,4 +1,4 @@
-namespace Backend.Controllers;
+namespace Backend.Configurations;
 
 public class ExceptionErrors
 {

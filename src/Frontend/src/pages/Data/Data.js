@@ -14,7 +14,7 @@ const Data = () => {
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
-            var response = await callEndPoint(backend.urls.data, httpMethods.Get);
+            var response = await callEndPoint(backend.urls.data, httpMethods.Get, localStorage.getItem("xcsrf"));
             setLoading(false);
 
             if(response.status) {

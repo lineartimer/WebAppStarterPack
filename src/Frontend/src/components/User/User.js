@@ -32,7 +32,8 @@ const User = () => {
     const onLogout = async () => {
         setLoggingOut(true);
 
-        await callEndPoint("/Auth/Logout", httpMethods.Post);
+        await callEndPoint("/Auth/Logout", httpMethods.Post, localStorage.getItem("xcsrf"));
+        
         localStorage.removeItem("username");
         localStorage.removeItem("role");
         localStorage.removeItem("xcsrf");

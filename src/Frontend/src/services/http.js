@@ -19,7 +19,7 @@ export const httpMethods = {
 export const callEndPoint = async (url, method, xcsrf = null, payload = null, timeout = 30000) => {
     var request = {
         method: method,
-        // Include the http-only authentication cookie in the request
+        // Include http-only cookies in the request
         credentials: "include"
     };
 
@@ -29,7 +29,7 @@ export const callEndPoint = async (url, method, xcsrf = null, payload = null, ti
     }
 
     if (xcsrf) {
-        request.headers = { ...request.headers, 'X-CSRF-TOKEN': xcsrf };
+        request.headers = { ...request.headers, 'X-CSRF-Token': xcsrf };
     }
 
     var response;
@@ -52,7 +52,8 @@ const getBaseUrl = () => {
         baseUrl += `:${backend.portDev}`;
     } else {
         // Production environment
-        baseUrl = baseUrl.replace("frontend", "backend");
+        baseUrl = baseUrl.trimEnd('/').replace("frontend", "backend");
+        alert(baseUrl);
     }
 
     return baseUrl;

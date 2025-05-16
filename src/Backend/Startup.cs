@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 
 using Backend.Configurations;
 using Backend.Data;
+using Backend.Filters;
 
 public class Startup
 {
@@ -26,15 +27,6 @@ public class Startup
         AddDbContext(services);
         AddAuthentication(services);
 
-        services.AddAntiforgery(options =>
-            {
-                options.HeaderName = "X-CSRF-TOKEN"; // Request token
-                options.Cookie.Name = "XSRF-TOKEN"; // Cookie token
-                options.Cookie.HttpOnly = false;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-                options.Cookie.SameSite = SameSiteMode.None;
-            });
-
         // Suppress EF Core query logs
         services.AddLogging(builder =>
         {
@@ -48,6 +40,10 @@ public class Startup
                         .RequireAuthenticatedUser()
                         .Build();
                     options.Filters.Add(new AuthorizeFilter(policy));
+
+                    // Automatically validate antiforgery tokens for unsafe HTTP methods like POST, PUT and DELETE but
+                    // skip validation for GET methods.
+                    options.Filters.Add(new ApiValidateAntiForgeryToken());
                 });
 
         // In Azure, there's a reverse proxy or load balancer (ingress controller) in front of the Container App, which
@@ -144,7 +140,7 @@ public class Startup
             // Locally, environment variables are not set, so using the connection string stored in .Net Secrets Manager
             connStr = _configuration.GetConnectionString("SqliteTestDb");
 
-            if(connStr == null)
+            if (connStr == null)
             {
                 // Running locally
                 connStr = _configuration.GetConnectionString("SqlServer");
@@ -205,7 +201,7 @@ public class Startup
             Audience = "backend"
         };
         services.AddSingleton(jwtSettings);
-        
+
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options =>
                     {
@@ -225,9 +221,9 @@ public class Startup
                         {
                             OnMessageReceived = context =>
                             {
-                                if (context.Request.Cookies.ContainsKey("AuthToken"))
+                                if (context.Request.Cookies.ContainsKey("Auth-Token"))
                                 {
-                                    context.Token = context.Request.Cookies["AuthToken"];
+                                    context.Token = context.Request.Cookies["Auth-Token"];
                                 }
 
                                 return Task.CompletedTask;
@@ -240,5 +236,14 @@ public class Startup
                             }
                         };
                     });
+
+        services.AddAntiforgery(options =>
+            {
+                options.HeaderName = "X-CSRF-Token"; // Request token
+                options.Cookie.Name = "XSRF-Token"; // Cookie token
+                options.Cookie.HttpOnly = false;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                options.Cookie.SameSite = SameSiteMode.Strict;
+            });
     }
 }

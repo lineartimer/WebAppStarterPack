@@ -53,7 +53,6 @@ const getBaseUrl = () => {
     } else {
         // Production environment
         baseUrl = baseUrl.trimEnd('/').replace("frontend", "backend");
-        alert(baseUrl);
     }
 
     return baseUrl;

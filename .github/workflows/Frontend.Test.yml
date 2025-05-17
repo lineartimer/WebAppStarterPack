@@ -32,4 +32,4 @@ jobs:
         working-directory: ./src/Frontend
         run: |
           npm install
-          npm test
+          CI=true npm test

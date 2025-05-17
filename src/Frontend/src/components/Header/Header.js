@@ -1,8 +1,8 @@
-import "./Header.css";
-import Logo from "../../components/Logo/Logo";
-import Navigation from "../../components/Navigation/Navigation";
-import User from "../../components/User/User";
-import { isMobile } from "../../utils/utils";
+import './Header.css';
+import Logo from '../../components/Logo/Logo';
+import Navigation from '../../components/Navigation/Navigation';
+import User from '../../components/User/User';
+import { isMobile } from '../../utils/utils';
 
 const Header = () => {
     return (

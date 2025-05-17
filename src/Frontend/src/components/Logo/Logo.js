@@ -1,4 +1,4 @@
-import "./Logo.css";
+import './Logo.css';
 
 const Logo = () => {
     return (

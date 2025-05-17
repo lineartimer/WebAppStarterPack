@@ -12,7 +12,7 @@ export const isMobile = () => {
         result = false;
     }
 
-    //return true; // For development purposes
+    // return true; // For development purposes
     return result;
 }
 

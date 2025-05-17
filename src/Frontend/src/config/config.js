@@ -5,6 +5,10 @@ export const backend = {
         logout: "/Auth/Logout",
         admin: "/Admin",
         data: "/Data"
+    },
+    roles: {
+        user: "User",
+        admin: "Admin"
     }
 };
 

@@ -27,6 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E40BF17A-E63
 		Frontend\src\index.js = Frontend\src\index.js
 		Frontend\src\App.css = Frontend\src\App.css
 		Frontend\src\index.css = Frontend\src\index.css
+		Frontend\src\setupTests.js = Frontend\src\setupTests.js
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "public", "public", "{527D5226-F8A7-0BC6-A2BD-D8FFFC6D9DE8}"
@@ -60,6 +61,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Table", "Table", "{C8277E73
 	ProjectSection(SolutionItems) = preProject
 		Frontend\src\components\Table\Table.js = Frontend\src\components\Table\Table.js
 		Frontend\src\components\Table\Table.css = Frontend\src\components\Table\Table.css
+		Frontend\src\components\Table\Table.test.js = Frontend\src\components\Table\Table.test.js
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config", "config", "{CCB2D3F0-507C-0113-6443-5191A0BFBAAB}"
@@ -81,18 +83,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Footer", "Footer", "{E465D6
 	ProjectSection(SolutionItems) = preProject
 		Frontend\src\components\Footer\Footer.css = Frontend\src\components\Footer\Footer.css
 		Frontend\src\components\Footer\Footer.js = Frontend\src\components\Footer\Footer.js
+		Frontend\src\components\Footer\Footer.test.js = Frontend\src\components\Footer\Footer.test.js
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Logo", "Logo", "{29C71E81-0F56-112B-E97D-F6CA6402E67F}"
 	ProjectSection(SolutionItems) = preProject
 		Frontend\src\components\Logo\Logo.css = Frontend\src\components\Logo\Logo.css
 		Frontend\src\components\Logo\Logo.js = Frontend\src\components\Logo\Logo.js
+		Frontend\src\components\Logo\Logo.test.js = Frontend\src\components\Logo\Logo.test.js
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Navigation", "Navigation", "{3399E8A6-E54D-9FC7-2A49-81375B3AD1DE}"
 	ProjectSection(SolutionItems) = preProject
 		Frontend\src\components\Navigation\Navigation.css = Frontend\src\components\Navigation\Navigation.css
 		Frontend\src\components\Navigation\Navigation.js = Frontend\src\components\Navigation\Navigation.js
+		Frontend\src\components\Navigation\Navigation.test.js = Frontend\src\components\Navigation\Navigation.test.js
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "User", "User", "{D7FD41AC-78C7-AF62-5728-5D2A31DE3246}"
@@ -117,6 +122,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Header", "Header", "{3F2A2B
 	ProjectSection(SolutionItems) = preProject
 		Frontend\src\components\Header\Header.css = Frontend\src\components\Header\Header.css
 		Frontend\src\components\Header\Header.js = Frontend\src\components\Header\Header.js
+		Frontend\src\components\Header\Header.test.js = Frontend\src\components\Header\Header.test.js
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Error", "Error", "{3B2A9474-DD7C-1BEC-DBD5-D6E5EA69FDD9}"

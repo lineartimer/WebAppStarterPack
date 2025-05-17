@@ -49,6 +49,23 @@ npm start
 To stop the app on Mac:
 - Ctrl + c (not Cmd + c)
 
+### Adding unit tests
+
+Cd into the folder where package.json is and run:
+
+npm install --save-dev @testing-library/react
+npm install --save-dev @testing-library/jest-dom
+
+This will add these libraries as dev dependencies to package.json and npm install will install them with later builds.
+
+Create a file named setupTests.js in the src folder and add this one line to it:
+
+import '@testing-library/jest-dom';
+
+To run all tests:
+
+CI=true npm test
+
 ### Deploying the project
 
 To deploy the project to a web server:
@@ -461,6 +478,7 @@ public partial class Program { }
 
 # Frontend development
 
+- Both React and Angular use client-side rendering (not good for seo) and both build the web page dynamically from nested components. Next.js is a React meta-framework built on react that uses server-side rendering
 - If there's a CORS error and there shouldn't be any, cleaning the project, closing and reopening the workspace and VS Code in addition to deleting everything unnecessary from both the frontend and the backend and rebuilding and restarting them might solve the issue
 - Vulnerabilites found by npm install may be fixed by running npm audit --force but it may break the project
 - To stop search engines from indexing a page, add: <meta name="robots" content="noindex, nofollow" />
@@ -591,6 +609,12 @@ var DemoTable2 = () => {
 
 <DemoTable1 />
 <DemoTable2 />
+
+## Tests
+
+Testing class names can make tests brittle if they are purely for styling. Only test class names when they are important for layout structure.
+
+React Testing Library philosophy emphasizes testing components in the same way a user would interact with them (e.g. users find and identify links by their visible text).
 
 # AI tools
 

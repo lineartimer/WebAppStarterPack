@@ -76,8 +76,7 @@ describe('User Component', () => {
             fireEvent.click(usernameLink);
             expect(screen.getByText('Logout')).toBeInTheDocument();
             expect(screen.queryByText(/Role: User/i)).not.toBeInTheDocument();
-
-
+            
             fireEvent.click(usernameLink);
             expect(screen.queryByText('Logout')).not.toBeInTheDocument();
         });

@@ -76,7 +76,7 @@ const User = () => {
                 </div>
             )}
             {showUserWindow && (
-                <div className={isMobile() ? "user-window-mobile" : "user-window-desktop"}>
+                <div className={isMobile() ? 'user-window-mobile' : 'user-window-desktop'}>
                     {isMobile() && (
                         <div>
                             <div className="x-wrapper">
@@ -84,12 +84,12 @@ const User = () => {
                             </div>
                             <div className="mobile-menu-item">{username}</div>
                             {!username && (
-                                <a className={isMobile() ? "mobile-menu-item login-or-out" : ""} href="/Login">Login</a>
+                                <a className={isMobile() ? 'mobile-menu-item login-or-out' : ''} href="/Login">Login</a>
                             )}
                         </div>
                     )}
                     {role == "Admin" && (
-                        <div className={isMobile() ? "mobile-menu-item" : "user-role"}>
+                        <div className={isMobile() ? 'mobile-menu-item' : 'user-role'}>
                             <div>Role: {role}</div>
                         </div>
                     )}
@@ -97,7 +97,7 @@ const User = () => {
                         <Navigation />
                     )}
                     {username && (
-                        <a className={isMobile() ? "mobile-menu-item login-or-out" : ""} href="#" onClick={onLogout}>Logout</a>
+                        <a className={isMobile() ? 'mobile-menu-item login-or-out' : ''} href="#" onClick={onLogout}>Logout</a>
                     )}
                 </div>
             )}

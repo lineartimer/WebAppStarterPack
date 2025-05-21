@@ -1,4 +1,4 @@
-import { backend } from "../config/config";
+import { backend } from '../config/config';
 
 export const responseStatus = {
     Ok: 200,
@@ -10,21 +10,21 @@ export const responseStatus = {
 };
 
 export const httpMethods = {
-    Get: "GET",
-    Post: "POST",
-    Put: "PUT",
-    Delete: "DELETE"
+    Get: 'GET',
+    Post: 'POST',
+    Put: 'PUT',
+    Delete: 'DELETE'
 };
 
 export const callEndPoint = async (url, method, xcsrf = null, payload = null, timeout = 30000) => {
     var request = {
         method: method,
         // Include http-only cookies in the request
-        credentials: "include"
+        credentials: 'include'
     };
 
     if(method != httpMethods.Get && payload) {
-        request.headers = { "Content-Type": "application/json" };
+        request.headers = { 'Content-Type': 'application/json' };
         request.body = JSON.stringify(payload);
     }
 
@@ -47,12 +47,12 @@ const getBaseUrl = () => {
     const server = window.location.hostname;
 
     var baseUrl = `https://${server}`;
-    if (server === "localhost") {
+    if (server === 'localhost') {
         // Development environment
         baseUrl += `:${backend.portDev}`;
     } else {
         // Production environment
-        baseUrl = baseUrl.trimEnd('/').replace("frontend", "backend");
+        baseUrl = baseUrl.trimEnd('/').replace('frontend', 'backend');
     }
 
     return baseUrl;

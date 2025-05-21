@@ -1,21 +1,21 @@
-import { useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router";
+import { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router';
 
-import "./App.css"
-import Admin from "./pages/Admin/Admin";
-import Data from "./pages/Data/Data";
-import Error from "./pages/Error/Error";
-import Home from "./pages/Home/Home";
-import Layout from "./pages/Layout/Layout";
-import Login from "./pages/Login/Login";
-import { frontend } from "./config/config";
-import { callEndPoint, httpMethods } from "./services/http";
+import './App.css'
+import Admin from './pages/Admin/Admin';
+import Data from './pages/Data/Data';
+import Error from './pages/Error/Error';
+import Home from './pages/Home/Home';
+import Layout from './pages/Layout/Layout';
+import Login from './pages/Login/Login';
+import { frontend } from './config/config';
+import { callEndPoint, httpMethods } from './services/http';
 
 const App = () => {
     useEffect(() => {
         const setXsrfToken = async () => {
             var response = await callEndPoint('/Auth/GetXcsrfToken', httpMethods.Get);
-            localStorage.setItem("xcsrf", response.payload.xcsrf);
+            localStorage.setItem('xcsrf', response.payload.xcsrf);
         };
 
         setXsrfToken();

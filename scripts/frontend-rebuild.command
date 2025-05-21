@@ -19,6 +19,7 @@ rm -rf ../src/Frontend/package-lock.json
 
 cd ../src/Frontend
 npm install
+./node_modules/.bin/jest --clearCache
 
 echo
 read -p "Press any key to continue..."

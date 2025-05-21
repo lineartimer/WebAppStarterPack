@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 import { Outlet } from 'react-router';
 
-import "./Layout.css"
-import Footer from "../../components/Footer/Footer";
-import Header from "../../components/Header/Header";
+import './Layout.css'
+import Footer from '../../components/Footer/Footer';
+import Header from '../../components/Header/Header';
 
 const Layout = () => {
     return (
@@ -25,16 +25,16 @@ const LayoutImpl = () => {
             }
         };
 
-        window.addEventListener("scroll", handleScroll);
+        window.addEventListener('scroll', handleScroll);
 
         return () => {
-            window.removeEventListener("scroll", handleScroll);
+            window.removeEventListener('scroll', handleScroll);
         };
     }, []);
 
     return (
         <div className="layout">
-            <header className={`sticky ${scrolled ? "scrolled" : ""}`}>
+            <header className={`sticky ${scrolled ? 'scrolled' : ''}`}>
                 <Header />
             </header>
             <main>

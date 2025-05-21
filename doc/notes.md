@@ -66,6 +66,8 @@ To run all tests:
 
 CI=true npm test
 
+To clear the cache: ./node_modules/.bin/jest --clearCache
+
 ### Deploying the project
 
 To deploy the project to a web server:
@@ -507,11 +509,11 @@ function normalFunction() {
     alert("normalFunction");
 }
 
-var functionAssignedToAVariable = function () {
+const functionAssignedToAVariable = function () {
     alert("functionAssignedToAVariable");
 };
 
-var arrowFunction = () => alert("arrowFunction");
+const arrowFunction = () => alert("arrowFunction");
 
 async function asyncFunction() {
     alert("asyncFunction");
@@ -526,7 +528,7 @@ It's a common trend in modern JavaScript to use the arrow function syntax even w
 
 Members can be dynamically added to objects:
 
-var o = {
+let o = {
     "str1": "Some string"
 };
 
@@ -558,12 +560,12 @@ function DemoButton() {
 
 Two ways to display data in a table (one with hard-coded column names, one without them):
 
-var table = [
+const table = [
     { Col1: "Val11", Col2: "Val12" },
     { Col1: "Val21", Col2: "Val22" }
 ];
 
-var DemoTable1 = () => {
+const DemoTable1 = () => {
     return (
         <table>
             <thead>
@@ -586,8 +588,8 @@ var DemoTable1 = () => {
     );
 };
 
-var DemoTable2 = () => {
-    var colNames = table.length > 0 ? Object.keys(table[0]) : [];
+const DemoTable2 = () => {
+    const colNames = table.length > 0 ? Object.keys(table[0]) : [];
 
     return (
         <table>

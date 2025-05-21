@@ -40,30 +40,34 @@ const Login = () => {
         // After logging in, a new X-CSRF token will be needed because now the request is coming from
         // an authenticated user as opposed to an anonymous user
         var xcsrfResponse = await callEndPoint('/Auth/GetXcsrfToken', httpMethods.Get);
-        localStorage.setItem('xcsrf', xcsrfResponse.payload.xcsrf);
-
+        
         setIsLoading(false);
+
+        if(xcsrfResponse.status === responseStatus.Ok) {
+            localStorage.setItem('xcsrf', xcsrfResponse.payload.xcsrf);
+        } else {
+            navigate(frontend.urls.errorPage);
+        }
 
         var loginRedirectUrl = localStorage.getItem('loginRedirectUrl') || null;
         localStorage.removeItem('loginRedirectUrl');
 
-        if (loginResponse.status == responseStatus.Ok) {
+        if (loginResponse.status === responseStatus.Ok) {
             localStorage.setItem('username', username);
             localStorage.setItem('role', loginResponse.payload.role);
 
             navigate(loginRedirectUrl ? loginRedirectUrl : frontend.urls.homePage);
-        } else if (loginResponse.status == responseStatus.UnAuthorized) {
+        } else if (loginResponse.status === responseStatus.UnAuthorized) {
             setError(frontend.errorMessages.invalidUserNameOrPasswordError);
-        }
-        else {
+        } else {
             navigate(frontend.urls.errorPage);
         }
     };
 
     if (isLoading) {
         return (
-            <div className="loading-screen">
-                <div className="spinner"></div>
+            <div data-testid="loadingScreen" className="loading-screen">
+                <div data-testid="spinner" className="spinner"></div>
             </div>
         );
     }
@@ -77,13 +81,13 @@ const Login = () => {
                     <form className="login-form" onSubmit={onLogin}>
                         <h2>Sign in</h2>
                         <div className="login-textbox">
-                            <input type="text" placeholder="Username" value={username} autoFocus onChange={(e) => setUsername(e.target.value)} className={usernameError ? "input-error" : ""} />
+                            <input type="text" placeholder="Username" value={username} autoFocus onChange={(e) => setUsername(e.target.value)} className={usernameError ? 'input-error' : ''} />
                             {usernameError && <div className="error-message">{usernameError}</div>}
                         </div>
                         <div>
                             <div className="login-textbox">
                                 <div className="pwd-textbox">
-                                    <input type={showPassword ? "text" : "password"} placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} className={passwordError ? "input-error" : ""} />
+                                    <input type={showPassword ? 'text' : 'password'} placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} className={passwordError ? 'input-error' : ''} />
                                     {!isMobile() && <button type="button" className="show-hide-button" onMouseDown={() => setShowPassword(true)} onMouseUp={() => setShowPassword(false)} onMouseLeave={() => setShowPassword(false)}>
                                         {showPassword ? 'Hide' : 'Show'}
                                     </button>}

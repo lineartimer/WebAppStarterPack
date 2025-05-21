@@ -1,6 +1,6 @@
-import "./Error.css";
-import Logo from "../../components/Logo/Logo"
-import { frontend } from "../../config/config";
+import './Error.css';
+import Logo from '../../components/Logo/Logo'
+import { frontend } from '../../config/config';
 
 const Error = () => {
     return (

@@ -104,6 +104,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "User", "User", "{D7FD41AC-7
 	ProjectSection(SolutionItems) = preProject
 		Frontend\src\components\User\User.css = Frontend\src\components\User\User.css
 		Frontend\src\components\User\User.js = Frontend\src\components\User\User.js
+		Frontend\src\components\User\User.test.js = Frontend\src\components\User\User.test.js
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Layout", "Layout", "{041F59CA-D44C-1B6A-49FF-68877951D31A}"

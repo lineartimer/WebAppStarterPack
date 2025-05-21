@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router';
 
 import "./Layout.css"
 import Footer from "../../components/Footer/Footer";

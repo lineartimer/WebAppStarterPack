@@ -1,14 +1,14 @@
-import { useState, useEffect, useRef } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router';
 
-import "./User.css";
-import Navigation from "../../components/Navigation/Navigation";
-import { callEndPoint, httpMethods } from "../../services/http";
-import { isMobile } from "../../utils/utils";
+import './User.css';
+import Navigation from '../../components/Navigation/Navigation';
+import { callEndPoint, httpMethods } from '../../services/http';
+import { isMobile } from '../../utils/utils';
 
 const User = () => {
-    const [username] = useState(localStorage.getItem("username") || null);
-    const [role] = useState(localStorage.getItem("role") || null);
+    const [username] = useState(localStorage.getItem('username') || null);
+    const [role] = useState(localStorage.getItem('role') || null);
     const [showUserWindow, setShowUserWindow] = useState(false);
     const [loggingOut, setLoggingOut] = useState(false);
     const userWindowRef = useRef(null);
@@ -22,23 +22,23 @@ const User = () => {
             }
         };
         
-        document.addEventListener("mousedown", handleClickOutside);
+        document.addEventListener('mousedown', handleClickOutside);
 
         return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
+            document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
 
     const onLogout = async () => {
         setLoggingOut(true);
 
-        await callEndPoint("/Auth/Logout", httpMethods.Post, localStorage.getItem("xcsrf"));
+        await callEndPoint('/Auth/Logout', httpMethods.Post, localStorage.getItem('xcsrf'));
         
-        localStorage.removeItem("username");
-        localStorage.removeItem("role");
-        localStorage.removeItem("xcsrf");
+        localStorage.removeItem('username');
+        localStorage.removeItem('role');
+        localStorage.removeItem('xcsrf');
 
-        navigate("/");
+        navigate('/');
         window.location.reload();
     };
 

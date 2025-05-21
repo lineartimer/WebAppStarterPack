@@ -1,5 +1,5 @@
-import "./Table.css";
-import { capitalize } from "../../utils/utils"
+import './Table.css';
+import { capitalize } from '../../utils/utils'
 
 const Table = ({ data }) => {
     const colNames = data.length > 0 ? Object.keys(data[0]) : [];

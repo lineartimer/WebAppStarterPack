@@ -497,6 +497,10 @@ Outlines don't take up space in the DOM as opposed to borders do, which do. To p
 
 Use template literals to build strings (that stange quotation-mark-like character is the backtick): `Some text ${someVariable}`
 
+Don't use var to declare variables because those variables are accessible outside blocks within the same function. They can also be redeclared. Use let or const instead and use const wherever possible.
+
+It's a best practive to use the strict equality operator (===) instead of the loose one (==) because the latter can lead to subtle bugs (e.g. null == undefined is true).
+
 Different ways to define functions:
 
 function normalFunction() {
@@ -517,6 +521,8 @@ normalFunction();
 functionAssignedToAVariable();
 arrowFunction();
 await asyncFunction();
+
+It's a common trend in modern JavaScript to use the arrow function syntax even with named functions (the old syntax can lead to subtle bugs when using the this keyword within them).
 
 Members can be dynamically added to objects:
 
@@ -615,6 +621,13 @@ var DemoTable2 = () => {
 Testing class names can make tests brittle if they are purely for styling. Only test class names when they are important for layout structure.
 
 React Testing Library philosophy emphasizes testing components in the same way a user would interact with them (e.g. users find and identify links by their visible text).
+
+jest.spyOn and mockImplementation functions intercept calls to the original function and override its behavior:
+
+const someFuncSpy = jest.spyOn(SomeClass.prototype, 'someFunc');
+someFuncSpy.mockImplementation(() => {
+
+});
 
 # AI tools
 

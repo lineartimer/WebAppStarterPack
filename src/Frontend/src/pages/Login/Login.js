@@ -1,20 +1,20 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import DOMPurify from "dompurify";
+import { useState } from 'react';
+import { useNavigate } from 'react-router';
+import DOMPurify from 'dompurify';
 
-import "./Login.css";
-import Logo from "../../components/Logo/Logo";
-import { callEndPoint, httpMethods, responseStatus } from "../../services/http";
-import { backend, frontend } from "../../config/config";
-import { isMobile } from "../../utils/utils";
+import './Login.css';
+import Logo from '../../components/Logo/Logo';
+import { callEndPoint, httpMethods, responseStatus } from '../../services/http';
+import { backend, frontend } from '../../config/config';
+import { isMobile } from '../../utils/utils';
 
 const Login = () => {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
-    const [usernameError, setUsernameError] = useState("");
-    const [passwordError, setPasswordError] = useState("");
-    const [error, setError] = useState("");
+    const [usernameError, setUsernameError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+    const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
     const navigate = useNavigate();
@@ -22,8 +22,8 @@ const Login = () => {
     const onLogin = async (e) => {
         e.preventDefault();
 
-        setUsernameError(username ? "" : frontend.errorMessages.userNameMissingError);
-        setPasswordError(password ? "" : frontend.errorMessages.passwordMissingError);
+        setUsernameError(username ? '' : frontend.errorMessages.userNameMissingError);
+        setPasswordError(password ? '' : frontend.errorMessages.passwordMissingError);
 
         if (!username || !password) {
             return;
@@ -31,7 +31,7 @@ const Login = () => {
 
         setIsLoading(true);
         
-        const loginResponse = await callEndPoint(backend.urls.login, httpMethods.Post, localStorage.getItem("xcsrf"), {
+        const loginResponse = await callEndPoint(backend.urls.login, httpMethods.Post, localStorage.getItem('xcsrf'), {
             // Sanitize input to prevent XSS (Cross-Site Scripting attacks)
             username: DOMPurify.sanitize(username),
             password: DOMPurify.sanitize(password)
@@ -40,16 +40,16 @@ const Login = () => {
         // After logging in, a new X-CSRF token will be needed because now the request is coming from
         // an authenticated user as opposed to an anonymous user
         var xcsrfResponse = await callEndPoint('/Auth/GetXcsrfToken', httpMethods.Get);
-        localStorage.setItem("xcsrf", xcsrfResponse.payload.xcsrf);
+        localStorage.setItem('xcsrf', xcsrfResponse.payload.xcsrf);
 
         setIsLoading(false);
 
-        var loginRedirectUrl = localStorage.getItem("loginRedirectUrl") || null;
-        localStorage.removeItem("loginRedirectUrl");
+        var loginRedirectUrl = localStorage.getItem('loginRedirectUrl') || null;
+        localStorage.removeItem('loginRedirectUrl');
 
         if (loginResponse.status == responseStatus.Ok) {
-            localStorage.setItem("username", username);
-            localStorage.setItem("role", loginResponse.payload.role);
+            localStorage.setItem('username', username);
+            localStorage.setItem('role', loginResponse.payload.role);
 
             navigate(loginRedirectUrl ? loginRedirectUrl : frontend.urls.homePage);
         } else if (loginResponse.status == responseStatus.UnAuthorized) {
@@ -85,10 +85,10 @@ const Login = () => {
                                 <div className="pwd-textbox">
                                     <input type={showPassword ? "text" : "password"} placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} className={passwordError ? "input-error" : ""} />
                                     {!isMobile() && <button type="button" className="show-hide-button" onMouseDown={() => setShowPassword(true)} onMouseUp={() => setShowPassword(false)} onMouseLeave={() => setShowPassword(false)}>
-                                        {showPassword ? "Hide" : "Show"}
+                                        {showPassword ? 'Hide' : 'Show'}
                                     </button>}
                                     {isMobile() && <button type="button" className="show-hide-button" onClick={() => showPassword ? setShowPassword(false) : setShowPassword(true)}>
-                                        {showPassword ? "Hide" : "Show"}
+                                        {showPassword ? 'Hide' : 'Show'}
                                     </button>}
                                 </div>
                                 {passwordError && <div className="error-message">{passwordError}</div>}

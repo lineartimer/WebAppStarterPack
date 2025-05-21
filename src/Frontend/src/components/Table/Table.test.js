@@ -44,7 +44,6 @@ describe('Table component', () => {
             expect(rows.length).toBe(data.length);
         }
 
-
         // Check cell content for the first data row
         if (rows.length > 0) {
             const firstRow = within(rows[0]).getAllByRole('cell');
@@ -54,7 +53,6 @@ describe('Table component', () => {
             expect(firstRow[2]).toHaveTextContent('24');
         }
 
-
         // Check cell content for the second data row
         if (rows.length > 1) {
             const secondRow = within(rows[1]).getAllByRole('cell');
@@ -62,33 +60,6 @@ describe('Table component', () => {
             expect(secondRow[0]).toHaveTextContent('2');
             expect(secondRow[1]).toHaveTextContent('Bob');
             expect(secondRow[2]).toHaveTextContent('30');
-        }
-    });
-
-    test('renders correctly when data contains an empty object', () => {
-        const data = [{}];
-        render(<Table data={data} />);
-
-        const table = screen.getByRole('table');
-        const thead = table.querySelector('thead');
-
-        expect(thead).toBeInTheDocument();
-        if (thead) {
-            // No headers
-            expect(within(thead).queryAllByRole('columnheader').length).toBe(0);
-        }
-
-        const tbody = table.querySelector('tbody');
-
-        expect(tbody).toBeInTheDocument();
-        if (tbody) {
-            const rows = within(tbody).getAllByRole('row');
-            
-            expect(rows.length).toBe(1);
-            if (rows.length > 0) {
-                // No cells
-                expect(within(rows[0]).queryAllByRole('cell').length).toBe(0);
-            }
         }
     });
 

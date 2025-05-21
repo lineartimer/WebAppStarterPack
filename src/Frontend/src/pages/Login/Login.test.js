@@ -2,7 +2,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 import Login from "./Login";
 import { callEndPoint } from '../../services/http';
-import { backend, frontend } from '../../config/config';
+import { frontend } from '../../config/config';
 import { isMobile } from '../../utils/utils';
 
 const mockNavigateFunc = jest.fn();
@@ -62,7 +62,6 @@ describe('Login Page', () => {
         isMobile.mockReturnValue(true);
         render(<Login />);
 
-        const passwordInput = screen.getByPlaceholderText('Password');
         const showHideButton = screen.getByRole('button', { name: 'Show' });
 
         testPasswordVisibility(false);
@@ -102,6 +101,20 @@ describe('Login Page', () => {
 
     test('log in succeeds with valid credentials for admin user', async () => {
         testLogin(true, true);
+    });
+
+    test('show/hide password button works on desktop', () => {
+        isMobile.mockReturnValue(false);
+        render(<Login />);
+        const showHideButton = screen.getByRole('button', { name: 'Show' });
+
+        testPasswordVisibility(false);
+
+        fireEvent.mouseDown(showHideButton);
+        testPasswordVisibility(true);
+
+        fireEvent.mouseUp(showHideButton);
+        testPasswordVisibility(false);
     });
 
     const getCredentials = (isValid = true, isAdmin = false) => {
@@ -187,18 +200,4 @@ describe('Login Page', () => {
             expect(passwordInput).toHaveAttribute('type', 'password');
         }
     }
-
-    test('show/hide password button works on desktop', () => {
-        isMobile.mockReturnValue(false);
-        render(<Login />);
-        const showHideButton = screen.getByRole('button', { name: 'Show' });
-
-        testPasswordVisibility(false);
-
-        fireEvent.mouseDown(showHideButton);
-        testPasswordVisibility(true);
-
-        fireEvent.mouseUp(showHideButton);
-        testPasswordVisibility(false);
-    });
 });

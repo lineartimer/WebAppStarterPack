@@ -17,14 +17,14 @@ const Admin = () => {
             setLoading(false);
 
             if(response.status) {
-                if(response.status == responseStatus.Ok) {
+                if(response.status === responseStatus.Ok) {
                     setData(response.payload.message);
                 }
-                else if(response.status == responseStatus.UnAuthorized) {
+                else if(response.status === responseStatus.UnAuthorized) {
                     localStorage.setItem('loginRedirectUrl', frontend.urls.adminPage);
                     navigate(frontend.urls.loginPage);
                 }
-                else if(response.status == responseStatus.Forbidden) {
+                else if(response.status === responseStatus.Forbidden) {
                     localStorage.setItem('loginRedirectUrl', frontend.urls.homePage);
                     navigate(frontend.urls.homePage);
                 }

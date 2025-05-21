@@ -137,6 +137,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Admin", "Admin", "{C1C3BBF6
 	ProjectSection(SolutionItems) = preProject
 		Frontend\src\pages\Admin\Admin.css = Frontend\src\pages\Admin\Admin.css
 		Frontend\src\pages\Admin\Admin.js = Frontend\src\pages\Admin\Admin.js
+		Frontend\src\pages\Admin\Admin.test.js = Frontend\src\pages\Admin\Admin.test.js
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "img", "img", "{9D57A4F1-8CAA-7E72-5CD5-B59A3A5D9243}"

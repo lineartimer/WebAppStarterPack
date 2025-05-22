@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { callEndPoint } from '../../services/http';
 
-import Admin from "./Admin";
+import Data from "./Data";
 
 const mockNavigateFunc = jest.fn();
 
@@ -12,8 +12,7 @@ jest.mock('../../services/http', () => ({
     },
     responseStatus: {
         Ok: 200,
-        UnAuthorized: 401,
-        Forbidden: 403
+        UnAuthorized: 401
     }
 }));
 
@@ -36,7 +35,7 @@ const mockLocalStorage = (xcsrf) => {
     jest.spyOn(Storage.prototype, 'clear').mockImplementation(jest.fn());
 };
 
-describe('Admin Page', () => {
+describe('Data Page', () => {
     beforeEach(() => {
         jest.clearAllMocks();
     });
@@ -46,24 +45,19 @@ describe('Admin Page', () => {
     });
 
     test('redirects unauthorized user to login page', async () => {
-        await testPageLoad(false, false);
+        await testPageLoad(false);
     });
 
-    test('redirects non-admin user to home page', async () => {
-        await testPageLoad(true, false);
-    });
-
-    test('loads admin content for admin user', async () => {
-        await testPageLoad(true, true);
+    test('displays data for authenticated user', async () => {
+        await testPageLoad(true);
     });
 
     test('redirects user to error page in the case of a backend error', async () => {
-        await testPageLoad(true, false, true);
+        await testPageLoad(true, true);
     });
 
-    const testPageLoad = async (isAuthenticated, isAdmin, isError = false) => {
+    const testPageLoad = async (isAuthenticated, isError = false) => {
         const xcsrf = 'ThisIsAnXcsrfTokenForTestingPuroses';
-        const adminMessage = 'This page is for admins only.';
 
         mockLocalStorage(xcsrf);
 
@@ -75,10 +69,27 @@ describe('Admin Page', () => {
         } else {
             if(isAuthenticated) {
                 callEndPoint.mockReturnValue({
-                    status: isAdmin ? 200 : 403,
-                    payload: isAdmin ? {
-                        message: adminMessage
-                    } : null
+                    status: 200,
+                    payload: [
+                        {
+                            "id": 1,
+                            "col1": "Val-1-1",
+                            "col2": "Val-1-2",
+                            "col3": "Val-1-3"
+                        },
+                        {
+                            "id": 2,
+                            "col1": "Val-2-1",
+                            "col2": "Val-2-2",
+                            "col3": "Val-2-3"
+                        },
+                        {
+                            "id": 3,
+                            "col1": "Val-3-1",
+                            "col2": "Val-3-2",
+                            "col3": "Val-3-3"
+                        }
+                    ]
                 });
             } else {
                 callEndPoint.mockReturnValue({
@@ -88,26 +99,21 @@ describe('Admin Page', () => {
             }
         }
 
-        render(<Admin />);
+        render(<Data />);
 
         await waitFor(() => {
-            expect(callEndPoint).toHaveBeenCalledWith('/Admin', 'GET', xcsrf);
+            expect(callEndPoint).toHaveBeenCalledWith('/Data', 'GET', xcsrf);
         });
 
         if(isError) {
             expect(mockNavigateFunc).toHaveBeenCalledWith('/Error');
             return;
         }
-
-        if(!isAuthenticated) {
-            expect(mockNavigateFunc).toHaveBeenCalledWith('/Login');
-            return;
-        }
-
-        if(isAdmin) {
-            expect(screen.getByText(adminMessage)).toBeInTheDocument();
+        
+        if(isAuthenticated) {
+            expect(screen.getByRole('table')).toBeInTheDocument();
         } else {
-            expect(mockNavigateFunc).toHaveBeenCalledWith('/');
+            expect(mockNavigateFunc).toHaveBeenCalledWith('/Login');
         }
     };
 });

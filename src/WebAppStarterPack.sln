@@ -118,6 +118,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{18D3211A-1
 	ProjectSection(SolutionItems) = preProject
 		Frontend\src\pages\Data\Data.css = Frontend\src\pages\Data\Data.css
 		Frontend\src\pages\Data\Data.js = Frontend\src\pages\Data\Data.js
+		Frontend\src\pages\Data\Data.test.js = Frontend\src\pages\Data\Data.test.js
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Header", "Header", "{3F2A2B73-8306-CC13-97B8-83639F89A1A0}"

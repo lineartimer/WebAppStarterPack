@@ -45,103 +45,89 @@ const mockLocalStorage = (username, role) => {
     });
 };
 
-describe('User Not Logged In', () => {
-    beforeEach(() => {
-        mockLocalStorage(null, null);
+describe('Navigation Component', () => {
+    describe('User Not Logged In', () => {
+        test('renders no navigation links', () => {
+            isMobile.mockReturnValue(false);
+            render(<Navigation />);
+
+            expect(screen.queryByRole('link', { name: /admin/i })).not.toBeInTheDocument();
+            expect(screen.queryByRole('link', { name: /data/i })).not.toBeInTheDocument();
+        });
     });
 
-    afterEach(() => {
-        jest.restoreAllMocks();
+    describe('Non-Admin User Logged In', () => {
+        beforeEach(() => {
+            mockLocalStorage('user1', 'User');
+        });
+
+        test('renders Data link and not Admin link (desktop)', () => {
+            isMobile.mockReturnValue(false);
+            render(<Navigation />);
+
+            const dataLink = screen.getByRole('link', { name: /data/i });
+
+            expect(dataLink).toBeInTheDocument();
+            expect(dataLink).toHaveAttribute('href', mockDataPageUrl);
+            expect(dataLink).not.toHaveClass('mobile-menu-item');
+
+            expect(screen.queryByRole('link', { name: /admin/i })).not.toBeInTheDocument();
+        });
+
+        test('renders Data link and not Admin link (mobile)', () => {
+            isMobile.mockReturnValue(true);
+
+            render(<Navigation />);
+
+            const dataLink = screen.getByRole('link', { name: /data/i });
+
+            expect(dataLink).toBeInTheDocument();
+            expect(dataLink).toHaveAttribute('href', mockDataPageUrl);
+            expect(dataLink).toHaveClass('mobile-menu-item');
+
+            expect(screen.queryByRole('link', { name: /admin/i })).not.toBeInTheDocument();
+        });
     });
 
-    test('renders no navigation links', () => {
-        isMobile.mockReturnValue(false);
-        render(<Navigation />);
+    describe('Admin User Logged In', () => {
+        beforeEach(() => {
+            mockLocalStorage('adminUser', mockAdminRole);
+        });
 
-        expect(screen.queryByRole('link', { name: /admin/i })).not.toBeInTheDocument();
-        expect(screen.queryByRole('link', { name: /data/i })).not.toBeInTheDocument();
-    });
-});
+        test('renders both Admin and Data links (desktop)', () => {
+            isMobile.mockReturnValue(false);
 
-describe('Non-Admin User Logged In', () => {
-    beforeEach(() => {
-        mockLocalStorage('user1', 'User');
-    });
+            render(<Navigation />);
 
-    afterEach(() => {
-        jest.restoreAllMocks();
-    });
+            const adminLink = screen.getByRole('link', { name: /admin/i });
 
-    test('renders Data link and not Admin link (desktop)', () => {
-        isMobile.mockReturnValue(false);
-        render(<Navigation />);
+            expect(adminLink).toBeInTheDocument();
+            expect(adminLink).toHaveAttribute('href', mockAdminPageUrl);
+            expect(adminLink).not.toHaveClass('mobile-menu-item');
 
-        const dataLink = screen.getByRole('link', { name: /data/i });
+            const dataLink = screen.getByRole('link', { name: /data/i });
 
-        expect(dataLink).toBeInTheDocument();
-        expect(dataLink).toHaveAttribute('href', mockDataPageUrl);
-        expect(dataLink).not.toHaveClass('mobile-menu-item');
+            expect(dataLink).toBeInTheDocument();
+            expect(dataLink).toHaveAttribute('href', mockDataPageUrl);
+            expect(dataLink).not.toHaveClass('mobile-menu-item');
+        });
 
-        expect(screen.queryByRole('link', { name: /admin/i })).not.toBeInTheDocument();
-    });
+        test('renders both Admin and Data links with mobile class (mobile)', () => {
+            isMobile.mockReturnValue(true);
 
-    test('renders Data link and not Admin link (mobile)', () => {
-        isMobile.mockReturnValue(true);
+            render(<Navigation />);
 
-        render(<Navigation />);
+            const adminLink = screen.getByRole('link', { name: /admin/i });
 
-        const dataLink = screen.getByRole('link', { name: /data/i });
+            expect(adminLink).toBeInTheDocument();
+            expect(adminLink).toHaveAttribute('href', mockAdminPageUrl);
+            expect(adminLink).toHaveClass('mobile-menu-item');
 
-        expect(dataLink).toBeInTheDocument();
-        expect(dataLink).toHaveAttribute('href', mockDataPageUrl);
-        expect(dataLink).toHaveClass('mobile-menu-item');
+            const dataLink = screen.getByRole('link', { name: /data/i });
 
-        expect(screen.queryByRole('link', { name: /admin/i })).not.toBeInTheDocument();
-    });
-});
-
-describe('Admin User Logged In', () => {
-    beforeEach(() => {
-        mockLocalStorage('adminUser', mockAdminRole);
-    });
-
-    afterEach(() => {
-        jest.restoreAllMocks();
-    });
-
-    test('renders both Admin and Data links (desktop)', () => {
-        isMobile.mockReturnValue(false);
-
-        render(<Navigation />);
-
-        const adminLink = screen.getByRole('link', { name: /admin/i });
-
-        expect(adminLink).toBeInTheDocument();
-        expect(adminLink).toHaveAttribute('href', mockAdminPageUrl);
-        expect(adminLink).not.toHaveClass('mobile-menu-item');
-
-        const dataLink = screen.getByRole('link', { name: /data/i });
-
-        expect(dataLink).toBeInTheDocument();
-        expect(dataLink).toHaveAttribute('href', mockDataPageUrl);
-        expect(dataLink).not.toHaveClass('mobile-menu-item');
-    });
-
-    test('renders both Admin and Data links with mobile class (mobile)', () => {
-        isMobile.mockReturnValue(true);
-
-        render(<Navigation />);
-
-        const adminLink = screen.getByRole('link', { name: /admin/i });
-
-        expect(adminLink).toBeInTheDocument();
-        expect(adminLink).toHaveAttribute('href', mockAdminPageUrl);
-        expect(adminLink).toHaveClass('mobile-menu-item');
-
-        const dataLink = screen.getByRole('link', { name: /data/i });
-
-        expect(dataLink).toBeInTheDocument();
-        expect(dataLink).toHaveAttribute('href', mockDataPageUrl);
-        expect(dataLink).toHaveClass('mobile-menu-item');
+            expect(dataLink).toBeInTheDocument();
+            expect(dataLink).toHaveAttribute('href', mockDataPageUrl);
+            expect(dataLink).toHaveClass('mobile-menu-item');
+        });
     });
 });

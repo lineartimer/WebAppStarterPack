@@ -1,7 +1,7 @@
 import { render, screen, within } from '@testing-library/react';
 import Table from './Table';
 
-describe('Table component', () => {
+describe('Table Component', () => {
     test('renders an empty table structure when data is an empty array', () => {
         render(<Table data={[]} />);
 

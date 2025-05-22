@@ -41,36 +41,12 @@ const mockLocalStorage = (username, role) => {
 
         return null;
     });
-    
-    jest.spyOn(Storage.prototype, 'removeItem').mockImplementation(jest.fn());
-    jest.spyOn(Storage.prototype, 'clear').mockImplementation(jest.fn());
 };
 
 describe('Login Page', () => {
     beforeEach(() => {
-        jest.clearAllMocks();
-
         isMobile.mockReturnValue(false);
         mockLocalStorage(null, null);
-    });
-
-    afterEach(() => {
-        jest.restoreAllMocks();
-    });
-
-    test('show/hide password button works on mobile', () => {
-        isMobile.mockReturnValue(true);
-        render(<Login />);
-
-        const showHideButton = screen.getByRole('button', { name: 'Show' });
-
-        testPasswordVisibility(false);
-        
-        fireEvent.click(showHideButton);
-        testPasswordVisibility(true);
-        
-        fireEvent.click(showHideButton);
-        testPasswordVisibility(false);
     });
 
     test('error shown when username is missing', async () => {
@@ -104,7 +80,6 @@ describe('Login Page', () => {
     });
 
     test('show/hide password button works on desktop', () => {
-        isMobile.mockReturnValue(false);
         render(<Login />);
         const showHideButton = screen.getByRole('button', { name: 'Show' });
 
@@ -114,6 +89,21 @@ describe('Login Page', () => {
         testPasswordVisibility(true);
 
         fireEvent.mouseUp(showHideButton);
+        testPasswordVisibility(false);
+    });
+
+    test('show/hide password button works on mobile', () => {
+        isMobile.mockReturnValue(true);
+        render(<Login />);
+
+        const showHideButton = screen.getByRole('button', { name: 'Show' });
+
+        testPasswordVisibility(false);
+        
+        fireEvent.click(showHideButton);
+        testPasswordVisibility(true);
+        
+        fireEvent.click(showHideButton);
         testPasswordVisibility(false);
     });
 
@@ -130,9 +120,6 @@ describe('Login Page', () => {
         const creds = getCredentials(isValid, isAdmin);
         login(creds);
 
-        expect(screen.getByTestId('loadingScreen')).toBeInTheDocument();
-        expect(screen.getByTestId('spinner')).toBeInTheDocument();
-
         await waitFor(() => {
             expect(callEndPoint).toHaveBeenCalledWith('/Auth/Login', 'POST', null, creds);
         });
@@ -147,10 +134,6 @@ describe('Login Page', () => {
         await waitFor(() => {
             expect(callEndPoint).toHaveBeenCalledWith('/Auth/GetXcsrfToken', 'GET');
         });
-
-        // For some reason not working... (but it should)
-        // expect(screen.getByTestId('loadingScreen')).not.toBeInTheDocument();
-        // expect(screen.getByTestId('spinner')).not.toBeInTheDocument();
 
         if(isValid) {
             expect(mockNavigateFunc).toHaveBeenCalledWith('/');

@@ -18,7 +18,20 @@ export const frontend = {
         loginPage: '/Login',
         adminPage: '/Admin',
         dataPage: '/Data',
-        errorPage: '/Error'
+        errorPage: '/Error',
+        notFoundPage: '/Not-Found'
+    },
+    content: {
+        homePage: {
+            line1: 'A starter template with',
+            line2: '✅ a .Net backend,',
+            line3: '✅ a React frontend and',
+            line4: '✅ a GitHub CI/CD pipeline',
+            line5: '✅ that deploys to Azure.'
+        },
+        notFoundPage: {
+            notFound: "🤷‍♂️ Nothing found here..."
+        }
     },
     errorMessages: {
         userNameMissingError: 'Please enter your username.',

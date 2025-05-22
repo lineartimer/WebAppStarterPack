@@ -30,20 +30,9 @@ const mockLocalStorage = (xcsrf) => {
 
         return null;
     });
-    
-    jest.spyOn(Storage.prototype, 'removeItem').mockImplementation(jest.fn());
-    jest.spyOn(Storage.prototype, 'clear').mockImplementation(jest.fn());
 };
 
 describe('Data Page', () => {
-    beforeEach(() => {
-        jest.clearAllMocks();
-    });
-
-    afterEach(() => {
-        jest.restoreAllMocks();
-    });
-
     test('redirects unauthorized user to login page', async () => {
         await testPageLoad(false);
     });

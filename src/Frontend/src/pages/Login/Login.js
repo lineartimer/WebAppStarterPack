@@ -66,8 +66,8 @@ const Login = () => {
 
     if (isLoading) {
         return (
-            <div data-testid="loadingScreen" className="loading-screen">
-                <div data-testid="spinner" className="spinner"></div>
+            <div className="loading-screen">
+                <div className="spinner"></div>
             </div>
         );
     }

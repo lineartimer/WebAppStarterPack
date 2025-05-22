@@ -1,0 +1,77 @@
+.not-found-window {
+    height: 100vh;
+    background-color: white;
+}
+
+.not-found-logo {
+    position: absolute;
+}
+
+.not-found {
+    padding-top: 25vh !important;
+    padding-left: 10vw !important;
+}
+
+.not-found a {
+    text-decoration: none;
+    color: #06b;
+}
+
+.not-found a:hover {
+    text-decoration: underline;
+}
+
+.not-found-description {
+    font-weight: 400;
+    color: #466;
+    white-space: nowrap;
+}
+
+
+/* Desktop */
+@media only screen and (min-width: 1025px) {
+    .not-found-description {
+        font-size: 32px;
+    }
+
+    .not-found-logo {
+        top: 30px;
+        left: 50px;
+    }
+
+    .not-found a {
+        font-size: 24px;
+    }
+}
+
+/* iPad Pro 12 */
+@media only screen and (min-width: 481px) and (max-width: 1024px) {
+    .not-found-description {
+        font-size: 24px;
+    }
+
+    .not-found-logo {
+        top: 25px;
+        left: 40px;
+    }
+
+    .not-found a {
+        font-size: 18px;
+    }
+}
+
+/* Galaxy Note 5 */
+@media only screen and (max-width: 480px) {
+    .not-found-description {
+        font-size: 14px;
+    }
+
+    .not-found-logo {
+        top: 20px;
+        left: 20px;
+    }
+
+    .not-found a {
+        font-size: 14px;
+    }
+}

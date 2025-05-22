@@ -38,22 +38,19 @@ const mockLocalStorage = (username, role) => {
 };
 
 const originalLocation = window.location;
+
 beforeAll(() => {
     delete window.location;
     window.location = { ...originalLocation, reload: jest.fn() };
 });
+
 afterAll(() => {
     window.location = originalLocation;
 });
 
 describe('User Component', () => {
     beforeEach(() => {
-        jest.clearAllMocks();
         isMobile.mockReturnValue(false);
-    });
-
-    afterEach(() => {
-        jest.restoreAllMocks();
     });
 
     describe('Desktop View', () => {

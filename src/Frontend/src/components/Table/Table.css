@@ -1,0 +1,39 @@
+.table {
+    display: flex;
+    justify-content: center;
+}
+
+table {
+    border-collapse: collapse;
+    width: 750px;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+th {
+    background-color: #f6f6f6;
+}
+
+/* Desktop */
+@media only screen and (min-width: 1025px) {
+    .table {
+        font-size: 18px;
+    }
+}
+
+/* iPad Pro 12 */
+@media only screen and (min-width: 481px) and (max-width: 1024px) {
+    .table {
+        font-size: 16px;
+    }
+}
+
+/* Galaxy Note 5 */
+@media only screen and (max-width: 480px) {
+    .table {
+        font-size: 14px;
+    }
+}

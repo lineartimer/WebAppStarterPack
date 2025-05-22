@@ -1,16 +1,18 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.EntityFrameworkCore;
 
 using Backend.Configurations;
 using Backend.Data;
 using Backend.Dtos;
+using Backend.Filters;
 using Backend.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Controllers;
 
@@ -21,11 +23,21 @@ public class AuthController : ControllerBase
 {
     private readonly DatabaseContext _db;
     private readonly JwtConfig _jwtSettings;
+    private readonly IAntiforgery _antiforgery;
 
-    public AuthController(DatabaseContext context, JwtConfig jwtSettings)
+    public AuthController(DatabaseContext context, JwtConfig jwtSettings, IAntiforgery antiforgery)
     {
         _db = context;
         _jwtSettings = jwtSettings;
+        _antiforgery = antiforgery;
+    }
+
+    [HttpGet("GetXcsrfToken")]
+    [AllowNoAntiforgeryToken]
+    public IActionResult GetXcsrfToken()
+    {
+        var tokens = _antiforgery.GetAndStoreTokens(HttpContext);
+        return Ok(new { Xcsrf = tokens.RequestToken });
     }
 
     [HttpPost("SignUp")]
@@ -107,7 +119,38 @@ public class AuthController : ControllerBase
 
         var token = GenerateJwtToken(user, user.Role);
 
-        return Ok(new { Token = token });
+        // Put token in a secure, HTTP-only cookie
+        HttpContext?.Response.Cookies.Append("Auth", token, new CookieOptions
+        {
+            HttpOnly = true, // Can't be accessed by JavaScript on the cilent side
+            Secure = true, // Only sent over secure connections (HTTPS)
+            SameSite = SameSiteMode.Strict,
+            Expires = DateTime.UtcNow.AddDays(7)
+        });
+
+        return Ok(new { Role = user.Role.Name });
+    }
+
+    [HttpPost("Logout")]
+    public IActionResult Logout()
+    {
+        HttpContext.Response.Cookies.Append("Auth", string.Empty, new CookieOptions
+        {
+            HttpOnly = true,
+            Secure = true,
+            SameSite = SameSiteMode.Strict,
+            Expires = DateTime.UtcNow.AddYears(-1) // Expire cookie immediately by setting a past date
+        });
+        
+        HttpContext.Response.Cookies.Append("XSRF", string.Empty, new CookieOptions
+        {
+            HttpOnly = false,
+            Secure = true,
+            SameSite = SameSiteMode.Strict,
+            Expires = DateTime.UtcNow.AddYears(-1) // Expire cookie immediately by setting a past date
+        });
+
+        return Ok();
     }
 
     private string GenerateJwtToken(User user, Role role)

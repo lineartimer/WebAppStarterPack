@@ -1,3 +1,4 @@
+using System.Globalization;
 using Backend.Dtos;
 
 namespace Backend.Tests.Helpers;
@@ -142,4 +143,12 @@ public class TestDataHelper
 
         return userDto;
     }
+
+    public static string GetInvalidAuthCookie()
+    {
+        var expirationDate = DateTime.Now.AddDays(7);
+        var cookie = $"Auth-Token=ThisInvalidAuthenticationTokenIsForTestingPurposes; expires={CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedDayName(expirationDate.DayOfWeek)} {CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(expirationDate.Month)} {expirationDate.Year} {expirationDate.Hour}:{expirationDate.Minute}:{expirationDate.Second} GMT; path=/; secure; samesite=strict; httponly";
+        
+        return cookie;
+    } 
 }

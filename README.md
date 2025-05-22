@@ -1,7 +1,7 @@
 Web App Starter Pack
 ====================
 
-![Build (backend)](https://github.com/lineartimer/WebAppStarterPack/actions/workflows/Backend.Build.yml/badge.svg) ![Tests (backend)](https://github.com/lineartimer/WebAppStarterPack/actions/workflows/Backend.Test.yml/badge.svg)
+![Build (backend)](https://github.com/lineartimer/WebAppStarterPack/actions/workflows/Backend.Build.yml/badge.svg) ![Tests (backend)](https://github.com/lineartimer/WebAppStarterPack/actions/workflows/Backend.Test.yml/badge.svg) ![Build (frontend)](https://github.com/lineartimer/WebAppStarterPack/actions/workflows/Frontend.Build.yml/badge.svg) ![Tests (frontend)](https://github.com/lineartimer/WebAppStarterPack/actions/workflows/Frontend.Test.yml/badge.svg)
 
 This is a starter template with a .Net backend and a React frontend along with a GitHub CI/CD pipeline that deploys to Azure. The goal of this project is to help anyone, who wants to build a web app with said tech stack, to get going fast.
 
@@ -13,7 +13,7 @@ Fork the repo and clone it.
 
 ## Create Azure Resources
 
-- Create an Sql Database in Azure and put some data in it (e.g. by running the insert statements in src/Db/WebApplication1.sql)
+- Create an Sql Database in Azure and put some data in it (e.g. by running the insert statements in src/Db/Init.sql)
 - Open VS Code and install the following extensions: C# Dev Kit, SQL Server, GitHub CoPilot/Chat, Azure App Service, Azure Container Apps, Docker
 - Add the connection string to .Net Sectets Manager (e.g. from VS Code Terminal):
     - dotnet user-secrets init

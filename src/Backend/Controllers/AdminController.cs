@@ -12,7 +12,7 @@ namespace Backend.Controllers
         [HttpGet]
         public IActionResult GetAdminData()
         {
-            return Ok(new { Message = "This is only for admins." });
+            return Ok(new { Message = "This page is for admins only." });
         }
     }
 }

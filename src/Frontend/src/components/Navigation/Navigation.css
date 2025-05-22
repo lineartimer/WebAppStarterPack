@@ -1,0 +1,9 @@
+.navigation a {
+    margin-right: 20px;
+    font-size: 24px;
+    color: #222;
+}
+
+.navigation a:first-child {
+    margin-left: 20px;
+}

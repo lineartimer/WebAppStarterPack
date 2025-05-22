@@ -1,4 +1,4 @@
-name: Tests (backend)
+name: Test backend
 on: pull_request
 jobs:
   build:

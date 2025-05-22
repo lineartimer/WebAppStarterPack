@@ -1,10 +1,11 @@
 # Files
 .DS_Store
+package-lock.json
 
 # Folders
 .vs/
-.vscode/
 .config/
+/node_modules
 
 # File extensions
 *.user

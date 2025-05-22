@@ -1,10 +1,10 @@
-WebApp
-======
+Web Application Starter Pack
+============================
 
 # Environment
 
 - VS Code
-- VS Code extensions (C# Dev Kit, SQL Server, GitHub Copilot/Chat, Azure App Service, Azure Container Apps, Docker)
+- VS Code extensions (C#/C# Dev Kit, JavaScript Debugger, GitHub Copilot/Chat, Azure Resources/App Service/Container Apps, Docker)
 - .NET SDK
 - Node.js
 - Docker Desktop
@@ -33,6 +33,52 @@ dotnet add <test project's csproj> reference <main project's csproj>
 
 dotnet build
 dotnet test bin/Debug/net8.0/<test project's name>.dll --logger "trx;logfilename=Results.xml"
+
+## Creating a new React.JS project
+
+### Creating and running the project
+
+npx create-react-app react-app-1
+
+If you get an error message saying that C:\Users\<USER>\AppData\Roaming\npm is missing, then create that folder.
+
+cd react-app-1
+npm install
+npm start
+
+To stop the app on Mac:
+- Ctrl + c (not Cmd + c)
+
+### Adding unit tests
+
+Cd into the folder where package.json is and run:
+
+npm install --save-dev @testing-library/react
+npm install --save-dev @testing-library/jest-dom
+
+This will add these libraries as dev dependencies to package.json and npm install will install them with later builds.
+
+Create a file named setupTests.js in the src folder and add this one line to it:
+
+import '@testing-library/jest-dom';
+
+To run all tests:
+
+CI=true npm test
+
+To clear the cache: ./node_modules/.bin/jest --clearCache
+
+### Deploying the project
+
+To deploy the project to a web server:
+- npm run build
+- An optimized production build will be created in the build folder
+
+### Troubleshooting
+
+If something is not working but it should:
+- delete package-lock.json, node_modules
+- npm install
 
 # Azure
 
@@ -123,7 +169,7 @@ Supports scale based on traffic. If a container is not being used, it will scale
 
 Azure Container Instance: scale, load-balancing or certificates aren't provided.
 
-### .NET Core Web API (backend)
+### .NET Web API (backend)
 
 Creating an Azure Container Registry:
 - On the Azure Portal create a new container registry with a Basic pricing plan
@@ -135,7 +181,7 @@ Creating a Docker image:
 - Start Docker Desktop and update it if necessary
 - In VS Code Terminal, cd into the root directory of the repo and run
 
-docker build --no-cache -f src/<backend's folder>/Dockerfile -t backend:latest --platform linux/amd64 .
+docker build --no-cache -f src/<backend's folder>/Dockerfile -t ca-backend:latest --platform linux/amd64 .
 
 - You can list the content of a directory by inserting RUN dir . at the appropriate location in the docker file
 - You can get the directory you're in by echo %cd%
@@ -154,6 +200,34 @@ Creating a Container App:
 - For development stack select .NET
 - For CPU and memory, select 0.25 CPU cores and 0.5 GB memory
 - On the Ingress tab, enable Ingress and select Accepting traffic from anywhere
+
+To check the console, go to the Container App on Azure Portal and under Monitoring, select Logs. Look for a table with the name ContainerAppConsoleLogs_CL.
+
+### React website (frontend)
+
+Building the React app:
+- In the terminal cd into the frontend's folder and build it: npm install. Then create an optimized production build: npm run build
+
+Containerizing the app:
+- Add a new file to the build folder named Dockerfile and add the following content to it:
+
+FROM nginx:alpine
+COPY . /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+
+- Start Docker Desktop, then cd into the build folder and build the image:
+
+docker build --no-cache -t ca-frontend:latest --platform linux/amd64 .
+
+- (Building it without specifying the platform, will cause an error in Azure while creating the container app)
+- When the build is complete, check if it's working in Docker Desktop. Assign port 80 to the host port under optional settings, name the container frontend and run it. Open localhost in a browser to see if it's working
+- You can use ls -a in the yml file to see what's in a directory
+
+Deploying the app in an Azure Container App:
+- On the Docker tab on the images panel right click the image you created above and click Push
+- Create a Container App from the image in Azure
 
 ## Azure Function
 
@@ -175,6 +249,7 @@ To assign roles to a subscription, go to the subscription and under Access Contr
 
 # Git
 
+For pointing and clicking instead of typing:
 - Mac: Github Desktop
 - (Win: Tortoise Git)
 
@@ -210,6 +285,8 @@ echo export PATH=$PATH:/opt/homebrew/bin >> ~/.zshrc
 - Save the appId, the password and the tenant as GitHub secrets to be able to log in to Azure from the yml file (az login --service-principal -u <appId> -p <password> --tenant <tenant>)
 - The Azure CLI can also be started from the Azure Portal (click the cloud shell icon in the upper right corner)
 - You can manage the created service principals on the Azure Portal under Microsoft Entra ID -> App registrations -> All applications
+- To go back to a previous version, go to the Actions tab on GitHub, select the last successful workflow and click Re-run all jobs
+- If the website is being loaded while the GitHub actions are running, the push may fail silently
 
 # Backend development
 
@@ -261,6 +338,14 @@ curl -v -X GET "<url of endpoint that requires authentication>" -H "Authorizatio
 
 CORS restrictions only work in browsers. They don't work with curl, Postman or similar tools.
 
+Secure cookies are only sent over HTTPS, never over HTTP (except on localhost).
+
+A cookie with the HttpOnly attribute can't be accessed by JavaScript. It can only be accessed when reaching the server. Authentication cookies should be HTTP-only.
+
+When the SameSite attribute is set to strict, the browser will only send the cookie in response to requests originating from the cookie's origin site.
+
+To use a self-signed https certificate: dotnet dev-certs https --trust
+
 ## Entity Framework Core
 
 Nuget packages:
@@ -276,6 +361,8 @@ Connection strings should be stored safely. Either in an environment variable or
 Eager loading vs. lazy loading: to enable lazy loading, install the Microsoft.EntityFrameworkCore.Proxies. But lazy loading might lead to performance problems if not used carefully (N+1 query problem).
 
 When EF Core queries a database, it stores a snapshot of the result set in memory. Any changes to the entities are made against that snapshot and it's written back to the database only later. To speed up read only queries, you can skip the snapshot and conserve system resources by adding the AsNoTracking() method to the query.
+
+LINQ queries are generally safe from SQL injection because they are translated into parameterized SQL queries by Entity Framework.
 
 ### Creating a new database from the code
 
@@ -333,6 +420,8 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
 
 To list user secrets: dotnet user-secrets list
 
+Delete a secret: dotnet user-secrets remove "<secret name>"
+
 To delete all user secrets: dotnet user-secrets clear
 
 ## Authentication
@@ -346,6 +435,7 @@ JWT (Json Web Token):
 - The client sends a token in the Authorization header with each request
 - It's usually sufficient if no third party providers are needed (Google/Facebook etc.)
 - To use it, install the Microsoft.AspNetCore.Authentication.JwtBearer package
+- The jwt.io website can be used to decode a token (e.g. copied over from the client side) and verify that the issuer and the audience properties are set correctly
 
 API key authentication:
 - A machine-to-machine authentication mechanism
@@ -387,6 +477,197 @@ To test the middleware pipeline, integration tests are needed. As integration te
 The following declaration is required in the Program.cs file, otherwise integration tests will not work:
 
 public partial class Program { }
+
+# Frontend development
+
+- Both React and Angular use client-side rendering (not good for seo) and both build the web page dynamically from nested components. Next.js is a React meta-framework built on react that uses server-side rendering
+- If there's a CORS error and there shouldn't be any, cleaning the project, closing and reopening the workspace and VS Code in addition to deleting everything unnecessary from both the frontend and the backend and rebuilding and restarting them might solve the issue
+- Vulnerabilites found by npm install may be fixed by running npm audit --force but it may break the project
+- To stop search engines from indexing a page, add: <meta name="robots" content="noindex, nofollow" />
+- Authentication tokens should not be stored in the browser's local storage because it's vulnerable to cross-site scripting (XSS) attacks. If an attacker injects malicious JavaSctipt into your app, they can access the token. Cookies can be marked as HttpOnly and Secure making them inaccessible to Javascript and safer against XSS. But cookies are vulnerable to cross-site request forgery (CSRF) unless CSRF protection is implemented
+- To prevent XSS, user input (e.g. in forms or query parameters) should be sanitized. Libraries like DOMPurify can be used
+- If no cookies are used by a website, a cookie consent form might not be needed. But a GDPR-compliant privacy policy is still a must
+- A good (and free) favicon generator: favicon.io/favicon-generator
+- On the Application tab of the browser's Developer Tools, the cookies and the content of the local storage can be checked
+- On the Network tab of the browser's Developer Tools, all the http communication between the frontend and the backend can be checked
+
+## HTML
+
+Outlines don't take up space in the DOM as opposed to borders do, which do. To prevent movements of elements, use outlines instead of borders.
+
+## JavaScript
+
+Use template literals to build strings (that stange quotation-mark-like character is the backtick): `Some text ${someVariable}`
+
+Don't use var to declare variables because those variables are accessible outside blocks within the same function. They can also be redeclared. Use let or const instead and use const wherever possible.
+
+It's a best practive to use the strict equality operator (===) instead of the loose one (==) because the latter can lead to subtle bugs (e.g. null == undefined is true).
+
+Different ways to define functions:
+
+function normalFunction() {
+    alert("normalFunction");
+}
+
+const functionAssignedToAVariable = function () {
+    alert("functionAssignedToAVariable");
+};
+
+const arrowFunction = () => alert("arrowFunction");
+
+async function asyncFunction() {
+    alert("asyncFunction");
+};
+
+normalFunction();
+functionAssignedToAVariable();
+arrowFunction();
+await asyncFunction();
+
+It's a common trend in modern JavaScript to use the arrow function syntax even with named functions (the old syntax can lead to subtle bugs when using the this keyword within them).
+
+Members can be dynamically added to objects:
+
+let o = {
+    "str1": "Some string"
+};
+
+o = { ...o, "str2": "Some other string"}
+
+## React
+
+- React apps are made of components. A component is a piece of the UI (user interface) that has its own logic and appearance. React component names must always start with a capital letter, while HTML tags must be lowercase. The export default keywords specify the main component in the file
+- The markup syntax you’ve seen above is called JSX. It is optional, but most React projects use it. JSX syntax can be used anywhere in the component - not just in the return() statement
+- A CSS class can be specified with the className attribute
+- JavaScript can be used with curly braces. Within the value of an html element or in an attribute
+- Functions starting with use are called Hooks. useState is a built-in Hook. Hooks can be called only at the top of components
+- To use routing: npm install react-router-dom
+
+A quick demo of some basic React functionality:
+
+function DemoButton() {
+    const [count, setCount] = useState(1);
+
+    function onClick() {
+        alert(`Clicked ${count} time(s)`);
+        setCount(count + 1);
+    }
+
+    return (
+        <button className="one" onClick={onClick}>Demo button</button>
+    );
+}
+
+Two ways to display data in a table (one with hard-coded column names, one without them):
+
+const table = [
+    { Col1: "Val11", Col2: "Val12" },
+    { Col1: "Val21", Col2: "Val22" }
+];
+
+const DemoTable1 = () => {
+    return (
+        <table>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Col1</th>
+                    <th>Col2</th>
+                </tr>
+            </thead>
+            <tbody>
+                {table.map((row, index) => (
+                    <tr key={index}>
+                        <td>{index + 1}</td>
+                        <td>{row.Col1}</td>
+                        <td>{row.Col2}</td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>
+    );
+};
+
+const DemoTable2 = () => {
+    const colNames = table.length > 0 ? Object.keys(table[0]) : [];
+
+    return (
+        <table>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    {colNames.map((colName, index) => (
+                        <th key={index}>{colName}</th>
+                    ))}
+                </tr>
+            </thead>
+            <tbody>
+                {table.map((row, index) => (
+                    <tr key={index}>
+                        <td>{index + 1}</td>
+                        {colNames.map((colName, colIndex) => (
+                            <td key={colIndex}>{row[colName]}</td>
+                        ))}
+                    </tr>
+                ))}
+            </tbody>
+        </table>
+    );
+};
+
+<DemoTable1 />
+<DemoTable2 />
+
+## Tests
+
+Testing class names can make tests brittle if they are purely for styling. Only test class names when they are important for layout structure.
+
+React Testing Library philosophy emphasizes testing components in the same way a user would interact with them (e.g. users find and identify links by their visible text).
+
+jest.spyOn and mockImplementation functions intercept calls to the original function and override its behavior:
+
+const someFuncSpy = jest.spyOn(SomeClass.prototype, 'someFunc');
+someFuncSpy.mockImplementation(() => {
+
+});
+
+# AI tools
+
+ChatGPT and other AI tools may leave watermarks in the generated texts (e.g. some kinds of hard to see white spaces).
+
+## Prompt Engineering
+
+Two types of LLMs:
+- Base LLM (predicts next word)
+- Instruction Tuned LLM
+
+Use clear and specific instructions:
+- Use delimiters (e.g. triple dashes)
+- Ask for structured output
+
+Give the model time to think:
+- If the model is making reasoning errors by rushing to an incorrect conclusion, reframe the query to request a chain of relevant reasoning before the model provides its final answer. If you give a model a task that's too complex for it to do in a short amount of time, or in a small number of words, it may make up a guess, which is likely to be incorrect. You can ask the model to think longer about the problem, which means spending more computational effort on the task
+- You can try to specify the steps to complete a task
+- You can instruct the model to work out its own solution before rushing to a conclusion because sometimes the model just skims the text and gives an incorrect answer
+
+Hallucinations:
+- The model makes statements that sound plausible but are actually not true
+- To reduce hallucinations, ask the model to first find the relevant information and then answer the question based on relevant information
+
+Make your prompts iteratively better.
+
+You can use LLMs to:
+- Summarize text or expand text
+- Do sentiment analysis (you can either ask the model to do it explicitly, or you can ask it to identify emotions that the writer of the text is expressing)
+- Spell check or grammar check
+- Translate text
+- Transform the tone of a text
+- Transform the formatting of a text (e.g. json to html)
+- Build chatbots
+
+Temperature allows to change the variety of the responses. The higher the temperature, the more randomness there will be in the responses
+
+## Cursor
 
 # Misc
 

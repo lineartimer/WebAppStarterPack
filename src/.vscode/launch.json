@@ -1,0 +1,22 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "JavaScript: Launch Frontend",
+            "url": "https://localhost:3000",
+            "webRoot": "${workspaceFolder}/src"
+        },
+        {
+            "name": "JavaScript: Run Frontend Tests",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "npm test",
+            "cwd": "${workspaceFolder}/Frontend",
+            "env": {
+                "CI": "true"
+            }
+        }
+    ]
+}

@@ -7,12 +7,13 @@ This is a starter template with a .Net backend, a React frontend and a GitHub CI
 
 # Getting Started
 
-## Step1: Setting up environment on your local machine
+## Step 1: Setting up environment on your local machine
 
 Download and install:
 - .NET SDK
 - Node.js
 - Docker Desktop
+- GitHub Desktop
 
 Install VS Code and add the following extensions:
 - C# Dev Kit
@@ -26,16 +27,16 @@ Fork the repo and clone it on your machine.
 ## Step 2: Create Azure Resources
 
 Create the following resources in Azure:
-- An Sql Database
-- A Container Registry
+- Sql Database
+- Container Registry
 
-After creating the database, add the connection string to .NET Secrets Manager:
-dotnet user-secrets init
-dotnet user-secrets set "ConnectionStrings:SqlServer" "<connection string>"
+After creating the database, add the connection string to .NET Secrets Manager:\
+*dotnet user-secrets init*\
+*dotnet user-secrets set "ConnectionStrings:SqlServer" "<connection string>"*
 
 Go to the database and under Security -> Networking, add your machine's IP address as a firewall rule.
 
-Also seed the database using the sqls in src/Db. The simplest way to run these queries is from the Azure Portal Go to the database and open the Query editor.
+Also seed the database using the sqls in src/Db. The simplest way to run these queries is from the Azure Portal. Go to the database, there you'll find the Query editor.
 
 Go to the container registry and under Settings -> Access keys enable the admin user.
 
@@ -47,22 +48,24 @@ Finally, create two Azure Container Apps from the images in the container regist
 
 Go to the repo and under Settings -> Secrets and variables -> Actions and set the following variables:
 
-AZURE_APP_ID, AZURE_PASSWORD, AZURE_TENANT:
+**AZURE_APP_ID**, **AZURE_PASSWORD**, **AZURE_TENANT**:
 To set the values of these variables, open an Azure CLI (e.g. on the Azure Portal) and create a service principal:
 
-az ad sp create-for-rbac --name "<a unique name that hasn't been used before>" --role contributor --scopes /subscriptions/<your Azure subscription id (you can find it on the Azure Portal under your subscription)>
+*az ad sp create-for-rbac --name "<a unique name that hasn't been used before>" --role contributor --scopes /subscriptions/<your Azure subscription id (you can find it on the Azure Portal under your subscription)>*
 
-BACKEND_SUBDOMAIN, BACKEND_REGION:
-Go to container app. The url of it will look something like this: <name of the container app>.<a randomly generated subdomain>.<region>.azurecontainerapps.io. Copy and paste the information from the url
+**BACKEND_SUBDOMAIN**, **BACKEND_REGION**:
+Go to container app. The url of it will look something like this:\
+<name of the container app>.<a randomly generated subdomain>.<region>.azurecontainerapps.io.\
+Copy and paste the information from the url.
 
-CONTAINER_REGISTRY, CONTAINER_REGISTRY_USERNAME, CONTAINER_REGISTRY_PASSWORD:
-Go to the container registry and from under Settings -> Access keys copy and paste the information from the url
+**CONTAINER_REGISTRY**, **CONTAINER_REGISTRY_USERNAME**, **CONTAINER_REGISTRY_PASSWORD**:
+Go to the container registry and from under Settings -> Access keys copy and paste the information from the url.
 
-DB_SERVER_NAME, DB, DB_USER, DB_PASSWORD:
-To set the values of these variables, go to the database and from under Settings -> Connection Strings copy and paste the information
+**DB_SERVER_NAME**, **DB**, **DB_USER**, **DB_PASSWORD**:
+To set the values of these variables, go to the database and from under Settings -> Connection Strings copy and paste the information.
 
-CONTAINER_APP_NAME, RESOURCE_GROUP:
-These are not GitHub secrets but should be set in .github/workflows/Backend.Deploy.yml. The information can be found on the Azure Portal under the container apps and the resource group
+**CONTAINER_APP_NAME**, **RESOURCE_GROUP**:
+These are not GitHub secrets but should be set in .github/workflows/Backend.Deploy.yml. The information can be found on the Azure Portal under the container apps and the resource group.
 
 ### Triggering the CI/CD pipeline
 

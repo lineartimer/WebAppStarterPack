@@ -8,6 +8,7 @@ Web Application Starter Pack
 - .NET SDK
 - Node.js
 - Docker Desktop
+- GitHub Desktop
 
 ## Creating a new .NET Core Web API project
 

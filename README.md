@@ -7,7 +7,7 @@ This is a starter template with a .Net backend, a React frontend and a GitHub CI
 
 # Getting Started
 
-## Step 1: Setting up environment on your local machine
+## Step 1: Set up environment on your local machine
 
 Download and install:
 - .NET SDK
@@ -15,7 +15,7 @@ Download and install:
 - Docker Desktop
 - GitHub Desktop
 
-Install VS Code and add the following extensions:
+Install VS Code and the following extensions:
 - C# Dev Kit
 - JavaScript Debugger
 - Azure Container Apps
@@ -30,9 +30,9 @@ Create the following resources in Azure:
 - Sql Database
 - Container Registry
 
-After creating the database, add the connection string to .NET Secrets Manager:\
-*dotnet user-secrets init*\
-*dotnet user-secrets set "ConnectionStrings:SqlServer" "<connection string>"*
+After creating the database, add the connection string to .NET Secrets Manager:
+<span style="color: green; background-color: black;">dotnet user-secrets init</span>
+<span style="color: green; background-color: black;">dotnet user-secrets set "ConnectionStrings:SqlServer" "<connection string>"</span>
 
 Go to the database and under Security -> Networking, add your machine's IP address as a firewall rule.
 

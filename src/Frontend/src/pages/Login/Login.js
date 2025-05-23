@@ -39,7 +39,7 @@ const Login = () => {
 
         // After logging in, a new X-CSRF token will be needed because now the request is coming from
         // an authenticated user as opposed to an anonymous user
-        var xcsrfResponse = await callEndPoint('/Auth/GetXcsrfToken', httpMethods.Get);
+        const xcsrfResponse = await callEndPoint('/Auth/GetXcsrfToken', httpMethods.Get);
         
         setIsLoading(false);
 
@@ -49,7 +49,7 @@ const Login = () => {
             navigate(frontend.urls.errorPage);
         }
 
-        var loginRedirectUrl = localStorage.getItem('loginRedirectUrl') || null;
+        const loginRedirectUrl = localStorage.getItem('loginRedirectUrl') || null;
         localStorage.removeItem('loginRedirectUrl');
 
         if (loginResponse.status === responseStatus.Ok) {

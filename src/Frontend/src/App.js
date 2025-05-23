@@ -15,7 +15,7 @@ import { callEndPoint, httpMethods } from './services/http';
 const App = () => {
     useEffect(() => {
         const setXsrfToken = async () => {
-            var response = await callEndPoint('/Auth/GetXcsrfToken', httpMethods.Get);
+            const response = await callEndPoint('/Auth/GetXcsrfToken', httpMethods.Get);
             localStorage.setItem('xcsrf', response.payload.xcsrf);
         };
 

@@ -13,7 +13,7 @@ const Admin = () => {
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
-            var response = await callEndPoint(backend.urls.admin, httpMethods.Get, localStorage.getItem('xcsrf'));
+            const response = await callEndPoint(backend.urls.admin, httpMethods.Get, localStorage.getItem('xcsrf'));
             setLoading(false);
 
             if(response.status) {

@@ -17,7 +17,7 @@ export const httpMethods = {
 };
 
 export const callEndPoint = async (url, method, xcsrf = null, payload = null, timeout = 30000) => {
-    var request = {
+    const request = {
         method: method,
         // Include http-only cookies in the request
         credentials: 'include'
@@ -32,7 +32,7 @@ export const callEndPoint = async (url, method, xcsrf = null, payload = null, ti
         request.headers = { ...request.headers, 'X-CSRF': xcsrf };
     }
 
-    var response;
+    let response;
 
     try {
         const fetchCaller = async () => fetch(getBaseUrl() + url, request);
@@ -46,7 +46,7 @@ export const callEndPoint = async (url, method, xcsrf = null, payload = null, ti
 const getBaseUrl = () => {
     const server = window.location.hostname;
 
-    var baseUrl = `https://${server}`;
+    let baseUrl = `https://${server}`;
     if (server === 'localhost') {
         // Development environment
         baseUrl += `:${backend.portDev}`;
@@ -65,7 +65,7 @@ const invoke = async (func, timeout = 0, ...args) => {
 };
 
 const processResponse = async (response) => {
-    var result = {
+    const result = {
         status: null,
         payload: null
     };

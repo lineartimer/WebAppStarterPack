@@ -41,14 +41,13 @@ dotnet test bin/Debug/net8.0/<test project's name>.dll --logger "trx;logfilename
 
 npx create-react-app react-app-1
 
-If you get an error message saying that C:\Users\<USER>\AppData\Roaming\npm is missing, then create that folder.
+If you get an error message saying that C:\Users\WHATEVER-USER\AppData\Roaming\npm is missing, then create that folder.
 
 cd react-app-1
 npm install
 npm start
 
-To stop the app on Mac:
-- Ctrl + c (not Cmd + c)
+To stop the app on Mac: Ctrl + c (not Cmd + c)
 
 ### Adding unit tests
 
@@ -57,11 +56,17 @@ Cd into the folder where package.json is and run:
 npm install --save-dev @testing-library/react
 npm install --save-dev @testing-library/jest-dom
 
-This will add these libraries as dev dependencies to package.json and npm install will install them with later builds.
+This will add the libraries as dev dependencies to package.json and npm install will install them with later builds.
 
-Create a file named setupTests.js in the src folder and add this one line to it:
+Create a file named setupTests.js in the src folder and add:
 
 import '@testing-library/jest-dom';
+
+// This is needed otherwise TextEncoder won't be found by react-router
+import { TextEncoder, TextDecoder } from 'util';
+
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;
 
 To run all tests:
 
@@ -304,7 +309,6 @@ string str2 = "b";
 string str3 = $"{str1} and {str2}";
 
 Use
-- GitHub Copilot
 - Implicitly typed local variables (var)
 - Linq in conjunction with for loops to query lists
 - File-scoped namespaces
@@ -312,6 +316,7 @@ Use
 - Null conditional operator (?., ?[])
 - Null coalescing operator (??)
 - (Primary constructors)
+- GitHub Copilot
 
 Null-forgiving operator (!): You're telling the compiler "Trust me, this isn't null!"
 
@@ -390,8 +395,8 @@ dotnet ef dbcontext scaffold "<connection string>" Microsoft.EntityFrameworkCore
 
 ### Different DB providers
 
-To add an additional (e.g. Sqlite) database context to the project:
-- Create the database and put data in it (e.g. with DB Browser for Sqlite)
+To add an additional database context (e.g. Sqlite) to the project:
+- Create the database and seed it with data (e.g. with DB Browser for Sqlite)
 - The changes made in DB Browser for Sqlite need to be saved (it doesn't save changes automatically)
 - Install the Microsoft.EntityFrameworkCore.Sqlite package
 - Instead of using SqlServer use Sqlite:
@@ -481,7 +486,7 @@ public partial class Program { }
 
 # Frontend development
 
-- Both React and Angular use client-Dide Rendering (CSR, not good for SEO) and both of them build the web page dynamically from nested components. A commonly used solution to this SEO problem is to use a framework like Next.js (which is a React meta-framework) and either do Server-Side Rendering (SSR), which renders React components into HTML on the server for each request
+- Both React and Angular use client-Side Rendering (CSR, not good for SEO) and both of them build the web page dynamically from nested components. A commonly used solution to this SEO problem is to use a framework like Next.js (which is a React meta-framework) and do Server-Side Rendering (SSR), which renders React components into HTML on the server for each request
 - If there's a CORS error and there shouldn't be any, cleaning the project, closing and reopening the workspace and VS Code in addition to deleting everything unnecessary from both the frontend and the backend and rebuilding and restarting them might solve the issue
 - Vulnerabilites found by npm install may be fixed by running npm audit --force but it may break the project
 - To stop search engines from indexing a page, add: <meta name="robots" content="noindex, nofollow" />
@@ -494,7 +499,7 @@ public partial class Program { }
 
 ## HTML
 
-Outlines don't take up space in the DOM as opposed to borders do, which do. To prevent movements of elements, use outlines instead of borders.
+Outlines don't take up space in the DOM as opposed to borders, which do. To prevent movements of elements, use outlines instead of borders.
 
 ## JavaScript
 
@@ -538,11 +543,11 @@ o = { ...o, "str2": "Some other string"}
 ## React
 
 - React apps are made of components. A component is a piece of the UI (user interface) that has its own logic and appearance. React component names must always start with a capital letter, while HTML tags must be lowercase. The export default keywords specify the main component in the file
-- The markup syntax you’ve seen above is called JSX. It is optional, but most React projects use it. JSX syntax can be used anywhere in the component - not just in the return() statement
+- The markup syntax is called JSX. It is optional, but most React projects use it. JSX syntax can be used anywhere in the component - not just in the return() statement
 - A CSS class can be specified with the className attribute
 - JavaScript can be used with curly braces. Within the value of an html element or in an attribute
 - Functions starting with use are called Hooks. useState is a built-in Hook. Hooks can be called only at the top of components
-- To use routing: npm install react-router-dom
+- To use routing: npm install react-router
 
 A quick demo of some basic React functionality:
 
@@ -634,7 +639,7 @@ someFuncSpy.mockImplementation(() => {
 
 # AI tools
 
-ChatGPT and other AI tools may leave watermarks in the generated texts (e.g. some kinds of hard to see white spaces).
+ChatGPT and other AI tools may leave watermarks in the generated texts (e.g. in the form of weird kinds of white spaces).
 
 ## Prompt Engineering
 
@@ -667,8 +672,6 @@ You can use LLMs to:
 - Build chatbots
 
 Temperature allows to change the variety of the responses. The higher the temperature, the more randomness there will be in the responses
-
-## Cursor
 
 # Misc
 

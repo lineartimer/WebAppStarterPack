@@ -39,7 +39,7 @@ export const frontend = {
         invalidUserNameOrPasswordError: 'Invalid username or password.',
         failedToGetData: 'Failed to get data.',
         generalError: {
-            line1: "❌ An error occured we couldn't recover from.",
+            line1: "❌ An error occurred we couldn't recover from.",
             line2: '✅ Please try again reloading the page later.',
             line3: "😢 We're sorry for the inconvenience."
         }

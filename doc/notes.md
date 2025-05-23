@@ -4,7 +4,7 @@ Web Application Starter Pack
 # Environment
 
 - VS Code
-- VS Code extensions (C#/C# Dev Kit, JavaScript Debugger, GitHub Copilot/Chat, Azure Resources/App Service/Container Apps, Docker)
+- VS Code extensions (C# Dev Kit, JavaScript Debugger, Azure Container Apps, Docker, GitHub Copilot)
 - .NET SDK
 - Node.js
 - Docker Desktop
@@ -480,7 +480,7 @@ public partial class Program { }
 
 # Frontend development
 
-- Both React and Angular use client-side rendering (not good for seo) and both build the web page dynamically from nested components. Next.js is a React meta-framework built on react that uses server-side rendering
+- Both React and Angular use client-Dide Rendering (CSR, not good for SEO) and both of them build the web page dynamically from nested components. A commonly used solution to this SEO problem is to use a framework like Next.js (which is a React meta-framework) and either do Server-Side Rendering (SSR), which renders React components into HTML on the server for each request
 - If there's a CORS error and there shouldn't be any, cleaning the project, closing and reopening the workspace and VS Code in addition to deleting everything unnecessary from both the frontend and the backend and rebuilding and restarting them might solve the issue
 - Vulnerabilites found by npm install may be fixed by running npm audit --force but it may break the project
 - To stop search engines from indexing a page, add: <meta name="robots" content="noindex, nofollow" />

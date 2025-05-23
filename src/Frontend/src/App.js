@@ -36,7 +36,7 @@ const App = () => {
                     <Route path={frontend.urls.dataPage} element={<Data />} />
                 </Route>
 
-                {/* Catch all other paths */}
+                {/* For all other paths */}
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </Router>

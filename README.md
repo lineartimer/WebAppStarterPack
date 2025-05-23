@@ -30,7 +30,8 @@ Create the following resources in Azure:
 - Sql Database
 - Container Registry
 
-After creating the database, add the connection string to .NET Secrets Manager:\
+After creating the database, add the connection string to .NET Secrets Manager:
+
 *dotnet user-secrets init*\
 *dotnet user-secrets set "ConnectionStrings:SqlServer" "connection-string-to-database"*
 
@@ -54,8 +55,10 @@ To set the values of these variables, open an Azure CLI (e.g. on the Azure Porta
 *az ad sp create-for-rbac --name "a-unique-name-that-hasn't-been-used-before" --role contributor --scopes /subscriptions/your-Azure-subscription-id-you-can-find-it-on-the-Azure-Portal-under-your-subscription)*
 
 **BACKEND_SUBDOMAIN**, **BACKEND_REGION**:
-Go to container app. The url of it will look something like this:\
-*name-of-the-container-app.a-randomly-generated-subdomain.a-region.azurecontainerapps.io.*\
+Go to container app. The url of it will look something like this:
+
+*name-of-the-container-app.a-randomly-generated-subdomain.a-region.azurecontainerapps.io.*
+
 Copy and paste the information from the url.
 
 **CONTAINER_REGISTRY**, **CONTAINER_REGISTRY_USERNAME**, **CONTAINER_REGISTRY_PASSWORD**:

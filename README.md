@@ -31,8 +31,8 @@ Create the following resources in Azure:
 - Container Registry
 
 After creating the database, add the connection string to .NET Secrets Manager:
-<span style="color: green;">dotnet user-secrets init</span>
-<span style="color: green; background-color: black;">dotnet user-secrets set "ConnectionStrings:SqlServer" "<connection string>"</span>
+*dotnet user-secrets init*\
+*dotnet user-secrets set "ConnectionStrings:SqlServer" "connection-string-to-database"*
 
 Go to the database and under Security -> Networking, add your machine's IP address as a firewall rule.
 
@@ -55,7 +55,7 @@ To set the values of these variables, open an Azure CLI (e.g. on the Azure Porta
 
 **BACKEND_SUBDOMAIN**, **BACKEND_REGION**:
 Go to container app. The url of it will look something like this:\
-<name of the container app>.<a randomly generated subdomain>.<region>.azurecontainerapps.io.\
+name-of-the-container-app.a-randomly-generated-subdomain.a-region.azurecontainerapps.io.\
 Copy and paste the information from the url.
 
 **CONTAINER_REGISTRY**, **CONTAINER_REGISTRY_USERNAME**, **CONTAINER_REGISTRY_PASSWORD**:

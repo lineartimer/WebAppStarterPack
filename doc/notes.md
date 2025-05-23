@@ -1,5 +1,5 @@
-Web Application Starter Pack
-============================
+Web App Starter Pack
+====================
 
 # Environment
 
@@ -35,7 +35,7 @@ dotnet add <test project's csproj> reference <main project's csproj>
 dotnet build
 dotnet test bin/Debug/net8.0/<test project's name>.dll --logger "trx;logfilename=Results.xml"
 
-## Creating a new React.JS project
+## Creating a new React project
 
 ### Creating and running the project
 
@@ -85,6 +85,53 @@ To deploy the project to a web server:
 If something is not working but it should:
 - delete package-lock.json, node_modules
 - npm install
+
+## Creating a new Next.js project
+
+### Creating and running the project
+
+Create a folder for the app, cd into it, then run:
+
+npm install next@latest react@latest react-dom@latest
+
+This will create a package.json. Then add the scripts object it:
+
+"scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+}
+
+Then create an app folder with a root layout and a home page in it:
+
+layout.js
+
+export default function Layout({ children }) {
+  return (
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+  )
+}
+
+page.js
+
+export default function Page() {
+  return <h1>Hello world!</h1>
+}
+
+Also create a public folder for static assets.
+
+Build and run the project:
+
+npm install
+npm run dev
+
+To clear the npm cache:
+
+npm cache clean --force
+
+If npm is starting the app on newer and newer ports saying that the others are in use, restarting the machine will solve it.
 
 # Azure
 

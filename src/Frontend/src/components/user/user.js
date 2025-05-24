@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 
-import './User.css';
+import './user.css';
 import Navigation from '../navigation/navigation';
 import { callEndPoint, httpMethods } from '../../lib/http';
 import { isMobile } from '../../lib/utils';

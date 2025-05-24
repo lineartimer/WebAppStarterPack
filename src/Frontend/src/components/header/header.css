@@ -1,0 +1,10 @@
+.navigation-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.user-wrapper {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}

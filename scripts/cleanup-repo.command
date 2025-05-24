@@ -28,6 +28,7 @@ rm -rf ../src/Frontend/.next
 rm -rf ../src/Frontend/build
 rm -rf ../src/Frontend/node_modules
 rm -rf ../src/Frontend/obj
+rm -rf ../src/Frontend/certificates
 rm -rf ../src/Frontend/package-lock.json
 
 npm cache clean --force

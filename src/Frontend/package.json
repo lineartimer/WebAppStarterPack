@@ -3,9 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "dompurify": "^3.2.5",
     "next": "^15.1.8",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "react-router": "^7.6.0"
   },
   "scripts": {
     "dev": "next dev --experimental-https",

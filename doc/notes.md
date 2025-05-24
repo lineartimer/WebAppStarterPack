@@ -671,6 +671,30 @@ const DemoTable2 = () => {
 <DemoTable1 />
 <DemoTable2 />
 
+## Next.js
+
+Keep the app folder purely for routing purposes.
+
+<Link> is the primary and recommended way to navigate between routes in a Next.js app.
+
+On the server, Next.js uses React's API to orchestrate rendering. By default, layouts and pages are server components. Use client components when you need
+- State and event handlers
+- Lifecycle logic (e.g. useEffect)
+- Browser-only API (e.g. localStorage, window etc.)
+- Custom hooks
+
+To create a client component, add 'use client' to the top of the files. Once a file is marked with 'use client', all its imports and child components are considered part of the client bundle, so there's no need to add the directive to every component that is intended for the client.
+
+You can pass data from server components to client components using props. You can pass server components as a prop to a client component. This allows you to visually nest server-rendered UI within client components.
+
+To improve the initial load time and user experience, you can use streaming to break up the page's HTML into smaller chunks and progressively send those chunks from the server to the client. You can do it by wrapping a component with <Suspense>. An instant loading state is fallback UI that is shown immediately to the user after navigation. For the best user experience, use skeletons and spinners, or a small but meaningful part of future screens such as a cover photo, title, etc. to help users understand that the app is responding.
+
+A server function is an asynchronous function that is executed on the server. Server functions are inherently asynchronous because they are invoked by the client using a network request. A server function can be defined by placing 'use server' at the top of an asynchronous function or at the top of a file to mark all exports of that file.
+
+You can call the notFound function within a route segment and use the not-found.js file to show a 404 UI.
+
+Next.js uses error boundaries to handle uncaught exceptions. Error boundaries catch errors in their child components and display a fallback UI. Create an error boundary by adding an error.js file inside a route segment. Errors will bubble up to the nearest parent error boundary. You can handle errors in the root layout using the global-error.js file, located in the root app directory.
+
 ## Tests
 
 Testing class names can make tests brittle if they are purely for styling. Only test class names when they are important for layout structure.

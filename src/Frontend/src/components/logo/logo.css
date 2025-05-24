@@ -1,0 +1,51 @@
+.logo {
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+}
+
+.logo a {
+    display: block;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.logo a:hover {
+    text-decoration: none;
+}
+
+.logo-first {
+    display: inline;
+    padding-right: 3px;
+    color: #06b;
+}
+
+.logo-second {
+    display: inline;
+    padding: 0 5px 0 5px;
+    color: white;
+    border-radius: 4px;
+    background-color: #06b;
+}
+
+/* Desktop */
+@media only screen and (min-width: 1025px) {
+    .logo {
+        font-size: 32px;
+    }
+}
+
+/* iPad Pro 12 */
+@media only screen and (min-width: 481px) and (max-width: 1024px) {
+    .logo {
+        font-size: 24px;
+    }
+}
+
+/* Galaxy Note 5 */
+@media only screen and (max-width: 480px) {
+    .logo {
+        font-size: 20px;
+    }
+}

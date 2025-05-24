@@ -21,6 +21,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "public", "public", "{527D5226-F8A7-0BC6-A2BD-D8FFFC6D9DE8}"
 	ProjectSection(SolutionItems) = preProject
 		Frontend\public\site.webmanifest = Frontend\public\site.webmanifest
+		Frontend\public\robots.txt = Frontend\public\robots.txt
+		Frontend\public\sitemap.xml = Frontend\public\sitemap.xml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "img", "img", "{9D57A4F1-8CAA-7E72-5CD5-B59A3A5D9243}"
@@ -34,6 +36,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "img", "img", "{9D57A4F1-8CA
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E40BF17A-E631-09D5-7889-66BEE0F9AB0F}"
+	ProjectSection(SolutionItems) = preProject
+		Frontend\src\setupTests.js = Frontend\src\setupTests.js
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "app", "app", "{473DBFEA-15FA-F0EA-F5D5-A40580B99B2C}"
 	ProjectSection(SolutionItems) = preProject
@@ -41,14 +46,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "app", "app", "{473DBFEA-15F
 		Frontend\src\app\page.js = Frontend\src\app\page.js
 		Frontend\src\app\global.css = Frontend\src\app\global.css
 		Frontend\src\app\layout.css = Frontend\src\app\layout.css
-		Frontend\src\app\robots.txt = Frontend\src\app\robots.txt
-		Frontend\src\app\sitemap.xml = Frontend\src\app\sitemap.xml
+		Frontend\src\app\home.test.js = Frontend\src\app\home.test.js
+		Frontend\src\app\not-found.css = Frontend\src\app\not-found.css
+		Frontend\src\app\not-found.js = Frontend\src\app\not-found.js
+		Frontend\src\app\not-found.test.js = Frontend\src\app\not-found.test.js
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "login", "login", "{7F4E7B0B-D091-1114-8370-3B0E13EF6E7B}"
 	ProjectSection(SolutionItems) = preProject
 		Frontend\src\app\login\login.css = Frontend\src\app\login\login.css
 		Frontend\src\app\login\page.js = Frontend\src\app\login\page.js
+		Frontend\src\app\login\login.test.js = Frontend\src\app\login\login.test.js
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{604EB281-7C31-2CC7-954C-96AC0DDB80EA}"
@@ -56,6 +64,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{604EB281-7C3
 		Frontend\src\lib\config.js = Frontend\src\lib\config.js
 		Frontend\src\lib\http.js = Frontend\src\lib\http.js
 		Frontend\src\lib\utils.js = Frontend\src\lib\utils.js
+		Frontend\src\lib\http.test.js = Frontend\src\lib\http.test.js
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "components", "components", "{E23087C1-201B-93A3-93E6-98D4B96EDAE9}"
@@ -69,58 +78,61 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "footer", "footer", "{E465D6
 	ProjectSection(SolutionItems) = preProject
 		Frontend\src\components\footer\footer.css = Frontend\src\components\footer\footer.css
 		Frontend\src\components\footer\footer.js = Frontend\src\components\footer\footer.js
+		Frontend\src\components\footer\footer.test.js = Frontend\src\components\footer\footer.test.js
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "admin", "admin", "{278C497F-0FCF-5827-A6A4-63674E57A7DE}"
 	ProjectSection(SolutionItems) = preProject
 		Frontend\src\app\admin\page.js = Frontend\src\app\admin\page.js
+		Frontend\src\app\admin\admin.test.js = Frontend\src\app\admin\admin.test.js
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "data", "data", "{18097A15-34A8-F919-C174-49262A102236}"
 	ProjectSection(SolutionItems) = preProject
 		Frontend\src\app\data\page.js = Frontend\src\app\data\page.js
+		Frontend\src\app\data\data.test.js = Frontend\src\app\data\data.test.js
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "logo", "logo", "{29C71E81-0F56-112B-E97D-F6CA6402E67F}"
 	ProjectSection(SolutionItems) = preProject
 		Frontend\src\components\logo\logo.css = Frontend\src\components\logo\logo.css
 		Frontend\src\components\logo\logo.js = Frontend\src\components\logo\logo.js
+		Frontend\src\components\logo\logo.test.js = Frontend\src\components\logo\logo.test.js
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "navigation", "navigation", "{3399E8A6-E54D-9FC7-2A49-81375B3AD1DE}"
 	ProjectSection(SolutionItems) = preProject
 		Frontend\src\components\navigation\navigation.css = Frontend\src\components\navigation\navigation.css
 		Frontend\src\components\navigation\navigation.js = Frontend\src\components\navigation\navigation.js
+		Frontend\src\components\navigation\navigation.test.js = Frontend\src\components\navigation\navigation.test.js
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "user", "user", "{D7FD41AC-78C7-AF62-5728-5D2A31DE3246}"
 	ProjectSection(SolutionItems) = preProject
 		Frontend\src\components\user\user.css = Frontend\src\components\user\user.css
 		Frontend\src\components\user\user.js = Frontend\src\components\user\user.js
+		Frontend\src\components\user\user.test.js = Frontend\src\components\user\user.test.js
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "header", "header", "{3F2A2B73-8306-CC13-97B8-83639F89A1A0}"
 	ProjectSection(SolutionItems) = preProject
 		Frontend\src\components\header\header.css = Frontend\src\components\header\header.css
 		Frontend\src\components\header\header.js = Frontend\src\components\header\header.js
+		Frontend\src\components\header\header.test.js = Frontend\src\components\header\header.test.js
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "table", "table", "{C8277E73-20AA-AFC2-DAC0-0615E5B8CA3B}"
 	ProjectSection(SolutionItems) = preProject
 		Frontend\src\components\table\table.css = Frontend\src\components\table\table.css
 		Frontend\src\components\table\table.js = Frontend\src\components\table\table.js
+		Frontend\src\components\table\table.test.js = Frontend\src\components\table\table.test.js
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "error", "error", "{3DBBD5FA-6711-76AD-5A63-E4C88D331BB8}"
 	ProjectSection(SolutionItems) = preProject
 		Frontend\src\app\error\error.css = Frontend\src\app\error\error.css
 		Frontend\src\app\error\page.js = Frontend\src\app\error\page.js
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "notfound", "notfound", "{056A6A18-84D3-B938-5616-C953CB4ECFD7}"
-	ProjectSection(SolutionItems) = preProject
-		Frontend\src\app\notfound\notfound.css = Frontend\src\app\notfound\notfound.css
-		Frontend\src\app\notfound\page.js = Frontend\src\app\notfound\page.js
+		Frontend\src\app\error\error.test.js = Frontend\src\app\error\error.test.js
 	EndProjectSection
 EndProject
 Global
@@ -159,6 +171,5 @@ Global
 		{3F2A2B73-8306-CC13-97B8-83639F89A1A0} = {E23087C1-201B-93A3-93E6-98D4B96EDAE9}
 		{C8277E73-20AA-AFC2-DAC0-0615E5B8CA3B} = {E23087C1-201B-93A3-93E6-98D4B96EDAE9}
 		{3DBBD5FA-6711-76AD-5A63-E4C88D331BB8} = {473DBFEA-15FA-F0EA-F5D5-A40580B99B2C}
-		{056A6A18-84D3-B938-5616-C953CB4ECFD7} = {473DBFEA-15FA-F0EA-F5D5-A40580B99B2C}
 	EndGlobalSection
 EndGlobal

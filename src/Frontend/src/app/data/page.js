@@ -1,5 +1,4 @@
 'use client'
-
 import { useEffect, useState } from 'react';
 
 import Table from '../../components/table/table';
@@ -23,10 +22,10 @@ const Data = () => {
                 else if(response.status == responseStatus.UnAuthorized) {
                     localStorage.setItem('loginRedirectUrl', frontend.urls.dataPage);
                     
-                    redirect(frontend.urls.loginPage);
+                    window.location.href = frontend.urls.loginPage;
                 }
                 else {
-                    redirect(frontend.urls.errorPage);
+                    window.location.href = frontend.urls.errorPage;
                 }
             }
         };

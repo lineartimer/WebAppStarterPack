@@ -1,5 +1,4 @@
 'use client'
-
 import { useEffect, useState } from 'react';
 
 import { callEndPoint, responseStatus, httpMethods } from '../../lib/http';
@@ -22,15 +21,15 @@ const Admin = () => {
                 else if(response.status === responseStatus.UnAuthorized) {
                     localStorage.setItem('loginRedirectUrl', frontend.urls.adminPage);
 
-                    redirect(frontend.urls.loginPage);
+                    window.location.href = frontend.urls.loginPage;
                 }
                 else if(response.status === responseStatus.Forbidden) {
                     localStorage.setItem('loginRedirectUrl', frontend.urls.homePage);
 
-                    redirect(frontend.urls.homePage);
+                    window.location.href = frontend.urls.homePage;
                 }
                 else {
-                    redirect(frontend.urls.errorPage);
+                    window.location.href = frontend.urls.errorPage;
                 }
             }
         };

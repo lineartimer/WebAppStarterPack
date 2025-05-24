@@ -1,9 +1,29 @@
 .navigation a {
     margin-right: 20px;
-    font-size: 24px;
     color: #222;
 }
 
 .navigation a:first-child {
     margin-left: 20px;
+}
+
+/* Desktop */
+@media only screen and (min-width: 1025px) {
+    .navigation a {
+        font-size: 24px;
+    }
+}
+
+/* iPad Pro 12 */
+@media only screen and (min-width: 481px) and (max-width: 1024px) {
+    .navigation a {
+        font-size: 20px;
+    }
+}
+
+/* Galaxy Note 5 */
+@media only screen and (max-width: 480px) {
+    .navigation a {
+        font-size: 16px;
+    }
 }

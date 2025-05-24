@@ -3,7 +3,6 @@
 }
 
 .user-desktop a {
-    font-size: 18px;
     color: #06b;
 }
 
@@ -82,4 +81,25 @@
 
 .login-or-out:hover {
     background-color: white !important;
+}
+
+/* Desktop */
+@media only screen and (min-width: 1025px) {
+    .user-desktop a {
+        font-size: 18px;
+    }
+}
+
+/* iPad Pro 12 */
+@media only screen and (min-width: 481px) and (max-width: 1024px) {
+    .user-desktop a {
+        font-size: 16px;
+    }
+}
+
+/* Galaxy Note 5 */
+@media only screen and (max-width: 480px) {
+    .user-desktop a {
+        font-size: 14px;
+    }
 }

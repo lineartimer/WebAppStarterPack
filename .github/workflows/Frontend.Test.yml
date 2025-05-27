@@ -5,9 +5,9 @@ jobs:
     runs-on: ubuntu-latest
     steps: 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Use node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18.x'
       - name: Build frontend
@@ -20,9 +20,9 @@ jobs:
     runs-on: ubuntu-latest
     steps: 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Use node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18.x'
       - name: Build frontend
@@ -35,9 +35,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Use node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18.x'
       - name: Set up .NET Core
@@ -80,7 +80,7 @@ jobs:
           TEST_PASSWORD: password1
       
       - name: Upload E2E test results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: e2e-test-results

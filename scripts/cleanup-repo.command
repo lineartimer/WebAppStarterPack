@@ -31,6 +31,8 @@ rm -rf ../src/Frontend/node_modules
 rm -rf ../src/Frontend/obj
 rm -rf ../src/Frontend/certificates
 rm -rf ../src/Frontend/package-lock.json
+rm -rf ../src/Frontend/tests/node_modules
+rm -rf ../src/Frontend/tests/package-lock.json
 
 npm cache clean --force
 

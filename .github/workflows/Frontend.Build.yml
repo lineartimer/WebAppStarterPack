@@ -1,8 +1,5 @@
 name: Build frontend
 on: pull_request
-env:
-  CONTAINER_APP_NAME: ca-frontend
-  RESOURCE_GROUP: rg-WebAppStarterPack
 jobs:
   build:
     runs-on: ubuntu-latest

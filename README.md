@@ -3,7 +3,7 @@ Web App Starter Pack
 
 ![Build (backend)](https://github.com/lineartimer/WebAppStarterPack/actions/workflows/Backend.Build.yml/badge.svg) ![Tests (backend)](https://github.com/lineartimer/WebAppStarterPack/actions/workflows/Backend.Test.yml/badge.svg) ![Build (frontend)](https://github.com/lineartimer/WebAppStarterPack/actions/workflows/Frontend.Build.yml/badge.svg) ![Tests (frontend)](https://github.com/lineartimer/WebAppStarterPack/actions/workflows/Frontend.Test.yml/badge.svg)
 
-This is a starter template with a .Net backend, a React frontend and a GitHub CI/CD pipeline that deploys to Azure. This template should enable anyone who wants to build a web app with said tech-stack to get started quickly.
+This is a starter template with a .Net backend, a React/Next.js frontend and a GitHub CI/CD pipeline that deploys to Azure. This template should enable anyone who wants to build a web app with said tech-stack to get started quickly.
 
 # Getting Started
 
@@ -20,6 +20,7 @@ Install VS Code and the following extensions:
 - JavaScript Debugger
 - Azure Container Apps
 - Docker
+- Playwright
 - GitHub Copilot
 
 Fork the repo and clone it on your machine.
@@ -75,6 +76,6 @@ These are not GitHub secrets but should be set in .github/workflows/Backend.Depl
 - Create a new development/feature branch and make some changes
 - Commit and push the changes
 - Create a pull request back to the main branch
-- Squash and merge the pull request
+- Squash and merge the pull request then delete the feature branch
 - To check the details of the workflows go to the Actions tab of your repo on GitHub
 - The result of the latest runs will be displayed in the Readme file

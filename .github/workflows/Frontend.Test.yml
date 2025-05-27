@@ -1,8 +1,5 @@
 name: Test frontend
-on: pull_request
-env:
-  CONTAINER_APP_NAME: ca-frontend
-  RESOURCE_GROUP: rg-WebAppStarterPack
+on: push
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -18,7 +15,7 @@ jobs:
         run: |
           npm install
           npm run build
-  test: 
+  unit-test: 
     needs: build
     runs-on: ubuntu-latest
     steps: 
@@ -33,3 +30,60 @@ jobs:
         run: |
           npm install
           CI=true npm test
+  e2e-test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Use node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+      - name: Start backend
+        working-directory: ./src/Backend
+        run: |
+          dotnet build --configuration Release
+          nohup dotnet run --configuration Release &
+          sleep 10
+        env:
+          ASPNETCORE_ENVIRONMENT: Development
+          ASPNETCORE_URLS: http://localhost:5000
+      - name: Start frontend
+        working-directory: ./src/Frontend
+        run: |
+          npm install
+          npm run build
+          nohup npm start &
+          sleep 10
+        env:
+          PORT: 3000
+      - name: Install E2E test dependencies
+        working-directory: ./e2e-tests
+        run: npm install
+      
+      - name: Install Playwright browsers
+        working-directory: ./e2e-tests
+        run: npx playwright install --with-deps
+      
+      - name: Run E2E tests
+        working-directory: ./e2e-tests
+        run: npm test
+        env:
+          BASE_URL: http://localhost:3000
+          API_URL: http://localhost:5000
+          TEST_USERNAME: user1
+          TEST_PASSWORD: password1
+      
+      - name: Upload E2E test results
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: e2e-test-results
+          path: |
+            e2e-tests/test-results/
+            e2e-tests/playwright-report/

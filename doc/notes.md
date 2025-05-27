@@ -4,7 +4,7 @@ Web App Starter Pack
 # Environment
 
 - VS Code
-- VS Code extensions (C# Dev Kit, JavaScript Debugger, Azure Container Apps, Docker, GitHub Copilot)
+- VS Code extensions (C# Dev Kit, JavaScript Debugger, Azure Container Apps, Docker, Playwright, GitHub Copilot)
 - .NET SDK
 - Node.js
 - Docker Desktop
@@ -73,6 +73,13 @@ To run all tests:
 CI=true npm test
 
 To clear the cache: ./node_modules/.bin/jest --clearCache
+
+### Adding end-to-end tests
+
+Cd into the tests folder and run:
+
+npm install
+npx playwright install
 
 ### Deploying the project
 
@@ -743,6 +750,8 @@ Next.js uses error boundaries to handle uncaught exceptions. Error boundaries ca
 
 ## Tests
 
+### Unit tests
+
 Testing class names can make tests brittle if they are purely for styling. Only test class names when they are important for layout structure.
 
 React Testing Library philosophy emphasizes testing components in the same way a user would interact with them (e.g. users find and identify links by their visible text).
@@ -753,6 +762,10 @@ const someFuncSpy = jest.spyOn(SomeClass.prototype, 'someFunc');
 someFuncSpy.mockImplementation(() => {
 
 });
+
+### End-to-end tests
+
+
 
 # AI tools
 

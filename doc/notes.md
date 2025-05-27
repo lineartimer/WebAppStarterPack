@@ -1,5 +1,5 @@
-Web Application Starter Pack
-============================
+Web App Starter Pack
+====================
 
 # Environment
 
@@ -35,7 +35,7 @@ dotnet add <test project's csproj> reference <main project's csproj>
 dotnet build
 dotnet test bin/Debug/net8.0/<test project's name>.dll --logger "trx;logfilename=Results.xml"
 
-## Creating a new React.JS project
+## Creating a new React project
 
 ### Creating and running the project
 
@@ -85,6 +85,57 @@ To deploy the project to a web server:
 If something is not working but it should:
 - delete package-lock.json, node_modules
 - npm install
+
+## Creating a new Next.js project
+
+### Creating and running the project
+
+Create a folder for the app, cd into it, then run:
+
+npm install next@latest react@latest react-dom@latest
+
+This will create a package.json. Then add the scripts object it:
+
+"scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+}
+
+Then create an app folder with a root layout and a home page in it:
+
+layout.js
+
+export default function Layout({ children }) {
+  return (
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+  )
+}
+
+page.js
+
+export default function Page() {
+  return <h1>Hello world!</h1>
+}
+
+Also create a public folder for static assets.
+
+Build and run the project:
+
+npm install
+npm run dev
+
+To opt out of telemetry:
+
+npx next telemetry disable
+
+To clear the npm cache:
+
+npm cache clean --force
+
+If npm is starting the app on newer and newer ports saying that the others are in use, restarting the machine will solve it.
 
 # Azure
 
@@ -211,19 +262,61 @@ To check the console, go to the Container App on Azure Portal and under Monitori
 
 ### React website (frontend)
 
-Building the React app:
+Building the Next.js app:
+- Add a next.config.js with the following content:
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  output: 'export',
+  trailingSlash: true,
+  images: {
+    unoptimized: true
+  }
+}
+
+module.exports = nextConfig
+
 - In the terminal cd into the frontend's folder and build it: npm install. Then create an optimized production build: npm run build
 
 Containerizing the app:
-- Add a new file to the build folder named Dockerfile and add the following content to it:
+- Add a new file named Dockerfile with the following content:
 
 FROM nginx:alpine
-COPY . /usr/share/nginx/html
+COPY out/ /usr/share/nginx/html/
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 
-- Start Docker Desktop, then cd into the build folder and build the image:
+- Also create nginx.conf with the following content:
+
+server {
+    listen 80;
+
+    root /usr/share/nginx/html;
+    index index.html;
+
+    location /_next/static/ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+    
+    location /static/ {
+        expires 1y;
+        add_header Cache-Control "public";
+    }
+    
+    location /api/ {
+        try_files $uri $uri/ =404;
+    }
+    
+    location / {
+        try_files $uri $uri/ $uri.html /index.html;
+    }
+
+    error_page 404 /index.html;
+}
+
+- Start Docker Desktop, then build the image:
 
 docker build --no-cache -t ca-frontend:latest --platform linux/amd64 .
 
@@ -623,6 +716,30 @@ const DemoTable2 = () => {
 
 <DemoTable1 />
 <DemoTable2 />
+
+## Next.js
+
+Keep the app folder purely for routing purposes.
+
+<Link> is the primary and recommended way to navigate between routes in a Next.js app.
+
+On the server, Next.js uses React's API to orchestrate rendering. By default, layouts and pages are server components. Use client components when you need
+- State and event handlers
+- Lifecycle logic (e.g. useEffect)
+- Browser-only API (e.g. localStorage, window etc.)
+- Custom hooks
+
+To create a client component, add 'use client' to the top of the files. Once a file is marked with 'use client', all its imports and child components are considered part of the client bundle, so there's no need to add the directive to every component that is intended for the client.
+
+You can pass data from server components to client components using props. You can pass server components as a prop to a client component. This allows you to visually nest server-rendered UI within client components.
+
+To improve the initial load time and user experience, you can use streaming to break up the page's HTML into smaller chunks and progressively send those chunks from the server to the client. You can do it by wrapping a component with <Suspense>. An instant loading state is fallback UI that is shown immediately to the user after navigation. For the best user experience, use skeletons and spinners, or a small but meaningful part of future screens such as a cover photo, title, etc. to help users understand that the app is responding.
+
+A server function is an asynchronous function that is executed on the server. Server functions are inherently asynchronous because they are invoked by the client using a network request. A server function can be defined by placing 'use server' at the top of an asynchronous function or at the top of a file to mark all exports of that file.
+
+You can call the notFound function within a route segment and use the not-found.js file to show a 404 UI.
+
+Next.js uses error boundaries to handle uncaught exceptions. Error boundaries catch errors in their child components and display a fallback UI. Create an error boundary by adding an error.js file inside a route segment. Errors will bubble up to the nearest parent error boundary. You can handle errors in the root layout using the global-error.js file, located in the root app directory.
 
 ## Tests
 

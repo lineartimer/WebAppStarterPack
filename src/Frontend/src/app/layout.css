@@ -1,0 +1,72 @@
+.container, .container-fluid {
+    background-color: white;
+}
+
+/* Make main element within the layout page take up available space, so that the entire page fills the viewport's height. */
+.layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: white;
+}
+
+header, footer {
+    flex-shrink: 0; /* Prevent shrinking */
+}
+
+header {
+    background-color: white;
+}
+
+header a, header a:hover {
+    text-decoration: none;
+}
+
+.sticky {
+    position: sticky; /* Making header always appear on top */
+    top: 0;
+    left: 0;
+}
+
+.scrolled {
+    border-bottom: 1px solid #06b;
+}
+
+main {
+    display: flex;
+    flex-grow: 1; /* Take up available space */
+}
+
+/* Desktop */
+@media only screen and (min-width: 1025px) {
+    main {
+        margin: 0 80px 0 80px;
+    }
+
+    header, footer {
+        padding: 20px 80px 20px 80px;
+    }
+}
+
+/* iPad Pro 12 */
+@media only screen and (min-width: 481px) and (max-width: 1024px) {
+    main {
+        margin: 0 50px 0 50px;
+    }
+    
+    header, footer {
+        padding: 20px 40px 20px 40px;
+    }
+}
+
+/* Galaxy Note 5 */
+@media only screen and (max-width: 480px) {
+    main {
+        margin: 0 20px 0 20px;
+        padding-top: 10px;
+    }
+    
+    header, footer {
+        padding: 20px;
+    }
+}

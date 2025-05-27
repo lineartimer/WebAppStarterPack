@@ -13,7 +13,7 @@ eof
 cd -- "$(dirname -- "$BASH_SOURCE")"
 cd ../src/frontend
 
-npm start
+npm run dev
 
 echo
 read -p "Press any key to continue..."

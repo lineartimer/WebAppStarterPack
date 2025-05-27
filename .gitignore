@@ -5,7 +5,10 @@ package-lock.json
 # Folders
 .vs/
 .config/
+.next/
+/out
 /node_modules
+/certificates
 
 # File extensions
 *.user

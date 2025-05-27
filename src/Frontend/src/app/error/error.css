@@ -1,0 +1,33 @@
+.error {
+    margin-top: 100px !important;
+}
+
+.error a {
+    text-decoration: none;
+    color: #06b;
+}
+
+.error a:hover {
+    text-decoration: underline;
+}
+
+/* Desktop */
+@media only screen and (min-width: 1025px) {
+    .error a {
+        font-size: 24px;
+    }
+}
+
+/* iPad Pro 12 */
+@media only screen and (min-width: 481px) and (max-width: 1024px) {
+    .error a {
+        font-size: 18px;
+    }
+}
+
+/* Galaxy Note 5 */
+@media only screen and (max-width: 480px) {
+    .error a {
+        font-size: 14px;
+    }
+}

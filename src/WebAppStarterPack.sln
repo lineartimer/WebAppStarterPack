@@ -16,6 +16,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{CE609670-85B9-0D16-FB54-ED063D5D8A6D}"
 	ProjectSection(SolutionItems) = preProject
 		Frontend\package.json = Frontend\package.json
+		Frontend\Dockerfile = Frontend\Dockerfile
+		Frontend\nginx.conf = Frontend\nginx.conf
+		Frontend\next.config.js = Frontend\next.config.js
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "public", "public", "{527D5226-F8A7-0BC6-A2BD-D8FFFC6D9DE8}"

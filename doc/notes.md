@@ -127,6 +127,10 @@ Build and run the project:
 npm install
 npm run dev
 
+To opt out of telemetry:
+
+npx next telemetry disable
+
 To clear the npm cache:
 
 npm cache clean --force
@@ -258,19 +262,61 @@ To check the console, go to the Container App on Azure Portal and under Monitori
 
 ### React website (frontend)
 
-Building the React app:
+Building the Next.js app:
+- Add a next.config.js with the following content:
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  output: 'export',
+  trailingSlash: true,
+  images: {
+    unoptimized: true
+  }
+}
+
+module.exports = nextConfig
+
 - In the terminal cd into the frontend's folder and build it: npm install. Then create an optimized production build: npm run build
 
 Containerizing the app:
-- Add a new file to the build folder named Dockerfile and add the following content to it:
+- Add a new file named Dockerfile with the following content:
 
 FROM nginx:alpine
-COPY . /usr/share/nginx/html
+COPY out/ /usr/share/nginx/html/
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 
-- Start Docker Desktop, then cd into the build folder and build the image:
+- Also create nginx.conf with the following content:
+
+server {
+    listen 80;
+
+    root /usr/share/nginx/html;
+    index index.html;
+
+    location /_next/static/ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+    
+    location /static/ {
+        expires 1y;
+        add_header Cache-Control "public";
+    }
+    
+    location /api/ {
+        try_files $uri $uri/ =404;
+    }
+    
+    location / {
+        try_files $uri $uri/ $uri.html /index.html;
+    }
+
+    error_page 404 /index.html;
+}
+
+- Start Docker Desktop, then cd into the .next folder and build the image:
 
 docker build --no-cache -t ca-frontend:latest --platform linux/amd64 .
 

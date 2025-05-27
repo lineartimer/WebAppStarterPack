@@ -26,6 +26,7 @@ rm -rf ../src/Backend.Tests/TestResults
 rm -rf ../src/Frontend/.vscode
 rm -rf ../src/Frontend/.next
 rm -rf ../src/Frontend/build
+rm -rf ../src/Frontend/out
 rm -rf ../src/Frontend/node_modules
 rm -rf ../src/Frontend/obj
 rm -rf ../src/Frontend/certificates

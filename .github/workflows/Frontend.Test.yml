@@ -65,11 +65,9 @@ jobs:
           NODE_ENV: production
       - name: Wait for services to be ready
         run: |
-          echo "Waiting for backend..."
-          timeout 120 sh -c 'until curl -f http://localhost:5000/health || curl -f http://localhost:5000; do echo "Backend not ready, waiting..."; sleep 5; done' || echo "Backend failed to start"
-          echo "Waiting for frontend..."
-          timeout 120 sh -c 'until curl -f http://localhost:3000; do echo "Frontend not ready, waiting..."; sleep 5; done' || echo "Frontend failed to start"
-          
+          sleep 30
+          curl -f http://localhost:5000 || echo "Backend not responding"
+          curl -f http://localhost:3000 || echo "Frontend not responding"
       - name: Debug services status
         if: failure()
         run: |

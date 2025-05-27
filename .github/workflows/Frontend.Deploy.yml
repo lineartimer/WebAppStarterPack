@@ -54,11 +54,6 @@ jobs:
           registry: ${{ secrets.CONTAINER_REGISTRY }}.azurecr.io
           username: ${{ secrets.CONTAINER_REGISTRY_USERNAME }}
           password: ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
-      # - name: Copy Docker file
-      #   working-directory: ./src/Frontend
-      #   run: |
-      #     cp Dockerfile build
-      #     cp nginx.conf build
       - name: Build Docker image
         working-directory: ./src/Frontend
         run: |

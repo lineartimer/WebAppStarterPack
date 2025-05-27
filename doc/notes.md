@@ -316,7 +316,7 @@ server {
     error_page 404 /index.html;
 }
 
-- Start Docker Desktop, then cd into the .next folder and build the image:
+- Start Docker Desktop, then build the image:
 
 docker build --no-cache -t ca-frontend:latest --platform linux/amd64 .
 

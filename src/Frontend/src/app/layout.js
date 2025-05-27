@@ -4,6 +4,8 @@
 import { useState, useEffect } from 'react';
 import { Figtree } from 'next/font/google';
 
+/* That's the proper way to use Bootstrap in a Next.js appß */
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './global.css';
 import './layout.css'
 import Footer from '../components/footer/footer';
@@ -51,8 +53,6 @@ const RootLayout = ({ children }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <title>Web App Starter Pack</title>
-
-        <link rel="stylesheet" href="./css/bootstrap.min.css" />
 
         <link rel="icon" type="image/x-icon" href="/img/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png" />

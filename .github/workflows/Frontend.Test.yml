@@ -47,38 +47,50 @@ jobs:
       - name: Start backend
         working-directory: ./src/Backend
         run: |
+          echo "Building backend..."
           dotnet build --configuration Release
+          echo "Starting backend..."
           nohup dotnet run --configuration Release > backend.log 2>&1 &
-          sleep 15
+          echo "Backend PID: $!"
+          sleep 20
         env:
           ASPNETCORE_ENVIRONMENT: Development
           ASPNETCORE_URLS: http://localhost:5000
+      - name: Check backend startup
+        run: |
+          echo "=== Backend startup logs ==="
+          tail -20 ./src/Backend/backend.log || echo "No backend logs found"
+          echo "=== Backend process check ==="
+          ps aux | grep dotnet || echo "No dotnet processes found"
+          echo "=== Port check ==="
+          netstat -tulpn | grep 5000 || echo "Port 5000 not listening"
       - name: Start frontend
         working-directory: ./src/Frontend
         run: |
+          echo "Building frontend..."
           npm install
           npm run build
+          echo "Starting frontend..."
           nohup npm start > frontend.log 2>&1 &
-          sleep 20
+          echo "Frontend PID: $!"
+          sleep 25
         env:
           PORT: 3000
           NODE_ENV: production
-      - name: Wait for services to be ready
+      - name: Check frontend startup
         run: |
-          sleep 30
-          curl -f http://localhost:5000 || echo "Backend not responding"
-          curl -f http://localhost:3000 || echo "Frontend not responding"
-      - name: Debug services status
-        if: failure()
+          echo "=== Frontend startup logs ==="
+          tail -20 ./src/Frontend/frontend.log || echo "No frontend logs found"
+          echo "=== Frontend process check ==="
+          ps aux | grep node || echo "No node processes found"
+          echo "=== Port check ==="
+          netstat -tulpn | grep 3000 || echo "Port 3000 not listening"
+      - name: Final service check
         run: |
-          echo "=== Backend logs ==="
-          cat ./src/Backend/backend.log || echo "No backend logs found"
-          echo "=== Frontend logs ==="
-          cat ./src/Frontend/frontend.log || echo "No frontend logs found"
-          echo "=== Process list ==="
-          ps aux | grep -E "(dotnet|node)" || echo "No processes found"
-          echo "=== Network status ==="
-          netstat -tulpn | grep -E "(3000|5000)" || echo "No services listening"
+          echo "Testing backend..."
+          curl -v http://localhost:5000 || echo "Backend curl failed"
+          echo "Testing frontend..."
+          curl -v http://localhost:3000 || echo "Frontend curl failed"
       - name: Install E2E test dependencies
         working-directory: ./src/Frontend/tests
         run: npm install

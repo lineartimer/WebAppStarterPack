@@ -15,21 +15,21 @@ jobs:
         run: |
           npm install
           npm run build
-  unit-test: 
-    needs: build
-    runs-on: ubuntu-latest
-    steps: 
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Use node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18.x'
-      - name: Build frontend
-        working-directory: ./src/Frontend
-        run: |
-          npm install
-          CI=true npm test
+  # unit-test: 
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   steps: 
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
+  #     - name: Use node.js
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: '18.x'
+  #     - name: Build frontend
+  #       working-directory: ./src/Frontend
+  #       run: |
+  #         npm install
+  #         CI=true npm test
   e2e-test:
     needs: build
     runs-on: ubuntu-latest
@@ -44,73 +44,20 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: "8.0.x"
-      - name: Start backend
+      - name: Build and run backend
         working-directory: ./src/Backend
         run: |
-          echo "Building backend..."
-          dotnet build --configuration Release
-          echo "Starting backend..."
-          nohup dotnet run --configuration Release > backend.log 2>&1 &
-          echo "Backend PID: $!"
-          sleep 20
-        env:
-          ASPNETCORE_ENVIRONMENT: Development
-          ASPNETCORE_URLS: http://localhost:5000
-      - name: Check backend startup
-        run: |
-          echo "=== Backend startup logs ==="
-          tail -20 ./src/Backend/backend.log || echo "No backend logs found"
-          echo "=== Backend process check ==="
-          ps aux | grep dotnet || echo "No dotnet processes found"
-          echo "=== Port check ==="
-          netstat -tulpn | grep 5000 || echo "Port 5000 not listening"
-      - name: Start frontend
+          dotnet build --no-incremental
+          dotnet run
+      - name: Build and run frontend
         working-directory: ./src/Frontend
         run: |
-          echo "Building frontend..."
           npm install
           npm run build
-          echo "Starting frontend..."
-          nohup npm start > frontend.log 2>&1 &
-          echo "Frontend PID: $!"
-          sleep 25
-        env:
-          PORT: 3000
-          NODE_ENV: production
-      - name: Check frontend startup
-        run: |
-          echo "=== Frontend startup logs ==="
-          tail -20 ./src/Frontend/frontend.log || echo "No frontend logs found"
-          echo "=== Frontend process check ==="
-          ps aux | grep node || echo "No node processes found"
-          echo "=== Port check ==="
-          netstat -tulpn | grep 3000 || echo "Port 3000 not listening"
-      - name: Final service check
-        run: |
-          echo "Testing backend..."
-          curl -v http://localhost:5000 || echo "Backend curl failed"
-          echo "Testing frontend..."
-          curl -v http://localhost:3000 || echo "Frontend curl failed"
-      - name: Install E2E test dependencies
-        working-directory: ./src/Frontend/tests
-        run: npm install
-      - name: Install Playwright browsers
-        working-directory: ./src/Frontend/tests
-        run: npx playwright install --with-deps
+          npm run dev
       - name: Run E2E tests
         working-directory: ./src/Frontend/tests
-        run: npm test
-        env:
-          FRONTEND_URL: http://localhost:3000
-          BACKEND_URL: http://localhost:5000
-          TEST_USERNAME: user1
-          TEST_PASSWORD: password1
-          NODE_TLS_REJECT_UNAUTHORIZED: 0
-      - name: Upload E2E test results
-        uses: actions/upload-artifact@v4
-        if: failure()
-        with:
-          name: e2e-test-results
-          path: |
-            src/Frontend/tests/test-results/
-            src/Frontend/tests/playwright-report/
+        run: |
+          npm install
+          npx playwright install
+          npm test

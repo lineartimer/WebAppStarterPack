@@ -138,17 +138,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "error", "error", "{3DBBD5FA
 		Frontend\src\app\error\error.test.js = Frontend\src\app\error\error.test.js
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{582FDB09-C0FC-D983-E123-58781FC5EDAF}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "e2e-tests", "e2e-tests", "{582FDB09-C0FC-D983-E123-58781FC5EDAF}"
 	ProjectSection(SolutionItems) = preProject
-		Frontend\tests\.env.local = Frontend\tests\.env.local
-		Frontend\tests\playwright.config.js = Frontend\tests\playwright.config.js
-		Frontend\tests\package.json = Frontend\tests\package.json
+		Frontend\e2e-tests\playwright.config.js = Frontend\e2e-tests\playwright.config.js
+		Frontend\e2e-tests\package.json = Frontend\e2e-tests\package.json
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "e2e-tests", "e2e-tests", "{B758D604-0DDC-9E0D-6779-DDA46AAD2628}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{B758D604-0DDC-9E0D-6779-DDA46AAD2628}"
 	ProjectSection(SolutionItems) = preProject
-		Frontend\tests\e2e-tests\login.spec.js = Frontend\tests\e2e-tests\login.spec.js
-		Frontend\tests\e2e-tests\data-page.spec.js = Frontend\tests\e2e-tests\data-page.spec.js
+		Frontend\e2e-tests\tests\data-page.spec.js = Frontend\e2e-tests\tests\data-page.spec.js
+		Frontend\e2e-tests\tests\login.spec.js = Frontend\e2e-tests\tests\login.spec.js
+		Frontend\e2e-tests\tests\admin-page.spec.js = Frontend\e2e-tests\tests\admin-page.spec.js
 	EndProjectSection
 EndProject
 Global

@@ -76,10 +76,14 @@ To clear the cache: ./node_modules/.bin/jest --clearCache
 
 ### Adding end-to-end tests
 
-Cd into the tests folder and run:
+Cd into the e2e-tests folder and run:
 
 npm install
 npx playwright install
+
+To run tests:
+
+npm test
 
 ### Deploying the project
 
@@ -440,8 +444,6 @@ The curl command can be used to call an endpoint. The body of the request can be
 
 curl -v -X <request method e.g. POST> <endpoint url> -H "Content-Type: application/json" --data @<relative path to json file>
 
-curl -v -X GET "<url of endpoint that requires authentication>" -H "Authorization: Bearer <token>"
-
 CORS restrictions only work in browsers. They don't work with curl, Postman or similar tools.
 
 Secure cookies are only sent over HTTPS, never over HTTP (except on localhost).
@@ -765,7 +767,7 @@ someFuncSpy.mockImplementation(() => {
 
 ### End-to-end tests
 
-
+A popular framework is Playwright backed my Microsoft: https://github.com/microsoft/playwright
 
 # AI tools
 

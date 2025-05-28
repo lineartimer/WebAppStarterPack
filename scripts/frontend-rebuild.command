@@ -21,5 +21,10 @@ cd ../src/Frontend
 npm install
 ./node_modules/.bin/jest --clearCache
 
+cd e2e-tests
+npm install
+npx playwright install
+./node_modules/.bin/jest --clearCache
+
 echo
 read -p "Press any key to continue..."

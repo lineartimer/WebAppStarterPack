@@ -5,8 +5,8 @@ test.describe('Login functionality', () => {
   test('should login successfully with valid credentials', async ({ page }) => {
     await page.goto(frontend.urls.loginPage);
 
-    await page.getByPlaceholder('Username').fill(process.env.TEST_USERNAME || 'user1');
-    await page.getByPlaceholder('Password').fill(process.env.TEST_PASSWORD || 'password1');
+    await page.getByPlaceholder('Username').fill('user1');
+    await page.getByPlaceholder('Password').fill('password1');
 
     await page.getByRole('button', { name: 'Sign in' }).click();
 

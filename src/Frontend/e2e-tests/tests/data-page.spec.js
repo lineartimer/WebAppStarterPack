@@ -5,8 +5,8 @@ test.describe('Data page functionality', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(frontend.urls.loginPage);
 
-    await page.getByPlaceholder('Username').fill(process.env.TEST_USERNAME || 'user1');
-    await page.getByPlaceholder('Password').fill(process.env.TEST_PASSWORD || 'password1');
+    await page.getByPlaceholder('Username').fill('user1');
+    await page.getByPlaceholder('Password').fill('password1');
 
     await page.getByRole('button', { name: 'Sign in' }).click();
 
@@ -23,5 +23,14 @@ test.describe('Data page functionality', () => {
     
     const rowCount = await page.locator('tbody tr').count();
     expect(rowCount).toBeGreaterThan(0);
+  });
+
+  test('should not display admin page', async ({ page }) => {
+    await page.goto(frontend.urls.adminPage);
+
+    await page.waitForLoadState('networkidle');
+    
+    await expect(page).not.toHaveURL(`${frontend.urls.adminPage}/`);
+    await expect(page).toHaveURL(`https://localhost:3000${frontend.urls.homePage}`);
   });
 });

@@ -31,8 +31,10 @@ rm -rf ../src/Frontend/node_modules
 rm -rf ../src/Frontend/obj
 rm -rf ../src/Frontend/certificates
 rm -rf ../src/Frontend/package-lock.json
-rm -rf ../src/Frontend/tests/node_modules
-rm -rf ../src/Frontend/tests/package-lock.json
+rm -rf ../src/Frontend/e2e-tests/node_modules
+rm -rf ../src/Frontend/e2e-tests/playwright-report
+rm -rf ../src/Frontend/e2e-tests/test-results
+rm -rf ../src/Frontend/e2e-tests/package-lock.json
 
 npm cache clean --force
 

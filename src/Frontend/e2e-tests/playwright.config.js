@@ -1,7 +1,7 @@
 const { defineConfig } = require('@playwright/test');
 
 module.exports = defineConfig({
-  testDir: './e2e-tests',
+  testDir: './tests',
   timeout: 30000,
   fullyParallel: true,
   forbidOnly: !!process.env.CI,

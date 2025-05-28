@@ -1,5 +1,5 @@
 name: Build backend
-on: pull_request
+on: push
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -13,3 +13,11 @@ jobs:
       - name: Build
         working-directory: ./src/Backend
         run: dotnet build --configuration Release
+      # To make the backend enterprise-grade secure
+      - name: Security Scan
+        run: |
+          dotnet list package --vulnerable --include-transitive
+      - name: Static Code Analysis
+        run: |
+          dotnet tool install --global security-scan
+          security-scan ./src/Backend

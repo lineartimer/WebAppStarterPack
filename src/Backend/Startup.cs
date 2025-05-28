@@ -154,8 +154,8 @@ public class Startup
         }
         else
         {
-            // Running in the production environment
-            connStr = $"Server={dbServer};Database={db};User Id={dbUser};Password={dbPassword};";
+            // Running in the production environment. In the cloud, always use encrypted connections
+            connStr = $"Server={dbServer};Database={db};User Id={dbUser};Password={dbPassword};Encrypt=True;TrustServerCertificate=False";
         }
 
         if (useSqlite)

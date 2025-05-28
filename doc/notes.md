@@ -203,6 +203,7 @@ Creating an SQL database:
 - Connect to the database from VS Code with the SQL Server (mssql) extension. Once installed, click on the DB tab on the left and add your connection
 - You can also log in to your database (and query and update data) via the Azure Portal. Go to the DB and click Query Editor
 - The connection string to the DB is under Settings -> Connection Strings
+- In the cloud, always use encrypted connections
 
 ## Storage Account
 

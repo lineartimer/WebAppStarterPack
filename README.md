@@ -3,7 +3,11 @@ Web App Starter Pack
 
 ![Build (backend)](https://github.com/lineartimer/WebAppStarterPack/actions/workflows/Backend.Build.yml/badge.svg) ![Tests (backend)](https://github.com/lineartimer/WebAppStarterPack/actions/workflows/Backend.Test.yml/badge.svg) ![Build (frontend)](https://github.com/lineartimer/WebAppStarterPack/actions/workflows/Frontend.Build.yml/badge.svg) ![Tests (frontend)](https://github.com/lineartimer/WebAppStarterPack/actions/workflows/Frontend.Test.yml/badge.svg)
 
-This is a starter template with a .Net backend, a React/Next.js frontend and a GitHub CI/CD pipeline that deploys to Azure. This template should enable anyone who wants to build a web app with said tech-stack to get started quickly.
+This is a starter template with a .Net backend, a React/Next.js frontend and a GitHub CI/CD pipeline that deploys to Azure.
+
+The template also comes with xUnit unit and integration tests for the backend, and Jest unit tests and Playwright end-to-end tests for the frontend.
+
+The template should enable anyone who wants to build a web app with said tech-stack to get started quickly.
 
 # Getting Started
 

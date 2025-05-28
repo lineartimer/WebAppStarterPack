@@ -52,10 +52,10 @@ Finally, create two Azure Container Apps from the images in the container regist
 
 ## Step 3: Set up CI/CD
 
-Go to the repo and under Settings -> Secrets and variables -> Actions and set the following variables:
+Go to the repo and under Settings -> Secrets and variables -> Actions set the following variables:
 
 **AZURE_APP_ID**, **AZURE_PASSWORD**, **AZURE_TENANT**:
-To set the values of these variables, open an Azure CLI (e.g. on the Azure Portal) and create a service principal:
+To set these variables, open an Azure CLI (e.g. on the Azure Portal) and create a service principal:
 
 *az ad sp create-for-rbac --name "a-unique-name-that-hasn't-been-used-before" --role contributor --scopes /subscriptions/your-Azure-subscription-id-you-can-find-it-on-the-Azure-Portal-under-your-subscription)*
 
@@ -70,7 +70,7 @@ Copy and paste the information from the url.
 Go to the container registry and from under Settings -> Access keys copy and paste the information from the url.
 
 **DB_SERVER_NAME**, **DB**, **DB_USER**, **DB_PASSWORD**:
-To set the values of these variables, go to the database and from under Settings -> Connection Strings copy and paste the information.
+To set these variables, go to the database and from under Settings -> Connection Strings copy and paste the information.
 
 **CONTAINER_APP_NAME**, **RESOURCE_GROUP**:
 These are not GitHub secrets but should be set in .github/workflows/Backend.Deploy.yml. The information can be found on the Azure Portal under the container apps and the resource group.

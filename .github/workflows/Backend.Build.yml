@@ -15,9 +15,11 @@ jobs:
         run: dotnet build --configuration Release
       # To make the backend enterprise-grade secure
       - name: Security Scan
+        working-directory: ./src/Backend
         run: |
           dotnet list package --vulnerable --include-transitive
       - name: Static Code Analysis
+        working-directory: ./src/Backend
         run: |
           dotnet tool install --global security-scan
           security-scan ./src/Backend

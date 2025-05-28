@@ -66,7 +66,7 @@ jobs:
           echo "Verifying if frontend is running"
           curl -k -v https://localhost:3000
       - name: Run E2E tests
-        working-directory: ./src/Frontend/tests
+        working-directory: ./src/Frontend/e2e-tests
         run: |
           npm install
           npx playwright install

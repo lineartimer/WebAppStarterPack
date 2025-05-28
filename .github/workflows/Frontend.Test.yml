@@ -48,12 +48,9 @@ jobs:
         working-directory: ./src/Backend
         run: |
           dotnet build --configuration Release
-          nohup dotnet run --configuration Release > backend.log 2>&1 &
-          echo "Backend PID: $!"
-          sleep 20
+          dotnet run
         env:
           ASPNETCORE_ENVIRONMENT: Development
-          ASPNETCORE_URLS: https://localhost:5000
       - name: Build and run frontend
         working-directory: ./src/Frontend
         run: |

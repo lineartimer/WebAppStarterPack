@@ -794,7 +794,7 @@ Hallucinations:
 
 Make your prompts iteratively better.
 
-You can use LLMs to:
+LLMs can be used to:
 - Summarize text or expand text
 - Do sentiment analysis (you can either ask the model to do it explicitly, or you can ask it to identify emotions that the writer of the text is expressing)
 - Spell check or grammar check

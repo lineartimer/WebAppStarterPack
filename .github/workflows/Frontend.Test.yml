@@ -51,6 +51,7 @@ jobs:
           nohup dotnet run --configuration Release > backend.log 2>&1 &
           echo "Backend PID: $!"
           sleep 30
+          more backend.log
           curl -k -v https://localhost:5000/Data
       - name: Build and run frontend
         working-directory: ./src/Frontend
@@ -59,8 +60,9 @@ jobs:
           npm run build
           nohup npm start > frontend.log 2>&1 &
           echo "Frontend PID: $!"
-          sleep 180
-          curl -k -v https://localhost:3000
+          sleep 30
+          more frontend.log
+          curl -k -v https://localhost:3000/data
       - name: Run E2E tests
         working-directory: ./src/Frontend/tests
         run: |

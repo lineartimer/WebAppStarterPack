@@ -48,7 +48,7 @@ jobs:
         working-directory: ./src/Backend
         run: |
           dotnet build --configuration Release
-          dotnet run
+          nohup dotnet run --configuration Release
         env:
           ASPNETCORE_ENVIRONMENT: Development
       - name: Build and run frontend

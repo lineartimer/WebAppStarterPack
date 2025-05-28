@@ -63,6 +63,7 @@ jobs:
           sleep 30
           more frontend.log
           curl -k -v https://localhost:3000/data
+          curl -k -v http://localhost:3000/data
       - name: Run E2E tests
         working-directory: ./src/Frontend/tests
         run: |

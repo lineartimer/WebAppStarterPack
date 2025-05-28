@@ -48,16 +48,14 @@ jobs:
         working-directory: ./src/Backend
         run: |
           dotnet build --configuration Release
-          nohup dotnet run --configuration Release > backend.log 2>&1 &
-          echo "Backend PID: $!"
+          nohup dotnet run --configuration Release
           curl -k -v https://localhost:5000/Data
       - name: Build and run frontend
         working-directory: ./src/Frontend
         run: |
           npm install
           npm run build
-          nohup npm start > frontend.log 2>&1 &
-          echo "Frontend PID: $!"
+          nohup npm start
           curl -k -v https://localhost:3000
       - name: Run E2E tests
         working-directory: ./src/Frontend/tests

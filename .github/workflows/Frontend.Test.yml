@@ -36,10 +36,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Use node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18.x'
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
@@ -47,8 +43,12 @@ jobs:
       - name: Build and run backend
         working-directory: ./src/Backend
         run: |
-          dotnet build
+          dotnet build --configuration Release
           dotnet run
+      - name: Use node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.x'
       - name: Build and run frontend
         working-directory: ./src/Frontend
         run: |

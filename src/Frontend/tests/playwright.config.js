@@ -10,6 +10,7 @@ module.exports = defineConfig({
   reporter: 'html',
   use: {
     baseURL: process.env.FRONTEND_URL || 'https://localhost:3000',
+    ignoreHTTPSErrors: true,
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
   },

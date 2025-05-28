@@ -59,7 +59,7 @@ jobs:
           npm run build
           nohup npm start > frontend.log 2>&1 &
           echo "Frontend PID: $!"
-          sleep 30
+          sleep 180
           curl -k -v https://localhost:3000
       - name: Run E2E tests
         working-directory: ./src/Frontend/tests

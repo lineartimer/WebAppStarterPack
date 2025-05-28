@@ -11,7 +11,7 @@ end tell
 eof
 
 cd -- "$(dirname -- "$BASH_SOURCE")"
-cd ../src/frontend
+cd ../src/Frontend
 
 npm run dev
 

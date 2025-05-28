@@ -58,7 +58,7 @@ jobs:
         run: |
           npm install
           npm run build
-          nohup npm start > frontend.log 2>&1 &
+          nohup npm run dev > frontend.log 2>&1 &
           echo "Frontend PID: $!"
           sleep 30
           more frontend.log

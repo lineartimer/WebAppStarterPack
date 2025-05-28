@@ -27,7 +27,7 @@ export const frontend = {
         homePage: {
             line1: 'A starter template with',
             line2: '✅ a .Net backend,',
-            line3: '✅ a React frontend and',
+            line3: '✅ a React/Next.js frontend and',
             line4: '✅ a GitHub CI/CD pipeline',
             line5: '✅ that deploys to Azure.'
         },

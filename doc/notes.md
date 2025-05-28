@@ -4,7 +4,7 @@ Web App Starter Pack
 # Environment
 
 - VS Code
-- VS Code extensions (C# Dev Kit, JavaScript Debugger, Azure Container Apps, Docker, GitHub Copilot)
+- VS Code extensions (C# Dev Kit, JavaScript Debugger, Azure Container Apps, Docker, Playwright, GitHub Copilot)
 - .NET SDK
 - Node.js
 - Docker Desktop
@@ -73,6 +73,17 @@ To run all tests:
 CI=true npm test
 
 To clear the cache: ./node_modules/.bin/jest --clearCache
+
+### Adding end-to-end tests
+
+Cd into the e2e-tests folder and run:
+
+npm install
+npx playwright install
+
+To run tests:
+
+npm test
 
 ### Deploying the project
 
@@ -433,8 +444,6 @@ The curl command can be used to call an endpoint. The body of the request can be
 
 curl -v -X <request method e.g. POST> <endpoint url> -H "Content-Type: application/json" --data @<relative path to json file>
 
-curl -v -X GET "<url of endpoint that requires authentication>" -H "Authorization: Bearer <token>"
-
 CORS restrictions only work in browsers. They don't work with curl, Postman or similar tools.
 
 Secure cookies are only sent over HTTPS, never over HTTP (except on localhost).
@@ -743,6 +752,8 @@ Next.js uses error boundaries to handle uncaught exceptions. Error boundaries ca
 
 ## Tests
 
+### Unit tests
+
 Testing class names can make tests brittle if they are purely for styling. Only test class names when they are important for layout structure.
 
 React Testing Library philosophy emphasizes testing components in the same way a user would interact with them (e.g. users find and identify links by their visible text).
@@ -753,6 +764,10 @@ const someFuncSpy = jest.spyOn(SomeClass.prototype, 'someFunc');
 someFuncSpy.mockImplementation(() => {
 
 });
+
+### End-to-end tests
+
+A popular framework is Playwright backed my Microsoft: https://github.com/microsoft/playwright
 
 # AI tools
 
@@ -779,7 +794,7 @@ Hallucinations:
 
 Make your prompts iteratively better.
 
-You can use LLMs to:
+LLMs can be used to:
 - Summarize text or expand text
 - Do sentiment analysis (you can either ask the model to do it explicitly, or you can ask it to identify emotions that the writer of the text is expressing)
 - Spell check or grammar check

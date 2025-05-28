@@ -1,20 +1,20 @@
 name: Test frontend
 on: push
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps: 
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Use node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18.x'
-      - name: Build frontend
-        working-directory: ./src/Frontend
-        run: |
-          npm install
-          npm run build
+  # build:
+  #   runs-on: ubuntu-latest
+  #   steps: 
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
+  #     - name: Use node.js
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: '18.x'
+  #     - name: Build frontend
+  #       working-directory: ./src/Frontend
+  #       run: |
+  #         npm install
+  #         npm run build
   # unit-test: 
   #   needs: build
   #   runs-on: ubuntu-latest
@@ -31,7 +31,7 @@ jobs:
   #         npm install
   #         CI=true npm test
   e2e-test:
-    needs: build
+    # needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -47,7 +47,7 @@ jobs:
       - name: Build and run backend
         working-directory: ./src/Backend
         run: |
-          dotnet build --no-incremental
+          dotnet build
           dotnet run
       - name: Build and run frontend
         working-directory: ./src/Frontend

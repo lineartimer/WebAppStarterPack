@@ -36,6 +36,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Use node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.x'
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
@@ -44,11 +48,12 @@ jobs:
         working-directory: ./src/Backend
         run: |
           dotnet build --configuration Release
-          dotnet run
-      - name: Use node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18.x'
+          nohup dotnet run --configuration Release > backend.log 2>&1 &
+          echo "Backend PID: $!"
+          sleep 20
+        env:
+          ASPNETCORE_ENVIRONMENT: Development
+          ASPNETCORE_URLS: https://localhost:5000
       - name: Build and run frontend
         working-directory: ./src/Frontend
         run: |

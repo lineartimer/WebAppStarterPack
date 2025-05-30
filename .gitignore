@@ -12,3 +12,8 @@ package-lock.json
 
 # File extensions
 *.user
+*.crt
+*.csr
+*.srl
+*.key
+*.p12

@@ -4,7 +4,7 @@ Web App Starter Pack
 # Environment
 
 - VS Code
-- VS Code extensions (C# Dev Kit, JavaScript Debugger, Azure Container Apps, Docker, Playwright, GitHub Copilot)
+- VS Code extensions (C# Dev Kit, JavaScript Debugger, SQL Server, Azure Container Apps, Docker, Playwright, GitHub Copilot)
 - .NET SDK
 - Node.js
 - Docker Desktop
@@ -346,13 +346,57 @@ Deploying the app in an Azure Container App:
 - It's very cost-efficient
 - Triggers (e.g. HTTP requests or timers) srart the function and they may have input data
 
-## Network
+## Infrastructure
 
 Zero trust architecture is a security strategy. The principle is that users and devices should not be trusted by default, even if they are connected to a corporate network. It ensures least privilege access to only explicitly-authorized resources. The traditional approach by trusting users and devices within a network is commonly not sufficient in the complex environment of a corporate network. The zero trust approach moves from trust-by-default to trust-by-exception.
 
 Microsoft is making Security Defaults (preconfigured security settings) available to everyone to ensure that all organizations have at least a basic level of security enabled at no extra cost. 99.9% of common identity-related attacks are stopped by using multifactor authentication.
 
-### Admin
+### Virtual Networks (VNets)
+
+Networks with a CIDR (Classless Inter-Domain Routing) of /16 have 65 536 addresses and are typical for large corporate networks. A CIDR of /16 with 256 address are typical for small office networks and a CIDR of /28 (16 addresses) are used for small subnets.
+
+RFC 1918 address spaces:
+- 10.0.0.0 - 10.255.255.255 (10/8 prefix)
+- 172.16.0.0 - 172.31.255.255 (172.16/12 prefix)
+- 192.168.0.0 - 192.168.255.255 (192.168/16 prefix)
+
+Azure's reserved IP addresses:
+- x.x.x.0: Network address
+- x.x.x.1: Default gateway
+- x.x.x.2,3: Maps Azure DNS IPs to VNet
+- x.x.x.255: Network broadcast address
+
+Resources in a VNet can communicate outbound to the Internet by default. Inbound communication can be done by assigning the resource a public IP address. In a VNet, resources can communicate with each other securely within the cloud. NSGs can filter traffic between subnets. A VNet can have subnets (e.g. for web tier or database tier).
+
+The automatically created NetworkWatcherRG resource group can be deleted from Subsription -> Resource Visualizer then click on the Network Watcher and then on its containing resource group. From there both the network watcher and the resource group can be deleted.
+
+NAT gateways are only needed for outbound access.
+
+### Private Endpoints
+
+Private endpoints give Azure resources (e.g. a database) a private IP address within the VNet. In this way, traffic never leaves Microsoft's network because the resource is only accessible from within the VNet.
+
+Example: instead of <database name>.database.windows.net (public), apps connect to 10.0.2.4 (private).
+
+### Network Securty Groups (NSGs)
+
+NSGs are like firewalls: they contain rules that allow or deny network traffic. In practice, all traffic can be denied except what's absolutely necessary.
+
+### VPN Gateway
+
+To create a root certificate, run:
+
+openssl genrsa -out P2SRootCert.key 2048
+openssl req -new -x509 -key P2SRootCert.key -out P2SRootCert.crt -days 365 -subj "/CN=P2SRootCert"
+openssl genrsa -out P2SClientCert.key 2048
+openssl req -new -key P2SClientCert.key -out P2SClientCert.csr -subj "/CN=P2SClientCert"
+openssl x509 -req -in P2SClientCert.csr -CA P2SRootCert.crt -CAkey P2SRootCert.key -CAcreateserial -out P2SClientCert.crt -days 365
+openssl x509 -in P2SRootCert.crt -outform PEM | grep -v "BEGIN CERTIFICATE" | grep -v "END CERTIFICATE" | tr -d '\n' && echo
+openssl pkcs12 -export -out P2SClientCert.p12 -inkey P2SClientCert.key -in P2SClientCert.crt -certfile P2SRootCert.crt
+open P2SClientCert.p12
+
+## User Management
 
 To manage users, go to Microsoft Entra ID -> Users
 
@@ -824,11 +868,18 @@ To run a .command file downloaded from the Internet, double click it then Settin
 
 To list hidden files with Finder: Cmd + Shift + .
 
+To open spotlight: Cmd + Space
+
 The Windows App can be used to rdp into a Windows VM.
 
 To find out the ip address of a web server: nslookup <url>
 
+To find out the ip address of your machine: curl ifconfig.me
+
 Terminal history can be deleted by deleting the contents of the ~/.zsh_history file or contents of the ~/.zsh_sessions directory.
 
-If function keys don't work when debugging:
-- Settings -> Desktop & Dock -> Shortcuts -> Set Show Desktop to -
+If function keys don't work when debugging: Settings -> Desktop & Dock -> Shortcuts -> Set Show Desktop to -
+
+To install PowerShell on Mac: brew install --cask powershell
+
+To start PowerShell: pwsh

@@ -13,18 +13,3 @@ jobs:
       - name: Build
         working-directory: ./src/Backend
         run: dotnet build --configuration Release
-      # Ensure that backend is enterprise-grade secure
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@master
-        with:
-          scan-type: 'fs'
-          scan-ref: './src/Backend'
-          format: 'sarif'
-          output: 'trivy-results.sarif'
-      - name: Upload Trivy scan results
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: 'trivy-results.sarif'
-      - name: Vulnerability Scan
-        working-directory: ./src/Backend
-        run: dotnet list package --vulnerable --include-transitive

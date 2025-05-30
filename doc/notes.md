@@ -373,6 +373,8 @@ The automatically created NetworkWatcherRG resource group can be deleted from Su
 
 NAT gateways are only needed for outbound access.
 
+Container Registries don't need to be put in a VNet because it's a managed service, so Microsoft handles everything from networking to security.
+
 ### Private Endpoints
 
 Private endpoints give Azure resources (e.g. a database) a private IP address within the VNet. In this way, traffic never leaves Microsoft's network because the resource is only accessible from within the VNet.
@@ -382,19 +384,6 @@ Example: instead of <database name>.database.windows.net (public), apps connect 
 ### Network Securty Groups (NSGs)
 
 NSGs are like firewalls: they contain rules that allow or deny network traffic. In practice, all traffic can be denied except what's absolutely necessary.
-
-### VPN Gateway
-
-To create a root certificate, run:
-
-openssl genrsa -out P2SRootCert.key 2048
-openssl req -new -x509 -key P2SRootCert.key -out P2SRootCert.crt -days 365 -subj "/CN=P2SRootCert"
-openssl genrsa -out P2SClientCert.key 2048
-openssl req -new -key P2SClientCert.key -out P2SClientCert.csr -subj "/CN=P2SClientCert"
-openssl x509 -req -in P2SClientCert.csr -CA P2SRootCert.crt -CAkey P2SRootCert.key -CAcreateserial -out P2SClientCert.crt -days 365
-openssl x509 -in P2SRootCert.crt -outform PEM | grep -v "BEGIN CERTIFICATE" | grep -v "END CERTIFICATE" | tr -d '\n' && echo
-openssl pkcs12 -export -out P2SClientCert.p12 -inkey P2SClientCert.key -in P2SClientCert.crt -certfile P2SRootCert.crt
-open P2SClientCert.p12
 
 ## User Management
 

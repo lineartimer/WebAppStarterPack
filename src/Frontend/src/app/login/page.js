@@ -4,9 +4,9 @@ import { useState } from 'react';
 import DOMPurify from 'dompurify';
 
 import './login.css';
-import { callEndPoint, httpMethods, responseStatus } from '../../lib/http';
-import { backend, frontend } from '../../lib/config';
-import { isMobile } from '../../lib/utils';
+import { frontend } from '../../lib/config';
+import { callApi } from '../../lib/client';
+import { httpMethods, responseStatus, isMobile } from '../../lib/utils'
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -29,24 +29,24 @@ const Login = () => {
 
         setIsLoading(true);
 
-        const loginResponse = await callEndPoint(backend.urls.login, httpMethods.Post, localStorage.getItem('xcsrf'), {
+        const loginResponse = await callApi(frontend.urls.api.login, httpMethods.Post, localStorage.getItem('xcsrf'), {
             // Sanitize input to prevent XSS (Cross-Site Scripting attacks)
             username: DOMPurify.sanitize(username),
             password: DOMPurify.sanitize(password)
-        })
-
+        });
+        
         // After logging in, a new X-CSRF token will be needed because now the request is coming from
         // an authenticated user as opposed to an anonymous user
-        const xcsrfResponse = await callEndPoint('/Auth/GetXcsrfToken', httpMethods.Get);
+        const xcsrfResponse = await callApi(frontend.urls.api.getXcsrf, httpMethods.Get);
 
         setIsLoading(false);
 
         if (xcsrfResponse.status === responseStatus.Ok) {
             localStorage.setItem('xcsrf', xcsrfResponse.payload.xcsrf);
         } else {
-            window.location.href = frontend.urls.errorPage;
+            window.location.href = frontend.urls.pages.errorPage;
         }
-
+        
         const loginRedirectUrl = localStorage.getItem('loginRedirectUrl') || null;
         localStorage.removeItem('loginRedirectUrl');
 
@@ -54,11 +54,11 @@ const Login = () => {
             localStorage.setItem('username', username);
             localStorage.setItem('role', loginResponse.payload.role);
 
-            window.location.href = loginRedirectUrl ? loginRedirectUrl : frontend.urls.homePage;
+            window.location.href = loginRedirectUrl ? loginRedirectUrl : frontend.urls.pages.homePage;
         } else if (loginResponse.status === responseStatus.UnAuthorized) {
             setError(frontend.errorMessages.invalidUserNameOrPasswordError);
         } else {
-            window.location.href = frontend.urls.errorPage;
+            window.location.href = frontend.urls.pages.errorPage;
         }
     };
 

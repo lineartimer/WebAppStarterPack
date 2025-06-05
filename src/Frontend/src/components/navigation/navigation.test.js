@@ -3,7 +3,6 @@ import { render, screen } from '@testing-library/react';
 import Navigation from './navigation';
 import { isMobile } from '../../lib/utils';
 
-// Mock config.js
 jest.mock('../../lib/config', () => ({
     backend: {
         roles: {
@@ -12,29 +11,28 @@ jest.mock('../../lib/config', () => ({
     },
     frontend: {
         urls: {
-            adminPage: '/Admin',
-            dataPage: '/Data',
+            pages: {
+                adminPage: '/admin',
+                dataPage: '/data',
+            }
         },
         noshow: {
             navigationComponent: [
                 '/login',
-                '/error',
-                '/notfound'
+                '/error'
             ]
         }
     },
 }));
 
 const mockAdminRole = 'Admin';
-const mockAdminPageUrl = '/Admin';
-const mockDataPageUrl = '/Data';
+const mockAdminPageUrl = '/admin';
+const mockDataPageUrl = '/data';
 
-// Mock the isMobile utility
 jest.mock('../../lib/utils', () => ({
     isMobile: jest.fn(),
 }));
 
-// Mock localStorage.getItem
 const mockLocalStorage = (username, role) => {
     // Spying intercepts calls to getItem and overrides its behavior
     const getItemSpy = jest.spyOn(Storage.prototype, 'getItem');
@@ -53,10 +51,20 @@ const mockLocalStorage = (username, role) => {
 
 describe('Navigation Component', () => {
     describe('User Not Logged In', () => {
-        test('renders no navigation links', () => {
-            isMobile.mockReturnValue(false);
+        test('renders no navigation links (desktop)', () => {
             render(<Navigation />);
 
+            isMobile.mockReturnValue(false);
+
+            expect(screen.queryByRole('link', { name: /admin/i })).not.toBeInTheDocument();
+            expect(screen.queryByRole('link', { name: /data/i })).not.toBeInTheDocument();
+        });
+
+        test('renders no navigation links (mobile)', () => {
+            render(<Navigation />);
+
+            isMobile.mockReturnValue(true);
+            
             expect(screen.queryByRole('link', { name: /admin/i })).not.toBeInTheDocument();
             expect(screen.queryByRole('link', { name: /data/i })).not.toBeInTheDocument();
         });
@@ -118,7 +126,7 @@ describe('Navigation Component', () => {
             expect(dataLink).not.toHaveClass('mobile-menu-item');
         });
 
-        test('renders both Admin and Data links with mobile class (mobile)', () => {
+        test('renders both Admin and Data links (mobile)', () => {
             isMobile.mockReturnValue(true);
 
             render(<Navigation />);

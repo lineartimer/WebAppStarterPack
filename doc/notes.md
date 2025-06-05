@@ -780,6 +780,8 @@ To improve the initial load time and user experience, you can use streaming to b
 
 A server function is an asynchronous function that is executed on the server. Server functions are inherently asynchronous because they are invoked by the client using a network request. A server function can be defined by placing 'use server' at the top of an asynchronous function or at the top of a file to mark all exports of that file.
 
+console.log will print messages in the browser's log if it is called from a client-side component but will print the message on the terminal from which the frontend is run if it is called from a server-side component.
+
 You can call the notFound function within a route segment and use the not-found.js file to show a 404 UI.
 
 Next.js uses error boundaries to handle uncaught exceptions. Error boundaries catch errors in their child components and display a fallback UI. Create an error boundary by adding an error.js file inside a route segment. Errors will bubble up to the nearest parent error boundary. You can handle errors in the root layout using the global-error.js file, located in the root app directory.

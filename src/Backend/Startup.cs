@@ -1,4 +1,5 @@
 using System.Text;
+using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc.Authorization;
@@ -52,8 +53,8 @@ public class Startup
         // This forwarded request is often plain HTTP. So, the backend sees an HTTP request,
         // even though the original request from the frontend was HTTPS. The proxy adds headers like
         // X-Forwarded-Proto (to indicate the original protocol, e.g., "https") and
-        // X-Forwarded-For (to indicate the original client IP). The Forwarded Headers middleware reads these headers
-        // and updates the HttpContext.Request object so that your application behaves as if it received the original HTTPS request.
+        // X-Forwarded-For (to indicate the original client IP). The middleware reads these headers
+        // and updates the HttpContext.Request object so that the application behaves as if it received the original HTTPS request.
         services.Configure<ForwardedHeadersOptions>(options =>
         {
             options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
@@ -64,10 +65,11 @@ public class Startup
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
+        // Configure the middleware pipeline
+
         // Needs to be added early in the pipeline
         app.UseForwardedHeaders();
 
-        // Configure the middleware pipeline
         if (env.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
@@ -75,7 +77,11 @@ public class Startup
 
         app.UseCors(_policy);
 
-        app.UseHttpsRedirection();
+        if (!env.IsDevelopment())
+        {
+            app.UseHttpsRedirection();
+        }
+
         //app.UseStaticFiles(); // This would allow the backend to serve static files like html, css, js etc.
         app.UseRouting();
 
@@ -104,8 +110,6 @@ public class Startup
             // Production environment
             var frontendUrl = backendUrl.TrimEnd('/').Replace("backend", "frontend");
             origins.Add(frontendUrl);
-
-            Console.WriteLine($"Allowed CORS origin: {frontendUrl}");
         }
 
         services.AddCors(options =>
@@ -182,7 +186,7 @@ public class Startup
             if (secretKey == null)
             {
                 // If the secret key is not set in .Net Secrets Manager, create one for debugging purposes
-                secretKey = "ThisNotSoSecretKeyIsForDebuggingPurposesOnly";
+                secretKey = "ThisNotSoSecretKeyIsForDebuggingPurposes";
             }
         }
 
@@ -230,16 +234,19 @@ public class Startup
                             }
                         };
                     });
+        
+        var isDevelopment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
 
-        services.AddAntiforgery(options =>
-            {
-                options.HeaderName = "X-CSRF"; // Request token
-                options.Cookie.Name = "XSRF"; // Cookie token
-                options.Cookie.HttpOnly = false;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-                // This will work even though the frontend and the backend have different urls
-                // because azurecontainerapps.io is on the public suffix list
-                options.Cookie.SameSite = SameSiteMode.Strict;
-            });
+        services.AddAntiforgery();
+        services.Configure<AntiforgeryOptions>(options =>
+        {
+            options.HeaderName = "X-CSRF";
+            options.Cookie.Name = "XSRF";
+            options.Cookie.HttpOnly = true;
+            // No CORS will work even though the frontend and the backend have different urls
+            // because azurecontainerapps.io is on the public suffix list
+            options.Cookie.SameSite = SameSiteMode.Strict;
+            options.Cookie.SecurePolicy = isDevelopment ? CookieSecurePolicy.None : CookieSecurePolicy.Always;
+        });
     }
 }

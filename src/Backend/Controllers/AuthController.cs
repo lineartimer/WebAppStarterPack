@@ -124,7 +124,7 @@ public class AuthController : ControllerBase
         {
             HttpOnly = true, // Can't be accessed by JavaScript on the cilent side
             Secure = true, // Only sent over secure connections (HTTPS)
-            SameSite = SameSiteMode.Strict,
+            SameSite = SameSiteMode.Strict, // No CORS allowed
             Expires = DateTime.UtcNow.AddDays(7)
         });
 

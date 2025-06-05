@@ -1,17 +1,10 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import { callEndPoint } from '../../lib/http';
+import { callApi } from '../../lib/client';
 
 import Data from "./page";
 
-jest.mock('../../lib/http', () => ({
-    callEndPoint: jest.fn(() => Promise.resolve({})),
-    httpMethods: {
-        Get: 'GET'
-    },
-    responseStatus: {
-        Ok: 200,
-        UnAuthorized: 401
-    }
+jest.mock('../../lib/client', () => ({
+    callApi: jest.fn(() => Promise.resolve({}))
 }));
 
 const mockLocalStorage = (xcsrf) => {
@@ -43,41 +36,42 @@ describe('Data Page', () => {
 
     const testPageLoad = async (isAuthenticated, isError = false) => {
         const xcsrf = 'ThisIsAnXcsrfTokenForTestingPuroses';
+        const data = [
+            {
+                "id": 1,
+                "col1": "Val-1-1",
+                "col2": "Val-1-2",
+                "col3": "Val-1-3"
+            },
+            {
+                "id": 2,
+                "col1": "Val-2-1",
+                "col2": "Val-2-2",
+                "col3": "Val-2-3"
+            },
+            {
+                "id": 3,
+                "col1": "Val-3-1",
+                "col2": "Val-3-2",
+                "col3": "Val-3-3"
+            }
+        ];
 
         mockLocalStorage(xcsrf);
 
-        if(isError) {
-            callEndPoint.mockReturnValue({
+        if (isError) {
+            callApi.mockReturnValue({
                 status: 500,
                 payload: null
             });
         } else {
-            if(isAuthenticated) {
-                callEndPoint.mockReturnValue({
+            if (isAuthenticated) {
+                callApi.mockReturnValue({
                     status: 200,
-                    payload: [
-                        {
-                            "id": 1,
-                            "col1": "Val-1-1",
-                            "col2": "Val-1-2",
-                            "col3": "Val-1-3"
-                        },
-                        {
-                            "id": 2,
-                            "col1": "Val-2-1",
-                            "col2": "Val-2-2",
-                            "col3": "Val-2-3"
-                        },
-                        {
-                            "id": 3,
-                            "col1": "Val-3-1",
-                            "col2": "Val-3-2",
-                            "col3": "Val-3-3"
-                        }
-                    ]
+                    payload: data
                 });
             } else {
-                callEndPoint.mockReturnValue({
+                callApi.mockReturnValue({
                     status: 401,
                     payload: null
                 });
@@ -87,15 +81,15 @@ describe('Data Page', () => {
         render(<Data />);
 
         await waitFor(() => {
-            expect(callEndPoint).toHaveBeenCalledWith('/Data', 'GET', xcsrf);
+            expect(callApi).toHaveBeenCalledWith('/api/data', 'GET', xcsrf);
         });
 
-        if(isError) {
+        if (isError) {
             expect(window.location.href).toBe('/error');
             return;
         }
-        
-        if(isAuthenticated) {
+
+        if (isAuthenticated) {
             expect(screen.getByRole('table')).toBeInTheDocument();
         } else {
             expect(window.location.href).toBe('/login');

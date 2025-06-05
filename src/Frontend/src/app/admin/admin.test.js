@@ -1,21 +1,10 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import { callEndPoint } from '../../lib/http';
+import { callApi } from '../../lib/client';
 
 import Admin from "./page";
 
-delete window.location;
-window.location = { href: '' };
-
-jest.mock('../../lib/http', () => ({
-    callEndPoint: jest.fn(() => Promise.resolve({})),
-    httpMethods: {
-        Get: 'GET'
-    },
-    responseStatus: {
-        Ok: 200,
-        UnAuthorized: 401,
-        Forbidden: 403
-    }
+jest.mock('../../lib/client', () => ({
+    callApi: jest.fn(() => Promise.resolve({}))
 }));
 
 const mockLocalStorage = (xcsrf) => {
@@ -28,6 +17,9 @@ const mockLocalStorage = (xcsrf) => {
         return null;
     });
 };
+
+delete window.location;
+window.location = { href: '' };
 
 describe('Admin Page', () => {
     test('redirects unauthorized user to login page', async () => {
@@ -48,25 +40,25 @@ describe('Admin Page', () => {
 
     const testPageLoad = async (isAuthenticated, isAdmin, isError = false) => {
         const xcsrf = 'ThisIsAnXcsrfTokenForTestingPuroses';
-        const adminMessage = 'This page is for admins only.';
+        const adminMessage = 'This is some kind of an admin content for testing purposes.';
 
         mockLocalStorage(xcsrf);
 
         if(isError) {
-            callEndPoint.mockReturnValue({
+            callApi.mockReturnValue({
                 status: 500,
                 payload: null
             });
         } else {
             if(isAuthenticated) {
-                callEndPoint.mockReturnValue({
+                callApi.mockReturnValue({
                     status: isAdmin ? 200 : 403,
                     payload: isAdmin ? {
                         message: adminMessage
                     } : null
                 });
             } else {
-                callEndPoint.mockReturnValue({
+                callApi.mockReturnValue({
                     status: 401,
                     payload: null
                 });
@@ -76,7 +68,7 @@ describe('Admin Page', () => {
         render(<Admin />);
 
         await waitFor(() => {
-            expect(callEndPoint).toHaveBeenCalledWith('/Admin', 'GET', xcsrf);
+            expect(callApi).toHaveBeenCalledWith('/api/admin', 'GET', xcsrf);
         });
 
         if(isError) {

@@ -1,6 +1,7 @@
 export const backend = {
     portDev: 5000,
     urls: {
+        getXcsrfToken: '/Auth/GetXcsrfToken',
         login: '/Auth/Login',
         logout: '/Auth/Logout',
         admin: '/Admin',
@@ -12,39 +13,35 @@ export const backend = {
     }
 };
 
-const urls = {
+const pages = {
     homePage: '/',
     loginPage: '/login',
     adminPage: '/admin',
     dataPage: '/data',
     errorPage: '/error',
-    notFoundPage: '/notfound'
+    notFoundPage: '/not-found'
 };
 
 export const frontend = {
-    urls: urls,
-    content: {
-        homePage: {
-            line1: 'A starter template with',
-            line2: '✅ a .Net backend,',
-            line3: '✅ a React/Next.js frontend and',
-            line4: '✅ a GitHub CI/CD pipeline',
-            line5: '✅ that deploys to Azure.'
-        },
-        notFoundPage: {
-            notFound: "🤷‍♂️ Nothing found here..."
+    portDev: 3000,
+    urls: {
+        pages: pages,
+        api: {
+            getXcsrf: '/api/get-xcsrf',
+            login: '/api/login',
+            logout: '/api/logout',
+            admin: '/api/admin',
+            data: '/api/data'
         }
     },
     noshow: {
         navigationComponent: [
-            urls.loginPage,
-            urls.errorPage,
-            urls.notFoundPage
+            pages.loginPage,
+            pages.errorPage
         ],
         userComponent: [
-            urls.loginPage,
-            urls.errorPage,
-            urls.notFoundPage
+            pages.loginPage,
+            pages.errorPage
         ]
     },
     errorMessages: {

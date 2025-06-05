@@ -13,8 +13,8 @@
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:5000",
-      "launchUrl": "Data",
+      "applicationUrl": "http://localhost:5000",
+      "launchUrl": "Auth/GetXcsrfToken",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

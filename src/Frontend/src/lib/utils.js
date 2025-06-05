@@ -1,3 +1,19 @@
+export const responseStatus = {
+    Ok: 200,
+    BadRequest: 400,
+    UnAuthorized: 401,
+    Forbidden: 403,
+    NotFound: 404,
+    InternalServerError: 500
+};
+
+export const httpMethods = {
+    Get: 'GET',
+    Post: 'POST',
+    Put: 'PUT',
+    Delete: 'DELETE'
+};
+
 export const isMobile = () => {
     // Determining WHAT to display based on whether the request is coming from a mobile phone/tablet or a desktop device
     // Determining HOW to display it based on media queries in css
@@ -16,7 +32,7 @@ export const isMobile = () => {
         }
     }
 
-    // return true; // For development purposes
+    //return true; // For development purposes
     return result;
 }
 

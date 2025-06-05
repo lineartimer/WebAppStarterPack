@@ -1,4 +1,4 @@
-// useEffect works only on client-side
+// useEffect, useState works only on client-side
 'use client'
 
 import { useState, useEffect } from 'react';
@@ -8,9 +8,11 @@ import { Figtree } from 'next/font/google';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './global.css';
 import './layout.css'
-import Footer from '../components/footer/footer';
 import Header from '../components/header/header';
-import { callEndPoint, httpMethods } from '../lib/http';
+import Footer from '../components/footer/footer';
+import { callApi } from '../lib/client';
+import { httpMethods } from '../lib/utils';
+import { frontend } from '../lib/config';
 
 /* That's the proper way to use Google fonts in a Next.js app */
 const googleFont = Figtree({
@@ -22,12 +24,18 @@ const RootLayout = ({ children }) => {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const setXsrfToken = async () => {
-      const response = await callEndPoint('/Auth/GetXcsrfToken', httpMethods.Get);
-      localStorage.setItem('xcsrf', response.payload.xcsrf);
+    const setXcsrfToken = async () => {
+      if(!localStorage.getItem('xcsrf')) {
+        const response = await callApi(frontend.urls.api.getXcsrf, httpMethods.Get);
+        localStorage.setItem('xcsrf', response.payload.xcsrf);
+      }
     };
 
-    setXsrfToken();
+    setXcsrfToken();
+
+    if(window.location.pathname != `${frontend.urls.pages.loginPage}`) {
+      localStorage.removeItem('loginRedirectUrl');
+    }
 
     const handleScroll = () => {
       if (window.scrollY > 0) {

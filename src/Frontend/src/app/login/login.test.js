@@ -1,16 +1,12 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 import Login from "./page";
-import { callEndPoint } from '../../lib/http';
+import { callApi } from '../../lib/client';
 import { frontend } from '../../lib/config';
 import { isMobile } from '../../lib/utils';
 
 jest.mock('../../lib/utils', () => ({
-    isMobile: jest.fn()
-}));
-
-jest.mock('../../lib/http', () => ({
-    callEndPoint: jest.fn(() => Promise.resolve({})),
+    isMobile: jest.fn(),
     httpMethods: {
         Get: 'GET',
         Post: 'POST'
@@ -21,7 +17,11 @@ jest.mock('../../lib/http', () => ({
     }
 }));
 
-const mockLocalStorage = (username, role) => {
+jest.mock('../../lib/client', () => ({
+    callApi: jest.fn(() => Promise.resolve({}))
+}));
+
+const mockLocalStorage = (username, role, xcsrf) => {
     const getItemSpy = jest.spyOn(Storage.prototype, 'getItem');
     getItemSpy.mockImplementation((key) => {
         if (key === 'username') {
@@ -32,6 +32,10 @@ const mockLocalStorage = (username, role) => {
             return role;
         }
 
+        if (key === 'xcsrf') {
+            return xcsrf;
+        }
+
         return null;
     });
 };
@@ -40,9 +44,11 @@ delete window.location;
 window.location = { href: '' };
 
 describe('Login Page', () => {
+    const xcsrf = 'ThisIsAnXcsrfTokenForTestingPuroses';
+
     beforeEach(() => {
         isMobile.mockReturnValue(false);
-        mockLocalStorage(null, null);
+        mockLocalStorage(null, null, xcsrf);
     });
 
     test('error shown when username is missing', async () => {
@@ -61,18 +67,6 @@ describe('Login Page', () => {
         login(creds, false, true);
 
         expect(screen.getByText(frontend.errorMessages.passwordMissingError)).toBeInTheDocument();
-    });
-
-    test('log in fails with invalid credentials', async () => {
-        await testLogin(false);
-    });
-
-    test('log in succeeds with valid credentials for non-admin user', async () => {
-        await testLogin(true, false);
-    });
-
-    test('log in succeeds with valid credentials for admin user', async () => {
-        await testLogin(true, true);
     });
 
     test('show/hide password button works on desktop', () => {
@@ -103,40 +97,17 @@ describe('Login Page', () => {
         testPasswordVisibility(false);
     });
 
-    const testLogin = async (isValid, isAdmin = false) => {
-        render(<Login />);
+    test('log in fails with invalid credentials', async () => {
+        await testLogin(false);
+    });
 
-        callEndPoint.mockReturnValue({
-            status: isValid ? 200 : 401,
-            payload: isValid ? {
-                Role: isAdmin ? 'Admin' : 'User'
-            } : null
-        });
+    test('log in succeeds with valid credentials for non-admin user', async () => {
+        await testLogin(true, false);
+    });
 
-        const creds = getCredentials(isValid, isAdmin);
-        login(creds);
-
-        await waitFor(() => {
-            expect(callEndPoint).toHaveBeenCalledWith('/Auth/Login', 'POST', null, creds);
-        });
-
-        callEndPoint.mockReturnValue({
-            status: 200,
-            payload: {
-                xcsrf: 'ThisIsAnXcsrfTokenForTestingPuroses'
-            }
-        });
-
-        await waitFor(() => {
-            expect(callEndPoint).toHaveBeenCalledWith('/Auth/GetXcsrfToken', 'GET');
-        });
-
-        if(isValid) {
-            expect(window.location.href).toBe('/');
-        } else {
-            expect(screen.getByText(frontend.errorMessages.invalidUserNameOrPasswordError)).toBeInTheDocument();
-        }
-    }
+    test('log in succeeds with valid credentials for admin user', async () => {
+        await testLogin(true, true);
+    });
 
     const testPasswordVisibility = (isShown) => {
         const passwordInput = screen.getByPlaceholderText('Password');
@@ -149,6 +120,41 @@ describe('Login Page', () => {
             expect(passwordInput).toHaveAttribute('type', 'password');
             expect(screen.getByRole('button', { name: 'Show' })).toBeInTheDocument();
             expect(passwordInput).toHaveAttribute('type', 'password');
+        }
+    }
+    
+    const testLogin = async (isValid, isAdmin = false) => {
+        render(<Login />);
+
+        callApi.mockReturnValue({
+            status: isValid ? 200 : 401,
+            payload: isValid ? {
+                Role: isAdmin ? 'Admin' : 'User'
+            } : null
+        });
+
+        const creds = getCredentials(isValid, isAdmin);
+        login(creds);
+
+        await waitFor(() => {
+            expect(callApi).toHaveBeenCalledWith('/api/login', 'POST', xcsrf, creds);
+        });
+
+        callApi.mockReturnValue({
+            status: 200,
+            payload: {
+                xcsrf: xcsrf
+            }
+        });
+
+        await waitFor(() => {
+            expect(callApi).toHaveBeenCalledWith('/api/get-xcsrf', 'GET');
+        });
+
+        if(isValid) {
+            expect(window.location.href).toBe('/');
+        } else {
+            expect(screen.getByText(frontend.errorMessages.invalidUserNameOrPasswordError)).toBeInTheDocument();
         }
     }
 

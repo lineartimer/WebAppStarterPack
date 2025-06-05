@@ -1,8 +1,10 @@
 'use client'
+
 import { useEffect, useState } from 'react';
 
-import { callEndPoint, responseStatus, httpMethods } from '../../lib/http';
-import { backend, frontend } from '../../lib/config';
+import { callApi } from '../../lib/client';
+import { httpMethods, responseStatus } from '../../lib/utils';
+import { frontend } from '../../lib/config';
 
 const Admin = () => {
     const [data, setData] = useState([]);
@@ -11,7 +13,7 @@ const Admin = () => {
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
-            const response = await callEndPoint(backend.urls.admin, httpMethods.Get, localStorage.getItem('xcsrf'));
+            const response = await callApi(frontend.urls.api.admin, httpMethods.Get, localStorage.getItem('xcsrf'));
             setLoading(false);
 
             if(response.status) {
@@ -19,17 +21,17 @@ const Admin = () => {
                     setData(response.payload.message);
                 }
                 else if(response.status === responseStatus.UnAuthorized) {
-                    localStorage.setItem('loginRedirectUrl', frontend.urls.adminPage);
+                    localStorage.setItem('loginRedirectUrl', frontend.urls.pages.adminPage);
 
-                    window.location.href = frontend.urls.loginPage;
+                    window.location.href = frontend.urls.pages.loginPage;
                 }
                 else if(response.status === responseStatus.Forbidden) {
-                    localStorage.setItem('loginRedirectUrl', frontend.urls.homePage);
+                    localStorage.setItem('loginRedirectUrl', frontend.urls.pages.homePage);
 
-                    window.location.href = frontend.urls.homePage;
+                    window.location.href = frontend.urls.pages.homePage;
                 }
                 else {
-                    window.location.href = frontend.urls.errorPage;
+                    window.location.href = frontend.urls.pages.errorPage;
                 }
             }
         };

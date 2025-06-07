@@ -102,6 +102,10 @@ if [[ ! $CONFIRM =~ ^[Yy]$ ]]; then
     exit 0
 fi
 
+echo
+echo "Creating resources. This may take several minutes..."
+echo
+
 # Deploy the Bicep template at subscription level
 az deployment sub create \
   --location "$LOCATION" \

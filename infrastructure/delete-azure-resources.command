@@ -79,7 +79,7 @@ if [[ ! $CONFIRM1 =~ ^[Yy]$ ]]; then
 fi
 
 read -p "Type DELETE to delete): " CONFIRM2
-if [ "${CONFIRM2,,}" != "delete" ]; then
+if [ "$(echo "$CONFIRM2" | tr '[:upper:]' '[:lower:]')" != "delete" ]; then
     printf "${YELLOW}Deletion cancelled.${NC}\n"
     exit 0
 fi

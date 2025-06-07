@@ -27,7 +27,7 @@ const RootLayout = ({ children }) => {
     const setXcsrfToken = async () => {
       if(!localStorage.getItem('xcsrf')) {
         const response = await callApi(frontend.urls.api.getXcsrf, httpMethods.Get);
-        localStorage.setItem('xcsrf', response.payload.xcsrf);
+        localStorage.setItem('xcsrf', response.payload?.xcsrf);
       }
     };
 

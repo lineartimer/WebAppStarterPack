@@ -4,7 +4,7 @@ Web App Starter Pack
 # Environment
 
 - VS Code
-- VS Code extensions (C# Dev Kit, JavaScript Debugger, SQL Server, Azure Container Apps, Docker, Playwright, GitHub Copilot)
+- VS Code extensions (C# Dev Kit, JavaScript Debugger, SQL Server, Azure Container Apps, Bicep, Docker, Playwright, GitHub Copilot)
 - .NET SDK
 - Node.js
 - Docker Desktop
@@ -154,6 +154,10 @@ It's a good practice to prefix Azure resources. E.g. "rg-" for resource groups o
 
 The Azure CLI can be run from within the Azure Portal (click the Cloud Shell icon on the menubar).
 
+## Networking
+
+Create a VNet with the address range 10.0.0.0/16 (65 536 addresses). Then create subnets of 256 addresses for the database, the backend and the frontend with the starting ranges of 10.0.1.0/24, 10.0.2.0/24, 10.0.3.0/24, respectively.
+
 ## Virtual Machine
 
 Creating a web server:
@@ -259,7 +263,7 @@ docker build --no-cache -f src/<backend's folder>/Dockerfile -t ca-backend:lates
 docker system prune -a -f
 
 Adding the Docker image to the container registry:
-- On the Docker tab in VS Code, click Connect Registry (plug icon) and select Azure Container Registry. Then click on Azure in the Registries panel and sign in. Then you should be able to see the container registry you created above
+- On the Docker or Containers tab in VS Code, click Connect Registry (plug icon) and select Azure Container Registry. Then click on Azure in the Registries panel and sign in. Then you should be able to see the container registry you created
 - On the Images panel, right click the image and click Push. Select your container registry. When prompted, allow VS Code to access data from other apps
 - (Your Docker image should appear on the Registries panel. You can right click the image and click Deploy Image to Azure Container Apps.)
 
@@ -278,55 +282,23 @@ Building the Next.js app:
 - Add a next.config.js with the following content:
 
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  output: 'export',
-  trailingSlash: true,
-  images: {
-    unoptimized: true
-  }
-}
+const nextConfig = {};
 
-module.exports = nextConfig
+module.exports = nextConfig;
 
 - In the terminal cd into the frontend's folder and build it: npm install. Then create an optimized production build: npm run build
 
 Containerizing the app:
 - Add a new file named Dockerfile with the following content:
 
-FROM nginx:alpine
-COPY out/ /usr/share/nginx/html/
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
-
-- Also create nginx.conf with the following content:
-
-server {
-    listen 80;
-
-    root /usr/share/nginx/html;
-    index index.html;
-
-    location /_next/static/ {
-        expires 1y;
-        add_header Cache-Control "public, immutable";
-    }
-    
-    location /static/ {
-        expires 1y;
-        add_header Cache-Control "public";
-    }
-    
-    location /api/ {
-        try_files $uri $uri/ =404;
-    }
-    
-    location / {
-        try_files $uri $uri/ $uri.html /index.html;
-    }
-
-    error_page 404 /index.html;
-}
+FROM node:alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
+EXPOSE 3000
+CMD ["npm", "run", "start"]
 
 - Start Docker Desktop, then build the image:
 
@@ -431,6 +403,7 @@ echo export PATH=$PATH:/opt/homebrew/bin >> ~/.zshrc
 - You can manage the created service principals on the Azure Portal under Microsoft Entra ID -> App registrations -> All applications
 - To go back to a previous version, go to the Actions tab on GitHub, select the last successful workflow and click Re-run all jobs
 - If the website is being loaded while the GitHub actions are running, the push may fail silently
+- The IP ranges used for running GitHub actions can be found at https://api.github.com/meta (look for the actions part)
 
 # Backend development
 

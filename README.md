@@ -22,7 +22,9 @@ Download and install:
 Install VS Code and the following extensions:
 - C# Dev Kit
 - JavaScript Debugger
+- SQL Server
 - Azure Container Apps
+- Bicep
 - Docker
 - Playwright
 - GitHub Copilot

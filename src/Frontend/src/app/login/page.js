@@ -42,7 +42,7 @@ const Login = () => {
         setIsLoading(false);
 
         if (xcsrfResponse.status === responseStatus.Ok) {
-            localStorage.setItem('xcsrf', xcsrfResponse.payload.xcsrf);
+            localStorage.setItem('xcsrf', xcsrfResponse.payload?.xcsrf);
         } else {
             window.location.href = frontend.urls.pages.errorPage;
         }

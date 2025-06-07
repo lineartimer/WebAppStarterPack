@@ -37,7 +37,7 @@ Create the following resources in Azure:
 - Sql Database
 - Container Registry
 
-After creating the database, add the connection string to .NET Secrets Manager:
+After creating the database, the connection string can be added to .NET Secrets Manager (but it's optional as the repo has a local Sqlite database for development purposes):
 
 *dotnet user-secrets init*\
 *dotnet user-secrets set "ConnectionStrings:SqlServer" "connection-string-to-database"*
@@ -61,24 +61,38 @@ To set these variables, open an Azure CLI (e.g. on the Azure Portal) and create 
 
 *az ad sp create-for-rbac --name "a-unique-name-that-hasn't-been-used-before" --role contributor --scopes /subscriptions/your-Azure-subscription-id-you-can-find-it-on-the-Azure-Portal-under-your-subscription)*
 
-**BACKEND_SUBDOMAIN**, **BACKEND_REGION**:
-Go to container app. The url of it will look something like this:
+---
+
+**RESOURCE_GROUP**:
+Go to the resource group and copy and paste its name.
+
+---
+
+**BACKEND_NAME**, **BACKEND_SUBDOMAIN**, **BACKEND_REGION**:
+Go to backend container app. The url of it will look something like this:
 
 *name-of-the-container-app.a-randomly-generated-subdomain.a-region.azurecontainerapps.io.*
 
 Copy and paste the information from the url.
 
+---
+
+**FRONTEND_NAME**, **FRONTEND_SUBDOMAIN**, **FRONTEND_REGION**:
+Do the same for the frontend.
+
+---
+
 **CONTAINER_REGISTRY**, **CONTAINER_REGISTRY_USERNAME**, **CONTAINER_REGISTRY_PASSWORD**:
 Go to the container registry and from under Settings -> Access keys copy and paste the information from the url.
+
+---
 
 **DB_SERVER_NAME**, **DB**, **DB_USER**, **DB_PASSWORD**:
 To set these variables, go to the database and from under Settings -> Connection Strings copy and paste the information.
 
-**CONTAINER_APP_NAME**, **RESOURCE_GROUP**:
-These are not GitHub secrets but should be set in .github/workflows/Backend.Deploy.yml. The information can be found on the Azure Portal under the container apps and the resource group.
-
 ### Triggering the CI/CD pipeline
 
+This simple version control process can be used for development:
 - Create a new development/feature branch and make some changes
 - Commit and push the changes
 - Create a pull request back to the main branch

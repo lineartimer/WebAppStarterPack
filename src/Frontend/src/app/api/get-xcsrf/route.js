@@ -3,6 +3,6 @@
 import { apiImpl } from '../../../lib/server';
 import { backend } from '../../../lib/config';
 
-export async function GET(request) {
+export async function GET(request) { 
     return apiImpl(backend.urls.getXcsrfToken, request);
 };

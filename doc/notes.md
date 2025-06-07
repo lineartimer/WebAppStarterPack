@@ -305,7 +305,7 @@ CMD ["npm", "run", "start"]
 docker build --no-cache -t ca-frontend:latest --platform linux/amd64 .
 
 - (Building it without specifying the platform, will cause an error in Azure while creating the container app)
-- When the build is complete, check if it's working in Docker Desktop. Assign port 80 to the host port under optional settings, name the container frontend and run it. Open localhost in a browser to see if it's working
+- When the build is complete, check if it's working in Docker Desktop. Assign port 3000 to the host port under optional settings, name the container frontend and run it. Open localhost in a browser to see if it's working
 - You can use ls -a in the yml file to see what's in a directory
 
 Deploying the app in an Azure Container App:

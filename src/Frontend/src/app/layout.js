@@ -27,7 +27,14 @@ const RootLayout = ({ children }) => {
     const setXcsrfToken = async () => {
       if(!localStorage.getItem('xcsrf')) {
         const response = await callApi(frontend.urls.api.getXcsrf, httpMethods.Get);
-        localStorage.setItem('xcsrf', response.payload?.xcsrf);
+        if(response.payload == null) {
+          // There's a problem with the backend
+          if(window.location.pathname !== frontend.urls.pages.errorPage) {
+            window.location.href = frontend.urls.pages.errorPage;
+          }
+        } else {
+          localStorage.setItem('xcsrf', response.payload.xcsrf);
+        }
       }
     };
 

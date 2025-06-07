@@ -99,8 +99,8 @@ public class Startup
         var origins = new List<string>();
 
         // Attempting to get the backend URL from environment variables (coming from GitHub secrets)
-        var backendUrl = Environment.GetEnvironmentVariable("BACKEND_URL");
-        if (backendUrl == null)
+        var frontendUrl = Environment.GetEnvironmentVariable("FRONTEND_URL");
+        if (frontendUrl == null)
         {
             // Development environment
             origins.Add("https://localhost:3000");
@@ -108,7 +108,6 @@ public class Startup
         else
         {
             // Production environment
-            var frontendUrl = backendUrl.TrimEnd('/').Replace("backend", "frontend");
             origins.Add(frontendUrl);
         }
 

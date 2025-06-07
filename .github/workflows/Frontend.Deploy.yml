@@ -53,7 +53,7 @@ jobs:
           sleep 30
           more backend.log
           echo "Verifying if backend is running"
-          curl -k -v https://localhost:5000/Data
+          curl -k -v https://localhost:5000/Auth/GetXcsrfToken
       - name: Build and run frontend
         working-directory: ./src/Frontend
         run: |

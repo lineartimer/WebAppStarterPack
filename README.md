@@ -34,10 +34,13 @@ Fork the repo and clone it on your machine.
 ## Step 2: Create Azure Resources
 
 Create the following resources in Azure:
-- Sql Database
-- Container Registry
+- A VNet with 4 subnets in it: one for private endpoints, one for the database, one for the backend, and one for the frontend
+- NSGs for the database and backend subnets
+- Private endpoints for the database and the backend
+- An Sql Database
+- A Container Registry
 
-After creating the database, the connection string can be added to .NET Secrets Manager (but it's optional as the repo has a local Sqlite database for development purposes):
+After creating the database, you can add the connection string to .NET Secrets Manager (but it's optional as the repo has a local Sqlite database for development purposes):
 
 *dotnet user-secrets init*\
 *dotnet user-secrets set "ConnectionStrings:SqlServer" "connection-string-to-database"*

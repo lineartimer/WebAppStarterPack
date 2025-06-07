@@ -46,6 +46,9 @@ jobs:
           docker buildx create --use
       - name: Log in to Azure Container Registry
         run: |
+          echo ${{ secrets.CONTAINER_REGISTRY }}.azurecr.io
+          echo ${{ secrets.CONTAINER_REGISTRY_USERNAME }}
+          echo ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
           docker login ${{ secrets.CONTAINER_REGISTRY }}.azurecr.io -u ${{ secrets.CONTAINER_REGISTRY_USERNAME }} --password-stdin ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
       - name: Build and push container image to Azure Container Registry
         run: |

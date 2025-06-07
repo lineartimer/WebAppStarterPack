@@ -52,10 +52,10 @@ jobs:
           password: ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
       - name: Build and push container image to Azure Container Registry
         run: |
-          docker buildx build --push --tag ${{ secrets.CONTAINER_REGISTRY }}.azurecr.io/${{ secrets.BACKTEND_NAME }}:latest --file ./src/Backend/Dockerfile .
+          docker buildx build --push --tag ${{ secrets.CONTAINER_REGISTRY }}.azurecr.io/${{ secrets.BACKEND_NAME }}:latest --file ./src/Backend/Dockerfile .
       - name: Azure Login
         run: |
           az login --service-principal -u ${{ secrets.AZURE_APP_ID }} -p ${{ secrets.AZURE_PASSWORD }} --tenant ${{ secrets.AZURE_TENANT }}
       - name: Deploy to Azure Container Apps
         run: |
-          az containerapp update --name ${{ secrets.BACKEND_NAME }} --resource-group ${{ secrets.RESOURCE_GROUP }} --image ${{ secrets.CONTAINER_REGISTRY }}.azurecr.io/${{ secrets.BACKTEND_NAME }}:latest --replace-env-vars ASPNETCORE_ENVIRONMENT=Production FRONTEND_URL=https://${{ secrets.FRONTEND_NAME }}.${{ secrets.FRONTEND_SUBDOMAIN }}.${{ secrets.FRONTEND_REGION }}.azurecontainerapps.io DB_SERVER=${{ secrets.DB_SERVER_NAME }}.database.windows.net DB=${{ secrets.DB }} DB_USER=${{ secrets.DB_USER }} DB_PASSWORD=${{ secrets.DB_PASSWORD }} JWT_SECRET=${{ secrets.JWT_SECRET }}
+          az containerapp update --name ${{ secrets.BACKEND_NAME }} --resource-group ${{ secrets.RESOURCE_GROUP }} --image ${{ secrets.CONTAINER_REGISTRY }}.azurecr.io/${{ secrets.BACKEND_NAME }}:latest --replace-env-vars ASPNETCORE_ENVIRONMENT=Production FRONTEND_URL=https://${{ secrets.FRONTEND_NAME }}.${{ secrets.FRONTEND_SUBDOMAIN }}.${{ secrets.FRONTEND_REGION }}.azurecontainerapps.io DB_SERVER=${{ secrets.DB_SERVER_NAME }}.database.windows.net DB=${{ secrets.DB }} DB_USER=${{ secrets.DB_USER }} DB_PASSWORD=${{ secrets.DB_PASSWORD }} JWT_SECRET=${{ secrets.JWT_SECRET }}

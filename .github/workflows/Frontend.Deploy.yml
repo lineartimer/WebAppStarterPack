@@ -99,7 +99,7 @@ jobs:
           docker push ${{ secrets.CONTAINER_REGISTRY }}.azurecr.io/${{ secrets.FRONTEND_NAME }}:latest
       - name: Azure Login
         run: |
-          az login --service-principal -u ${{ secrets.AZURE_APP_ID }} --password-stdin ${{ secrets.AZURE_PASSWORD }} --tenant ${{ secrets.AZURE_TENANT }}
+          az login --service-principal --username ${{ secrets.AZURE_APP_ID }} --password-stdin ${{ secrets.AZURE_PASSWORD }} --tenant ${{ secrets.AZURE_TENANT }}
       - name: Deploy to Azure Container Apps
         run: |
           az containerapp update --name ${{ secrets.FRONTEND_NAME }} --resource-group ${{ secrets.RESOURCE_GROUP }} --image ${{ secrets.CONTAINER_REGISTRY }}.azurecr.io/${{ secrets.FRONTEND_NAME }}:latest --replace-env-vars BACKEND_URL=https://${{ secrets.BACKEND_NAME }}.${{ secrets.BACKEND_SUBDOMAIN }}.${{ secrets.BACKEND_REGION }}.azurecontainerapps.io

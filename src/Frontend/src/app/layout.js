@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import { Figtree } from 'next/font/google';
 
-/* That's the proper way to use Bootstrap in a Next.js appß */
+// That's the proper way to use Bootstrap in a Next.js app
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './global.css';
 import './layout.css'
@@ -14,7 +14,7 @@ import { callApi } from '../lib/client';
 import { httpMethods } from '../lib/utils';
 import { frontend } from '../lib/config';
 
-/* That's the proper way to use Google fonts in a Next.js app */
+// That's the proper way to use Google fonts in a Next.js app
 const googleFont = Figtree({
   weight: '400',
   subsets: ['latin']

@@ -61,12 +61,8 @@ To set these variables, open an Azure CLI (e.g. on the Azure Portal) and create 
 
 *az ad sp create-for-rbac --name "a-unique-name-that-hasn't-been-used-before" --role contributor --scopes /subscriptions/your-Azure-subscription-id-you-can-find-it-on-the-Azure-Portal-under-your-subscription)*
 
----
-
 **RESOURCE_GROUP**:
 Go to the resource group and copy and paste its name.
-
----
 
 **BACKEND_NAME**, **BACKEND_SUBDOMAIN**, **BACKEND_REGION**:
 Go to backend container app. The url of it will look something like this:
@@ -75,17 +71,11 @@ Go to backend container app. The url of it will look something like this:
 
 Copy and paste the information from the url.
 
----
-
 **FRONTEND_NAME**, **FRONTEND_SUBDOMAIN**, **FRONTEND_REGION**:
 Do the same for the frontend.
 
----
-
 **CONTAINER_REGISTRY**, **CONTAINER_REGISTRY_USERNAME**, **CONTAINER_REGISTRY_PASSWORD**:
 Go to the container registry and from under Settings -> Access keys copy and paste the information from the url.
-
----
 
 **DB_SERVER_NAME**, **DB**, **DB_USER**, **DB_PASSWORD**:
 To set these variables, go to the database and from under Settings -> Connection Strings copy and paste the information.

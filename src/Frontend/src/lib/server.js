@@ -74,14 +74,8 @@ export const callEndPoint = async (url, method, xcsrf = null, cookies = null, pa
 const getBaseUrl = async () => {
     const headersList = await headers();
     const host = headersList.get('host');
-
-    let baseUrl = process.env.BACKEND_URL;
-    if (baseUrl == null) { // This is equivalent to if (baseUrl === undefined || baseUrl === null)
-        // Development environment
-        baseUrl = `http://${host.replace(frontend.portDev, backend.portDev)}`;
-    }
     
-    return baseUrl;
+    return `${process.env.BACKEND_URL === undefined ? 'http' : 'https'}://${host.replace(frontend.portDev, backend.portDev)}`;
 };
 
 const invoke = async (func, timeout = 0, ...args) => {

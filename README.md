@@ -7,7 +7,7 @@ This is a starter template with a .Net backend, a React/Next.js frontend and a G
 
 The template also comes with xUnit unit and integration tests for the backend, and Jest unit tests and Playwright end-to-end tests for the frontend.
 
-The template should enable anyone who wants to build a web app with said tech-stack to get started quickly.
+This template should enable anyone who wants to build a web app with said tech-stack to get started quickly.
 
 # Getting Started
 

@@ -47,7 +47,7 @@ resource containerApp 'Microsoft.App/containerApps@2025-01-01' = {
       activeRevisionsMode: 'Single'
       ingress: {
         external: true
-        targetPort: 80
+        targetPort: 0 // 8080
         transport: 'Auto'
         traffic: [
           {

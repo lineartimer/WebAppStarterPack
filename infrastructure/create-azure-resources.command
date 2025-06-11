@@ -48,7 +48,7 @@ echo
 
 # Gathering user input: location
 printf "${BOLD}Location Configuration:${NC}\n"
-echo "Common locations: westeurope, eastus, westus2, centralus etc."
+echo "Common locations: westeurope, centralus etc."
 read -p "Enter valid Azure location: " LOCATION
 if [ -z "$LOCATION" ]; then
     printf "${RED}Location cannot be empty!${NC}\n"

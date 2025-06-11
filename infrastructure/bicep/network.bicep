@@ -28,8 +28,8 @@ resource nsg_Database 'Microsoft.Network/networkSecurityGroups@2024-05-01' = {
 }
 
 // Production virtual network: DDoS Protection Basic is enabled by default
-resource vnet_Prod 'Microsoft.Network/virtualNetworks@2024-05-01' = {
-  name: 'vnet-Prod'
+resource vnet_WebAppStarterPack 'Microsoft.Network/virtualNetworks@2024-05-01' = {
+  name: 'vnet-WebAppStarterPack'
   location: location
   properties: {
     addressSpace: {
@@ -64,11 +64,11 @@ resource privateDnsZoneLink 'Microsoft.Network/privateDnsZones/virtualNetworkLin
   properties: {
     registrationEnabled: false
     virtualNetwork: {
-      id: vnet_Prod.id
+      id: vnet_WebAppStarterPack.id
     }
   }
 }
 
-output vnetId string = vnet_Prod.id
-output databaseSubnetId string = '${vnet_Prod.id}/subnets/DatabaseSubnet'
+output vnetId string = vnet_WebAppStarterPack.id
+output databaseSubnetId string = '${vnet_WebAppStarterPack.id}/subnets/DatabaseSubnet'
 output privateDnsZoneId string = privateDnsZone.id

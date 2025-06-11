@@ -242,7 +242,7 @@ public class Startup
             options.HeaderName = "X-CSRF";
             options.Cookie.Name = "XSRF";
             options.Cookie.HttpOnly = true;
-            // No CORS will work even though the frontend and the backend have different urls
+            // No-CORS will work even though the frontend and the backend have different urls
             // because azurecontainerapps.io is on the public suffix list
             options.Cookie.SameSite = SameSiteMode.Strict;
             options.Cookie.SecurePolicy = isDevelopment ? CookieSecurePolicy.None : CookieSecurePolicy.Always;

@@ -97,5 +97,5 @@ resource privateDnsZoneGroup 'Microsoft.Network/privateEndpoints/privateDnsZoneG
   }
 }
 
-output sqlServerName string = sqlServer.name
-output sqlDatabaseName string = sqlDatabase.name
+output sqlServer string = sqlServer.name
+output sqlDatabase string = sqlDatabase.name

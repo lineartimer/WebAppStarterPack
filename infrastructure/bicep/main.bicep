@@ -44,7 +44,21 @@ module databaseModule 'database.bicep' = {
   }
 }
 
-output resourceGroupName string = resourceGroup.name
-output sqlServerName string = databaseModule.outputs.sqlServerName
-output sqlDatabaseName string = databaseModule.outputs.sqlDatabaseName
+// Container components
+module containersModule 'containers.bicep' = {
+  scope: resourceGroup
+  name: 'container-deployment'
+  dependsOn: [networkModule]
+  params: {
+    location: location
+    backendSubnetId: networkModule.outputs.backendSubnetId
+  }
+}
+
+output resourceGroup string = resourceGroup.name
 output vnetId string = networkModule.outputs.vnetId
+output sqlServer string = databaseModule.outputs.sqlServer
+output sqlDatabase string = databaseModule.outputs.sqlDatabase
+output containerRegistry string = containersModule.outputs.containerRegistry
+output backendEnvironment string = containersModule.outputs.backendEnvironment
+output backend string = containersModule.outputs.backend

@@ -27,6 +27,8 @@ insert into [Data] (Col1, Col2, Col3) values ('Val-25-1', 'Val-25-2', 'Val-25-3'
 insert into Roles ([Name]) values ('User');
 insert into Roles ([Name]) values ('Admin');
 
+-- Users need to be created using Auth/Signup because of password hashing
+
 select * from [Data];
 
 select * from [Roles];

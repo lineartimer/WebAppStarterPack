@@ -36,8 +36,6 @@ public class AuthController : ControllerBase
     [AllowNoAntiforgeryToken]
     public IActionResult GetXcsrfToken()
     {
-        Console.WriteLine($"Debug Message {DateTime.Now}: Auth/GetXcsrfToken called");
-
         var tokens = _antiforgery.GetAndStoreTokens(HttpContext);
         return Ok(new { Xcsrf = tokens.RequestToken });
     }
@@ -88,8 +86,6 @@ public class AuthController : ControllerBase
     [HttpPost("Login")]
     public async Task<IActionResult> Login(CredentialDto loginDto)
     {
-        Console.WriteLine($"Debug Message {DateTime.Now}: Auth/GetXcsrfToken called");
-
         if ((loginDto.Username == null && loginDto.Email == null) || loginDto.Password == null)
         {
             return BadRequest(new { Message = ResponseMessages.LoginDataMissing });

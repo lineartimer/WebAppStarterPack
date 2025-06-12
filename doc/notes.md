@@ -341,11 +341,17 @@ Azure's reserved IP addresses:
 
 Resources in a VNet can communicate outbound to the Internet by default. Inbound communication can be done by assigning the resource a public IP address. In a VNet, resources can communicate with each other securely within the cloud. NSGs can filter traffic between subnets. A VNet can have subnets (e.g. for web tier or database tier).
 
-The automatically created NetworkWatcherRG resource group can be deleted from Subsription -> Resource Visualizer then click on the Network Watcher and then on its containing resource group. From there both the network watcher and the resource group can be deleted.
+The automatically created NetworkWatcherRG resource group can be deleted from Subsription -> Resource Visualizer then click on the Network Watcher and then on its containing resource group. From there, both the network watcher and the resource group can be deleted.
 
 NAT gateways are only needed for outbound access.
 
 Container Registries don't need to be put in a VNet because it's a managed service, so Microsoft handles everything from networking to security.
+
+### Subnets
+
+Some network administrators/policies at some companies prefer reserving the first subnet (e.g., 10.0.0.0/24) for a Gateway subnet for VPN as a best practice although Azure doesn't mandate it.
+
+Subnets for container apps need to be delagated to the Microsoft.App/environments service.
 
 ### Private Endpoints
 
@@ -356,6 +362,8 @@ Example: instead of <database name>.database.windows.net (public), apps connect 
 ### Network Securty Groups (NSGs)
 
 NSGs are like firewalls: they contain rules that allow or deny network traffic. In practice, all traffic can be denied except what's absolutely necessary.
+
+Even in a subnet with only one resource in it that generally allows all traffic from the Internet, it's still considered a best practice to have an NSG. The main reason is that it adds flexibility if certain traffic needs to be blocked in the future.
 
 ## User Management
 

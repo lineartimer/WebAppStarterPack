@@ -4,6 +4,9 @@ param location string
 @description('Backend subnet ID from network module')
 param backendSubnetId string
 
+@description('Frontend subnet ID from network module')
+param frontendSubnetId string
+
 // Container Registry
 resource containerRegistry 'Microsoft.ContainerRegistry/registries@2024-11-01-preview' = {
   name: 'crWebAppStarterPack'
@@ -19,7 +22,7 @@ resource containerRegistry 'Microsoft.ContainerRegistry/registries@2024-11-01-pr
 }
 
 // Container Apps Environment
-resource containerAppEnvironment 'Microsoft.App/managedEnvironments@2025-01-01' = {
+resource backendEnvironment 'Microsoft.App/managedEnvironments@2025-01-01' = {
   name: 'menv-Backend'
   location: location
   properties: {
@@ -36,18 +39,35 @@ resource containerAppEnvironment 'Microsoft.App/managedEnvironments@2025-01-01' 
   }
 }
 
+resource frontendEnvironment 'Microsoft.App/managedEnvironments@2025-01-01' = {
+  name: 'menv-Frontend'
+  location: location
+  properties: {
+    vnetConfiguration: {
+      internal: false
+      infrastructureSubnetId: frontendSubnetId
+    }
+    workloadProfiles: [
+      {
+        workloadProfileType: 'Consumption'
+        name: 'Consumption'
+      }
+    ]
+  }
+}
+
 // Container App
-resource containerApp 'Microsoft.App/containerApps@2025-01-01' = {
+resource backend 'Microsoft.App/containerApps@2025-01-01' = {
   name: 'ca-backend'
   location: location
   properties: {
-    managedEnvironmentId: containerAppEnvironment.id
+    managedEnvironmentId: backendEnvironment.id
     workloadProfileName: 'Consumption'
     configuration: {
       activeRevisionsMode: 'Single'
       ingress: {
         external: true
-        targetPort: 0 // 8080
+        targetPort: 0 // Needs to be zero
         transport: 'Auto'
         traffic: [
           {
@@ -77,6 +97,61 @@ resource containerApp 'Microsoft.App/containerApps@2025-01-01' = {
           image: 'mcr.microsoft.com/k8se/quickstart:latest'
           name: 'ca-backend'
           resources: {
+            // Cheapest possible hardware
+            cpu: json('0.25')
+            memory: '0.5Gi'
+          }
+        }
+      ]
+      scale: {
+        minReplicas: 0
+        maxReplicas: 10
+      }
+    }
+  }
+}
+
+resource frontend 'Microsoft.App/containerApps@2025-01-01' = {
+  name: 'ca-frontend'
+  location: location
+  properties: {
+    managedEnvironmentId: frontendEnvironment.id
+    workloadProfileName: 'Consumption'
+    configuration: {
+      activeRevisionsMode: 'Single'
+      ingress: {
+        external: true
+        targetPort: 0 // Needs to be zero
+        transport: 'Auto'
+        traffic: [
+          {
+            weight: 100
+            latestRevision: true
+          }
+        ]
+        allowInsecure: false
+      }
+      registries: [
+        {
+          server: containerRegistry.properties.loginServer
+          username: containerRegistry.listCredentials().username
+          passwordSecretRef: 'registry-password'
+        }
+      ]
+      secrets: [
+        {
+          name: 'registry-password'
+          value: containerRegistry.listCredentials().passwords[0].value
+        }
+      ]
+    }
+    template: {
+      containers: [
+        {
+          image: 'mcr.microsoft.com/k8se/quickstart:latest'
+          name: 'ca-frontend'
+          resources: {
+            // Cheapest possible hardware
             cpu: json('0.25')
             memory: '0.5Gi'
           }
@@ -92,6 +167,11 @@ resource containerApp 'Microsoft.App/containerApps@2025-01-01' = {
 
 output containerRegistry string = containerRegistry.name
 output containerRegistryUrl string = containerRegistry.properties.loginServer
-output backendEnvironment string = containerAppEnvironment.name
-output backend string = containerApp.name
-output backendUrl string = 'https://${containerApp.properties.configuration.ingress.fqdn}'
+
+output backendEnvironment string = backendEnvironment.name
+output backend string = backend.name
+output backendUrl string = 'https://${backend.properties.configuration.ingress.fqdn}'
+
+output frontEnvironment string = frontendEnvironment.name
+output frontend string = frontend.name
+output frontendUrl string = 'https://${frontend.properties.configuration.ingress.fqdn}'

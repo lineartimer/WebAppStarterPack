@@ -52,6 +52,7 @@ module containersModule 'containers.bicep' = {
   params: {
     location: location
     backendSubnetId: networkModule.outputs.backendSubnetId
+    frontendSubnetId: networkModule.outputs.frontendSubnetId
   }
 }
 

@@ -57,8 +57,6 @@ export const callEndPoint = async (url, method, xcsrf = null, cookies = null, pa
         const baseUrl = await getBaseUrl();
         const fullUrl = `${baseUrl}${url}`;
 
-        console.log(`Backend called: ${fullUrl}`);
-
         const fetchCaller = async (url, request) => fetch(url, request);
 
         // Wrapping the fetch in an invoker to enable the request to time out

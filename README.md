@@ -3,7 +3,7 @@ Web App Starter Pack
 
 ![Build (backend)](https://github.com/lineartimer/WebAppStarterPack/actions/workflows/Backend.Build.yml/badge.svg) ![Tests (backend)](https://github.com/lineartimer/WebAppStarterPack/actions/workflows/Backend.Test.yml/badge.svg) ![Build (frontend)](https://github.com/lineartimer/WebAppStarterPack/actions/workflows/Frontend.Build.yml/badge.svg) ![Tests (frontend)](https://github.com/lineartimer/WebAppStarterPack/actions/workflows/Frontend.Test.yml/badge.svg)
 
-This is a starter template with a .Net backend, a React/Next.js frontend and a GitHub CI/CD pipeline that deploys to Azure.
+This is a starter template with a .Net backend, a React (Next.js) frontend and a GitHub CI/CD pipeline that deploys to Azure.
 
 The template also comes with xUnit unit and integration tests for the backend, and Jest unit tests and Playwright end-to-end tests for the frontend.
 
@@ -33,15 +33,15 @@ Fork the repo and clone it on your machine.
 
 ## Step 2: Create Azure Resources
 
-There are two ways to do it:
+There are two ways to create the required Azure resources:
 
 ### Automatic
 
-The simpliest way to create the resources is to run infrastructure/create-azure-resources.command.
+The simpliest way is to run infrastructure/create-azure-resources.command.
 
-You will need to specify the region to create the resources in and provide a username and a password for the database admin user. The script takes a few minutes to run and will create all the resources necessary with the correct configuration.
+You will need to specify the region for the resources and provide a username and a password for the database admin user. The script takes a few minutes to run and will create all the resources necessary with the correct configuration.
 
-If you don't need the resources, you can delete them with the delete script. (This will take longer than creating them.)
+If you don't need the resources anymore, you can delete them with the delete script. (This will take longer than creating the resources.)
 
 ### Manual
 
@@ -71,7 +71,7 @@ Finally, create two Azure Container Apps from the images in the container regist
 
 ## Step 3: Seed the database
 
-You'll need to seed the database using the sqls in src/Db. The simplest way to run these queries is from the Azure Portal. Go to the database, there you'll find the Query editor.
+You'll need to seed the database using the sqls in src/Db. The simplest way to run these queries is from the Azure Portal. Go to the database, there you'll find the Query editor, which can run sql queries.
 
 ### Step 3.1 Create users
 
@@ -79,6 +79,7 @@ You'll also need to create users. To do that, open Postman and
 - Call the backend's Auth/GetXcsrfToken endpoint. This will return an X-CSRF token
 - Copy the token and call Auth/Signup with the token in the header of the request with the key X-CSRF. Provide the information that's needed for signup in the body of the request:
 
+```json
 {
     "Username": "someuser",
     "Password": "somepassword",
@@ -86,6 +87,7 @@ You'll also need to create users. To do that, open Postman and
     "FirstName": "somefirstname",
     "Role": "User"
 }
+```
 
 To create an admin user change the role to "Admin".
 

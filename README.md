@@ -37,18 +37,24 @@ There are two ways to do it:
 
 ### Automatic
 
-The simpliest way to do this is to run infrastructure/create-azure-resources.command. You will need to specify the region where the resources will be created and provide a username and a password for the database admin user. The script takes a few minutes to run and will create all the resources with the correct configuration.
+The simpliest way to create the resources is to run infrastructure/create-azure-resources.command.
 
-If you don't need the resources, you can delete them with the delete script.
+You will need to specify the region to create the resources in and provide a username and a password for the database admin user. The script takes a few minutes to run and will create all the resources necessary with the correct configuration.
+
+If you don't need the resources, you can delete them with the delete script. (This will take longer than creating them.)
 
 ### Manual
 
-You can also create the resources manually on the Azure Portal. First, you'll need to create:
+You can also create the resources manually on the Azure Portal.
+
+First, you'll need to create:
 - A VNet with 3 subnets in it: one for the database, one for the backend, and one for the frontend
 - NSGs for the database, the backend and the frontend subnets
 - Private endpoints for the database
 - An Sql Database
 - A Container Registry
+
+For the exact configuration, check out the .bicep files in the infrastructure folder.
 
 After creating the database, you can add the connection string to .NET Secrets Manager (but it's optional as the repo has a local Sqlite database for development purposes):
 

@@ -17,7 +17,7 @@ jest.mock('next/server', () => ({
 global.fetch = jest.fn();
 
 describe('Server component', () => {
-    const backEndUrlProduction = 'backend.blah-blah-blah.azurecontainerapps.io';
+    const backEndUrlProduction = 'https://backend.blah-blah-blah.azurecontainerapps.io';
     const backendResponseTypes = {
         Ok: 'Ok',
         Nok: 'Nok',
@@ -152,7 +152,12 @@ describe('Server component', () => {
             requestToBackend.body = JSON.stringify(payloadFromFrontend);
         }
 
-        expect(global.fetch).toHaveBeenCalledWith(`${process.env.BACKEND_URL === undefined ? 'http' : 'https'}://${url.replace(frontend.portDev, backend.portDev)}${path}`, requestToBackend);
+        if(process.env.BACKEND_URL === undefined) {
+            expect(global.fetch).toHaveBeenCalledWith(`http://${url.replace(frontend.portDev, backend.portDev)}${path}`, requestToBackend);
+        } else {
+            expect(global.fetch).toHaveBeenCalledWith(`${process.env.BACKEND_URL}${path}`, requestToBackend);
+        }
+
         expect(NextResponse.json).toHaveBeenCalledWith({
             status: backendResponseType == backendResponseTypes.Null ? responseStatus.InternalServerError : responseFromBackend.status,
             payload: backendResponseType == backendResponseTypes.Ok ? payLoadFromBackend : null

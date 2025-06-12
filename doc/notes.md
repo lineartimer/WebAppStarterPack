@@ -276,6 +276,8 @@ Creating a Container App:
 
 To check the console, go to the Container App on Azure Portal and under Monitoring, select Logs. Look for a table with the name ContainerAppConsoleLogs_CL.
 
+You can also see a live stream of the terminal the backend's running in under Monitoring -> Log Stream. Be sure to select the 'Application' option.
+
 ### React website (frontend)
 
 Building the Next.js app:
@@ -311,6 +313,8 @@ docker build --no-cache -t ca-frontend:latest --platform linux/amd64 .
 Deploying the app in an Azure Container App:
 - On the Docker tab on the images panel right click the image you created above and click Push
 - Create a Container App from the image in Azure
+
+For a live stream of the terminal the frontend's running in, go to the frontend's container app and under Monitoring -> Log Stream, you'll see what's printed by console.log on the server-side. Be sure to select the 'Application' option.
 
 ## Azure Function
 

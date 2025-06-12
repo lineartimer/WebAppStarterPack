@@ -76,10 +76,16 @@ export const callEndPoint = async (url, method, xcsrf = null, cookies = null, pa
 };
 
 const getBaseUrl = async () => {
-    const headersList = await headers();
-    const host = headersList.get('host');
-    
-    return `${process.env.BACKEND_URL === undefined ? 'http' : 'https'}://${host.replace(frontend.portDev, backend.portDev)}`;
+    if(process.env.BACKEND_URL === undefined) {
+        // Development environment
+        const headersList = await headers();
+        const host = headersList.get('host');
+
+        return `http://${host.replace(frontend.portDev, backend.portDev)}`;
+    } else {
+        // Production environment
+        return process.env.BACKEND_URL;
+    }
 };
 
 const invoke = async (func, timeout = 0, ...args) => {

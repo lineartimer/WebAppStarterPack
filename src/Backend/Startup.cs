@@ -47,14 +47,15 @@ public class Startup
                     options.Filters.Add(new ApiValidateAntiForgeryToken());
                 });
 
-        // In Azure, there's a reverse proxy or load balancer (ingress controller) in front of the Container App, which
-        // handles the incoming HTTPS traffic from the internet. The Azure infrastructure terminates
-        // the SSL connection (decrypts the traffic) then forwards the request to the Container App.
+        // In Azure, there's a reverse proxy or load balancer (ingress controller) in front of the
+        // Container App, which handles the incoming HTTPS traffic from the internet. The Azure infrastructure
+        // terminates the SSL connection (decrypts the traffic) then forwards the request to the Container App.
         // This forwarded request is often plain HTTP. So, the backend sees an HTTP request,
         // even though the original request from the frontend was HTTPS. The proxy adds headers like
         // X-Forwarded-Proto (to indicate the original protocol, e.g., "https") and
         // X-Forwarded-For (to indicate the original client IP). The middleware reads these headers
-        // and updates the HttpContext.Request object so that the application behaves as if it received the original HTTPS request.
+        // and updates the HttpContext.Request object so that the application behaves as if
+        // it received the original HTTPS request.
         services.Configure<ForwardedHeadersOptions>(options =>
         {
             options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
@@ -67,8 +68,7 @@ public class Startup
     {
         // Configure the middleware pipeline
 
-        // Needs to be added early in the pipeline
-        app.UseForwardedHeaders();
+        app.UseForwardedHeaders(); // Needs to be added early in the pipeline
 
         if (env.IsDevelopment())
         {
@@ -86,7 +86,7 @@ public class Startup
         app.UseRouting();
 
         app.UseAuthentication();
-        app.UseAuthorization(); // Antiforgery system relies on HttpContext.Request.Scheme being correct
+        app.UseAuthorization();
 
         app.UseEndpoints(endpoints =>
         {
@@ -98,7 +98,6 @@ public class Startup
     {
         var origins = new List<string>();
 
-        // Attempting to get the backend URL from environment variables (coming from GitHub secrets)
         var frontendUrl = Environment.GetEnvironmentVariable("FRONTEND_URL");
         if (frontendUrl == null)
         {
@@ -189,7 +188,7 @@ public class Startup
             }
         }
 
-        var issuer = Environment.GetEnvironmentVariable("BACKEND_URL") ?? "https://localhost:5000";
+        var issuer = Environment.GetEnvironmentVariable("BACKEND_URL") ?? "http://localhost:5000";
 
         var jwtSettings = new JwtConfig
         {

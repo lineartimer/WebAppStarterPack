@@ -18,6 +18,8 @@ public class Startup
 
     public Startup(IConfiguration configuration)
     {
+        Console.WriteLine("Backend started");
+        
         _configuration = configuration;
     }
 

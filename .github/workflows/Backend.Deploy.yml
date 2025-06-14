@@ -52,6 +52,7 @@ jobs:
           password: ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
       - name: Build and push container image to Azure Container Registry
         run: |
+          docker system prune -a -f
           docker buildx build --push --tag ${{ secrets.CONTAINER_REGISTRY_URL }}/${{ secrets.BACKEND_NAME }}:latest --file ./src/Backend/Dockerfile .
       - name: Azure Login
         run: |

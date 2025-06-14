@@ -18,8 +18,8 @@ public class Startup
 
     public Startup(IConfiguration configuration)
     {
-        Console.WriteLine("Backend started");
-        
+        Console.WriteLine("Checkpoint 1");
+
         _configuration = configuration;
     }
 
@@ -66,7 +66,7 @@ public class Startup
         });
     }
 
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHostApplicationLifetime lifetime)
     {
         // Configure the middleware pipeline
 
@@ -93,6 +93,11 @@ public class Startup
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();
+        });
+
+        lifetime.ApplicationStarted.Register(() =>
+        {
+            Console.WriteLine("Checkpoint 2");
         });
     }
 
@@ -234,7 +239,7 @@ public class Startup
                             }
                         };
                     });
-        
+
         var isDevelopment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
 
         services.AddAntiforgery();

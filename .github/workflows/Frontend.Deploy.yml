@@ -95,7 +95,8 @@ jobs:
       - name: Build and push container image to Azure Container Registry
         working-directory: ./src/Frontend
         run: |
-          docker build . -t ${{ secrets.CONTAINER_REGISTRY_URL }}/${{ secrets.FRONTEND_NAME }}:latest
+          docker system prune -a -f
+          docker build --no-cache . -t ${{ secrets.CONTAINER_REGISTRY_URL }}/${{ secrets.FRONTEND_NAME }}:latest
           docker push ${{ secrets.CONTAINER_REGISTRY_URL }}/${{ secrets.FRONTEND_NAME }}:latest
       - name: Azure Login
         run: |

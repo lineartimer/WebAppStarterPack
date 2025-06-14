@@ -133,8 +133,8 @@ This simple version control process can be used for development:
 
 Both the database and the container apps are created with settings that make it as cheap as possible to run them. This comes with the trade-off that the database is paused after 15 minutes of inactivity and the containers can also scale down to zero instances.
 
-This means that the first time the frontend is called after a certain amount of inactivity, it will take several seconds to load and even then it will probably display the error page because the database might need as much as a few minutes to start. But once the resources are up and running, everything should work fine.
+This means that the first time the frontend is loaded after a certain amount of inactivity, it will take several seconds to load and even then it will probably display the error page because the database might need as much as a few minutes to start. But once the resources are up and running, everything should work fine.
 
-In the unlikely case it doesn't, go to the Containers and under Monitoring -> Log Stream, you can check the terminal of both the backend and the frontend - just make sure to select the 'Application' category instead of 'System', which is selected by default. Then, you can log diagnostic messages using Console.Writeline or console.log.
+In the unlikely case it doesn't, go to the Containers and under Monitoring -> Log Stream, you can check the terminal of both the backend and the frontend - just make sure to select the 'Application' category instead of 'System', which is selected by default. Then, feel free to add diagnostic messages using Console.Writeline or console.log.
 
 Happy coding! 🙂

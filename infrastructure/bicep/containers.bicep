@@ -166,12 +166,6 @@ resource frontend 'Microsoft.App/containerApps@2025-01-01' = {
 }
 
 output containerRegistry string = containerRegistry.name
-output containerRegistryUrl string = containerRegistry.properties.loginServer
 
-output backendEnvironment string = backendEnvironment.name
 output backend string = backend.name
-output backendUrl string = 'https://${backend.properties.configuration.ingress.fqdn}'
-
-output frontEnvironment string = frontendEnvironment.name
 output frontend string = frontend.name
-output frontendUrl string = 'https://${frontend.properties.configuration.ingress.fqdn}'

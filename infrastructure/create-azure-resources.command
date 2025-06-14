@@ -103,7 +103,7 @@ if [[ ! $CONFIRM =~ ^[Yy]$ ]]; then
 fi
 
 echo
-echo "Creating resources. Estimated time to finish: 20 minutes..."
+echo "Creating resources. This may take several minutes..."
 echo
 
 # Deploy the Bicep template at subscription level

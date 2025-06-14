@@ -61,5 +61,5 @@ output vnetId string = networkModule.outputs.vnetId
 output sqlServer string = databaseModule.outputs.sqlServer
 output sqlDatabase string = databaseModule.outputs.sqlDatabase
 output containerRegistry string = containersModule.outputs.containerRegistry
-output backendEnvironment string = containersModule.outputs.backendEnvironment
 output backend string = containersModule.outputs.backend
+output frontend string = containersModule.outputs.frontend

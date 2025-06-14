@@ -107,7 +107,7 @@ if [ $? -eq 0 ]; then
         
         # Show spinner
         CHAR=${SPINNER_CHARS:$SPINNER_INDEX:1}
-        printf "\r${CHAR} Deleting resources. Estimated time to finish: 30 minutes..."
+        printf "\r${CHAR} Deleting resources. This may take several minutes..."
         
         # Update spinner
         SPINNER_INDEX=$(((SPINNER_INDEX + 1) % ${#SPINNER_CHARS}))

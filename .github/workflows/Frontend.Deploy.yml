@@ -1,25 +1,7 @@
 name: Deploy frontend
 on: pull_request
-env:
-  CONTAINER_APP_NAME: ca-frontend
-  RESOURCE_GROUP: rg-WebAppStarterPack
 jobs:
   build:
-    runs-on: ubuntu-latest
-    steps: 
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Use node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18.x'
-      - name: Build frontend
-        working-directory: ./src/Frontend
-        run: |
-          npm install
-          npm run build
-  unit-test: 
-    needs: build
     runs-on: ubuntu-latest
     steps: 
       - name: Checkout
@@ -32,8 +14,23 @@ jobs:
         working-directory: ./src/Frontend
         run: |
           npm install
+          npm run build
+  unit-tests: 
+    needs: build
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Use node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.x'
+      - name: Run unit tests
+        working-directory: ./src/Frontend
+        run: |
+          npm install
           CI=true npm test
-  e2e-test:
+  e2e-tests:
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -43,20 +40,20 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18.x'
-      - name: Set up .NET Core
+      - name: Set up .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: "8.0.x"
       - name: Build and run backend
         working-directory: ./src/Backend
         run: |
-          dotnet build --configuration Release
-          nohup dotnet run --configuration Release > backend.log 2>&1 &
+          dotnet build
+          nohup dotnet run > backend.log 2>&1 &
           echo "Backend PID: $!"
           sleep 30
           more backend.log
           echo "Verifying if backend is running"
-          curl -k -v https://localhost:5000/Data
+          curl -k -v http://localhost:5000/Auth/GetXcsrfToken
       - name: Build and run frontend
         working-directory: ./src/Frontend
         run: |
@@ -75,13 +72,13 @@ jobs:
           npx playwright install
           npm test
   deploy:
-    needs: [unit-test, e2e-test]
+    needs: [unit-tests, e2e-tests]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Use node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18.x'
       - name: Build frontend
@@ -89,20 +86,35 @@ jobs:
         run: |
           npm install
           npm run build
-      - name: Log in to ACR
+      - name: Log in to Azure Container Registry
         uses: docker/login-action@v3
         with:
-          registry: ${{ secrets.CONTAINER_REGISTRY }}.azurecr.io
+          registry: ${{ secrets.CONTAINER_REGISTRY_URL }}
           username: ${{ secrets.CONTAINER_REGISTRY_USERNAME }}
           password: ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
-      - name: Build Docker image
+      - name: Build and push container image to Azure Container Registry
         working-directory: ./src/Frontend
         run: |
-          docker build . -t ${{ secrets.CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_APP_NAME }}:latest
-          docker push ${{ secrets.CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_APP_NAME }}:latest
+          docker system prune -a -f
+          docker build --no-cache . -t ${{ secrets.CONTAINER_REGISTRY_URL }}/${{ secrets.FRONTEND_NAME }}:latest
+          docker push ${{ secrets.CONTAINER_REGISTRY_URL }}/${{ secrets.FRONTEND_NAME }}:latest
       - name: Azure Login
         run: |
+          # OUTPUT=$(az login --output none --service-principal -u ${{ secrets.AZURE_APP_ID }} -p ${{ secrets.AZURE_PASSWORD }} --tenant ${{ secrets.AZURE_TENANT }} 2>&1)
+          # if [ $? -ne 0 ]; then
+          #   echo "Failed to log in to Azure: $OUTPUT"
+          #   exit 1
+          # else
+          #   echo "Logged in to Azure successfully"
+          # fi
           az login --service-principal -u ${{ secrets.AZURE_APP_ID }} -p ${{ secrets.AZURE_PASSWORD }} --tenant ${{ secrets.AZURE_TENANT }}
       - name: Deploy to Azure Container Apps
         run: |
-          az containerapp update --name ${{ env.CONTAINER_APP_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --image ${{ secrets.CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_APP_NAME }}:latest
+          # ERROR_OUTPUT=$(az containerapp update --output none --name ${{ secrets.FRONTEND_NAME }} --resource-group ${{ secrets.RESOURCE_GROUP }} --image ${{ secrets.CONTAINER_REGISTRY_URL }}/${{ secrets.FRONTEND_NAME }}:latest --replace-env-vars BACKEND_URL=https://${{ secrets.BACKEND_NAME }}.${{ secrets.BACKEND_SUBDOMAIN }}.${{ secrets.BACKEND_REGION }}.azurecontainerapps.io 2>&1)
+          # if [ $? -ne 0 ]; then
+          #   echo "Failed to deploy container app: $OUTPUT"
+          #   exit 1
+          # else
+          #   echo "Container app deployment has finished successfully"
+          # fi
+          az containerapp update --name ${{ secrets.FRONTEND_NAME }} --resource-group ${{ secrets.RESOURCE_GROUP }} --image ${{ secrets.CONTAINER_REGISTRY_URL }}/${{ secrets.FRONTEND_NAME }}:latest --replace-env-vars BACKEND_URL=https://${{ secrets.BACKEND_NAME }}.${{ secrets.BACKEND_SUBDOMAIN }}.${{ secrets.BACKEND_REGION }}.azurecontainerapps.io

@@ -28,12 +28,10 @@ describe('Table Component', () => {
         ];
         render(<Table data={data} />);
 
-        // Check headers
         expect(screen.getByText('Id')).toBeInTheDocument();
         expect(screen.getByText('Name')).toBeInTheDocument();
         expect(screen.getByText('Age')).toBeInTheDocument();
-
-        // Check number of data rows
+        
         const table = screen.getByRole('table');
         const tbody = table.querySelector('tbody');
         expect(tbody).toBeInTheDocument();
@@ -43,8 +41,7 @@ describe('Table Component', () => {
             rows = within(tbody).getAllByRole('row');
             expect(rows.length).toBe(data.length);
         }
-
-        // Check cell content for the first data row
+        
         if (rows.length > 0) {
             const firstRow = within(rows[0]).getAllByRole('cell');
 
@@ -53,7 +50,6 @@ describe('Table Component', () => {
             expect(firstRow[2]).toHaveTextContent('24');
         }
 
-        // Check cell content for the second data row
         if (rows.length > 1) {
             const secondRow = within(rows[1]).getAllByRole('cell');
 
@@ -70,7 +66,6 @@ describe('Table Component', () => {
         ];
         render(<Table data={data} />);
 
-        // Check headers
         expect(screen.getByText('Id')).toBeInTheDocument();
         expect(screen.getByText('Name')).toBeInTheDocument();
         expect(screen.getByText('Description')).toBeInTheDocument();
@@ -82,8 +77,7 @@ describe('Table Component', () => {
         if (tbody) {
             const rows = within(tbody).getAllByRole('row');
             expect(rows.length).toBe(2);
-
-            // Null/undefined: empty strings
+            
             const firstRowCells = within(rows[0]).getAllByRole('cell');
 
             expect(firstRowCells[0]).toHaveTextContent('1');

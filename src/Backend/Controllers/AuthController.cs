@@ -36,6 +36,8 @@ public class AuthController : ControllerBase
     [AllowNoAntiforgeryToken]
     public IActionResult GetXcsrfToken()
     {
+        Console.WriteLine("Auth/GetXcsrfToken called");
+
         var tokens = _antiforgery.GetAndStoreTokens(HttpContext);
         return Ok(new { Xcsrf = tokens.RequestToken });
     }
@@ -124,7 +126,7 @@ public class AuthController : ControllerBase
         {
             HttpOnly = true, // Can't be accessed by JavaScript on the cilent side
             Secure = true, // Only sent over secure connections (HTTPS)
-            SameSite = SameSiteMode.Strict,
+            SameSite = SameSiteMode.Strict, // No CORS allowed
             Expires = DateTime.UtcNow.AddDays(7)
         });
 

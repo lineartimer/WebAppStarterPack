@@ -3,7 +3,7 @@ on: pull_request
 jobs:
   build:
     runs-on: ubuntu-latest
-    steps: 
+    steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Use node.js
@@ -15,7 +15,7 @@ jobs:
         run: |
           npm install
           npm run build
-  unit-test: 
+  unit-tests: 
     needs: build
     runs-on: ubuntu-latest
     steps: 
@@ -25,12 +25,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18.x'
-      - name: Build frontend
+      - name: Run unit tests
         working-directory: ./src/Frontend
         run: |
           npm install
           CI=true npm test
-  e2e-test:
+  e2e-tests:
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -53,7 +53,7 @@ jobs:
           sleep 30
           more backend.log
           echo "Verifying if backend is running"
-          curl -k -v https://localhost:5000/Data
+          curl -k -v http://localhost:5000/Auth/GetXcsrfToken
       - name: Build and run frontend
         working-directory: ./src/Frontend
         run: |

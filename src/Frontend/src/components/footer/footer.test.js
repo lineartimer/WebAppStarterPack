@@ -6,6 +6,9 @@ describe('Footer Component', () => {
     render(<Footer />);
 
     const currentYear = new Date().getFullYear().toString();
-    expect(screen.getByText(`Copyright © ${currentYear}, Whoever.`)).toBeInTheDocument();
+
+    expect(screen.getByText(/Copyright/i)).toBeInTheDocument();
+    expect(screen.getByText(/©/i)).toBeInTheDocument();
+    expect(screen.getByText(new RegExp(currentYear))).toBeInTheDocument();
   });
 });

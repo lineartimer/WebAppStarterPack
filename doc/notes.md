@@ -4,11 +4,20 @@ Web App Starter Pack
 # Environment
 
 - VS Code
-- VS Code extensions (C# Dev Kit, JavaScript Debugger, Azure Container Apps, Docker, Playwright, GitHub Copilot)
+- VS Code extensions (C# Dev Kit, JavaScript Debugger, SQL Server, Azure Container Apps, Bicep, Docker, Playwright, GitHub Copilot)
 - .NET SDK
 - Node.js
 - Docker Desktop
 - GitHub Desktop
+
+To completely uninstall Node.js, remove the following directories:
+- /usr/local/bin/node
+- /usr/local/bin/npm
+- /usr/local/bin/npx
+- /usr/local/lib/node_modules
+- /usr/local/include/node
+- ~/.npm
+- ~/.node-gyp
 
 ## Creating a new .NET Core Web API project
 
@@ -154,6 +163,10 @@ It's a good practice to prefix Azure resources. E.g. "rg-" for resource groups o
 
 The Azure CLI can be run from within the Azure Portal (click the Cloud Shell icon on the menubar).
 
+## Networking
+
+Create a VNet with the address range 10.0.0.0/16 (65 536 addresses). Then create subnets of 256 addresses for the database, the backend and the frontend with the starting ranges of 10.0.1.0/24, 10.0.2.0/24, 10.0.3.0/24, respectively.
+
 ## Virtual Machine
 
 Creating a web server:
@@ -203,6 +216,7 @@ Creating an SQL database:
 - Connect to the database from VS Code with the SQL Server (mssql) extension. Once installed, click on the DB tab on the left and add your connection
 - You can also log in to your database (and query and update data) via the Azure Portal. Go to the DB and click Query Editor
 - The connection string to the DB is under Settings -> Connection Strings
+- In the cloud, always use encrypted connections
 
 ## Storage Account
 
@@ -258,7 +272,7 @@ docker build --no-cache -f src/<backend's folder>/Dockerfile -t ca-backend:lates
 docker system prune -a -f
 
 Adding the Docker image to the container registry:
-- On the Docker tab in VS Code, click Connect Registry (plug icon) and select Azure Container Registry. Then click on Azure in the Registries panel and sign in. Then you should be able to see the container registry you created above
+- On the Docker or Containers tab in VS Code, click Connect Registry (plug icon) and select Azure Container Registry. Then click on Azure in the Registries panel and sign in. Then you should be able to see the container registry you created
 - On the Images panel, right click the image and click Push. Select your container registry. When prompted, allow VS Code to access data from other apps
 - (Your Docker image should appear on the Registries panel. You can right click the image and click Deploy Image to Azure Container Apps.)
 
@@ -271,73 +285,45 @@ Creating a Container App:
 
 To check the console, go to the Container App on Azure Portal and under Monitoring, select Logs. Look for a table with the name ContainerAppConsoleLogs_CL.
 
+You can also see a live stream of the terminal the backend's running in under Monitoring -> Log Stream. Be sure to select the 'Application' option.
+
 ### React website (frontend)
 
 Building the Next.js app:
 - Add a next.config.js with the following content:
 
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  output: 'export',
-  trailingSlash: true,
-  images: {
-    unoptimized: true
-  }
-}
+const nextConfig = {};
 
-module.exports = nextConfig
+module.exports = nextConfig;
 
 - In the terminal cd into the frontend's folder and build it: npm install. Then create an optimized production build: npm run build
 
 Containerizing the app:
 - Add a new file named Dockerfile with the following content:
 
-FROM nginx:alpine
-COPY out/ /usr/share/nginx/html/
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
-
-- Also create nginx.conf with the following content:
-
-server {
-    listen 80;
-
-    root /usr/share/nginx/html;
-    index index.html;
-
-    location /_next/static/ {
-        expires 1y;
-        add_header Cache-Control "public, immutable";
-    }
-    
-    location /static/ {
-        expires 1y;
-        add_header Cache-Control "public";
-    }
-    
-    location /api/ {
-        try_files $uri $uri/ =404;
-    }
-    
-    location / {
-        try_files $uri $uri/ $uri.html /index.html;
-    }
-
-    error_page 404 /index.html;
-}
+FROM node:alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
+EXPOSE 3000
+CMD ["npm", "run", "start"]
 
 - Start Docker Desktop, then build the image:
 
 docker build --no-cache -t ca-frontend:latest --platform linux/amd64 .
 
 - (Building it without specifying the platform, will cause an error in Azure while creating the container app)
-- When the build is complete, check if it's working in Docker Desktop. Assign port 80 to the host port under optional settings, name the container frontend and run it. Open localhost in a browser to see if it's working
+- When the build is complete, check if it's working in Docker Desktop. Assign port 3000 to the host port under optional settings, name the container frontend and run it. Open localhost in a browser to see if it's working
 - You can use ls -a in the yml file to see what's in a directory
 
 Deploying the app in an Azure Container App:
 - On the Docker tab on the images panel right click the image you created above and click Push
 - Create a Container App from the image in Azure
+
+For a live stream of the terminal the frontend's running in, go to the frontend's container app and under Monitoring -> Log Stream, you'll see what's printed by console.log on the server-side. Be sure to select the 'Application' option.
 
 ## Azure Function
 
@@ -345,13 +331,54 @@ Deploying the app in an Azure Container App:
 - It's very cost-efficient
 - Triggers (e.g. HTTP requests or timers) srart the function and they may have input data
 
-## Network
+## Infrastructure
 
 Zero trust architecture is a security strategy. The principle is that users and devices should not be trusted by default, even if they are connected to a corporate network. It ensures least privilege access to only explicitly-authorized resources. The traditional approach by trusting users and devices within a network is commonly not sufficient in the complex environment of a corporate network. The zero trust approach moves from trust-by-default to trust-by-exception.
 
 Microsoft is making Security Defaults (preconfigured security settings) available to everyone to ensure that all organizations have at least a basic level of security enabled at no extra cost. 99.9% of common identity-related attacks are stopped by using multifactor authentication.
 
-### Admin
+### Virtual Networks (VNets)
+
+Networks with a CIDR (Classless Inter-Domain Routing) of /16 have 65 536 addresses and are typical for large corporate networks. A CIDR of /16 with 256 address are typical for small office networks and a CIDR of /28 (16 addresses) are used for small subnets.
+
+RFC 1918 address spaces:
+- 10.0.0.0 - 10.255.255.255 (10/8 prefix)
+- 172.16.0.0 - 172.31.255.255 (172.16/12 prefix)
+- 192.168.0.0 - 192.168.255.255 (192.168/16 prefix)
+
+Azure's reserved IP addresses:
+- x.x.x.0: Network address
+- x.x.x.1: Default gateway
+- x.x.x.2,3: Maps Azure DNS IPs to VNet
+- x.x.x.255: Network broadcast address
+
+Resources in a VNet can communicate outbound to the Internet by default. Inbound communication can be done by assigning the resource a public IP address. In a VNet, resources can communicate with each other securely within the cloud. NSGs can filter traffic between subnets. A VNet can have subnets (e.g. for web tier or database tier).
+
+The automatically created NetworkWatcherRG resource group can be deleted from Subsription -> Resource Visualizer then click on the Network Watcher and then on its containing resource group. From there, both the network watcher and the resource group can be deleted.
+
+NAT gateways are only needed for outbound access.
+
+Container Registries don't need to be put in a VNet because it's a managed service, so Microsoft handles everything from networking to security.
+
+### Subnets
+
+Some network administrators/policies at some companies prefer reserving the first subnet (e.g., 10.0.0.0/24) for a Gateway subnet for VPN as a best practice although Azure doesn't mandate it.
+
+Subnets for container apps need to be delagated to the Microsoft.App/environments service.
+
+### Private Endpoints
+
+Private endpoints give Azure resources (e.g. a database) a private IP address within the VNet. In this way, traffic never leaves Microsoft's network because the resource is only accessible from within the VNet.
+
+Example: instead of <database name>.database.windows.net (public), apps connect to 10.0.2.4 (private).
+
+### Network Securty Groups (NSGs)
+
+NSGs are like firewalls: they contain rules that allow or deny network traffic. In practice, all traffic can be denied except what's absolutely necessary.
+
+Even in a subnet with only one resource in it that generally allows all traffic from the Internet, it's still considered a best practice to have an NSG. The main reason is that it adds flexibility if certain traffic needs to be blocked in the future.
+
+## User Management
 
 To manage users, go to Microsoft Entra ID -> Users
 
@@ -397,6 +424,7 @@ echo export PATH=$PATH:/opt/homebrew/bin >> ~/.zshrc
 - You can manage the created service principals on the Azure Portal under Microsoft Entra ID -> App registrations -> All applications
 - To go back to a previous version, go to the Actions tab on GitHub, select the last successful workflow and click Re-run all jobs
 - If the website is being loaded while the GitHub actions are running, the push may fail silently
+- The IP ranges used for running GitHub actions can be found at https://api.github.com/meta (look for the actions part)
 
 # Backend development
 
@@ -598,6 +626,7 @@ public partial class Program { }
 - A good (and free) favicon generator: favicon.io/favicon-generator
 - On the Application tab of the browser's Developer Tools, the cookies and the content of the local storage can be checked
 - On the Network tab of the browser's Developer Tools, all the http communication between the frontend and the backend can be checked
+- If npm install starts being terribly slow and restarting your machine doesn't help and re-installing Node.js doesn't help and it also doesn't work in a simple test project, then waiting a couple of hours might solve the issue. Also check https://status.npmjs.org/ because npm can have temporary issues and if there's one, it will be shown there
 
 ## HTML
 
@@ -746,6 +775,8 @@ To improve the initial load time and user experience, you can use streaming to b
 
 A server function is an asynchronous function that is executed on the server. Server functions are inherently asynchronous because they are invoked by the client using a network request. A server function can be defined by placing 'use server' at the top of an asynchronous function or at the top of a file to mark all exports of that file.
 
+console.log will print messages in the browser's log if it is called from a client-side component but will print the message on the terminal from which the frontend is run if it is called from a server-side component.
+
 You can call the notFound function within a route segment and use the not-found.js file to show a 404 UI.
 
 Next.js uses error boundaries to handle uncaught exceptions. Error boundaries catch errors in their child components and display a fallback UI. Create an error boundary by adding an error.js file inside a route segment. Errors will bubble up to the nearest parent error boundary. You can handle errors in the root layout using the global-error.js file, located in the root app directory.
@@ -823,11 +854,20 @@ To run a .command file downloaded from the Internet, double click it then Settin
 
 To list hidden files with Finder: Cmd + Shift + .
 
+To open spotlight: Cmd + Space
+
 The Windows App can be used to rdp into a Windows VM.
 
 To find out the ip address of a web server: nslookup <url>
 
+To find out the ip address of your machine: curl ifconfig.me
+
 Terminal history can be deleted by deleting the contents of the ~/.zsh_history file or contents of the ~/.zsh_sessions directory.
 
-If function keys don't work when debugging:
-- Settings -> Desktop & Dock -> Shortcuts -> Set Show Desktop to -
+If function keys don't work when debugging: Settings -> Desktop & Dock -> Shortcuts -> Set Show Desktop to -
+
+To install PowerShell on Mac: brew install --cask powershell
+
+To start PowerShell: pwsh
+
+Mac version of Task Manager: Activity Monitor. Another cool tool is the top command in the terminal. I shows real time the processes that consume the most CPU time.

@@ -1,18 +1,20 @@
-// useEffect works only on client-side
+// useEffect, useState works only on client-side
 'use client'
 
 import { useState, useEffect } from 'react';
 import { Figtree } from 'next/font/google';
 
-/* That's the proper way to use Bootstrap in a Next.js appß */
+// That's the proper way to use Bootstrap in a Next.js app
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './global.css';
 import './layout.css'
-import Footer from '../components/footer/footer';
 import Header from '../components/header/header';
-import { callEndPoint, httpMethods } from '../lib/http';
+import Footer from '../components/footer/footer';
+import { callApi } from '../lib/client';
+import { httpMethods } from '../lib/utils';
+import { frontend } from '../lib/config';
 
-/* That's the proper way to use Google fonts in a Next.js app */
+// That's the proper way to use Google fonts in a Next.js app
 const googleFont = Figtree({
   weight: '400',
   subsets: ['latin']
@@ -22,12 +24,25 @@ const RootLayout = ({ children }) => {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const setXsrfToken = async () => {
-      const response = await callEndPoint('/Auth/GetXcsrfToken', httpMethods.Get);
-      localStorage.setItem('xcsrf', response.payload.xcsrf);
+    const setXcsrfToken = async () => {
+      if(!localStorage.getItem('xcsrf')) {
+        const response = await callApi(frontend.urls.api.getXcsrf, httpMethods.Get);
+        if(response.payload == null) {
+          // There's a problem with the backend
+          if(window.location.pathname !== frontend.urls.pages.errorPage) {
+            window.location.href = frontend.urls.pages.errorPage;
+          }
+        } else {
+          localStorage.setItem('xcsrf', response.payload.xcsrf);
+        }
+      }
     };
 
-    setXsrfToken();
+    setXcsrfToken();
+
+    if(window.location.pathname != `${frontend.urls.pages.loginPage}`) {
+      localStorage.removeItem('loginRedirectUrl');
+    }
 
     const handleScroll = () => {
       if (window.scrollY > 0) {

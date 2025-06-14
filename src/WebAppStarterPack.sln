@@ -17,7 +17,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{CE
 	ProjectSection(SolutionItems) = preProject
 		Frontend\package.json = Frontend\package.json
 		Frontend\Dockerfile = Frontend\Dockerfile
-		Frontend\nginx.conf = Frontend\nginx.conf
 		Frontend\next.config.js = Frontend\next.config.js
 	EndProjectSection
 EndProject
@@ -65,9 +64,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{604EB281-7C31-2CC7-954C-96AC0DDB80EA}"
 	ProjectSection(SolutionItems) = preProject
 		Frontend\src\lib\config.js = Frontend\src\lib\config.js
-		Frontend\src\lib\http.js = Frontend\src\lib\http.js
 		Frontend\src\lib\utils.js = Frontend\src\lib\utils.js
-		Frontend\src\lib\http.test.js = Frontend\src\lib\http.test.js
+		Frontend\src\lib\client.js = Frontend\src\lib\client.js
+		Frontend\src\lib\server.js = Frontend\src\lib\server.js
+		Frontend\src\lib\server.test.js = Frontend\src\lib\server.test.js
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "components", "components", "{E23087C1-201B-93A3-93E6-98D4B96EDAE9}"
@@ -151,6 +151,33 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{B758D604
 		Frontend\e2e-tests\tests\admin-page.spec.js = Frontend\e2e-tests\tests\admin-page.spec.js
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "api", "api", "{A3350ACE-E018-49EC-BDAC-BDF563A46E51}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "login", "login", "{FE891DA0-C9CA-DFBA-3109-4267A63B2721}"
+	ProjectSection(SolutionItems) = preProject
+		Frontend\src\app\api\login\route.js = Frontend\src\app\api\login\route.js
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "get-xcsrf", "get-xcsrf", "{9FC4CDA8-F918-F831-6E9A-645DA28A5D9A}"
+	ProjectSection(SolutionItems) = preProject
+		Frontend\src\app\api\get-xcsrf\route.js = Frontend\src\app\api\get-xcsrf\route.js
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "logout", "logout", "{9CAC37F9-CBA8-115D-037A-716B5ADA64FC}"
+	ProjectSection(SolutionItems) = preProject
+		Frontend\src\app\api\logout\route.js = Frontend\src\app\api\logout\route.js
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "admin", "admin", "{6AB69B32-FF38-2664-7AB4-BB2A1B0EB711}"
+	ProjectSection(SolutionItems) = preProject
+		Frontend\src\app\api\admin\route.js = Frontend\src\app\api\admin\route.js
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "data", "data", "{49D6CB3C-8953-4D33-2CE6-7E5722FB0149}"
+	ProjectSection(SolutionItems) = preProject
+		Frontend\src\app\api\data\route.js = Frontend\src\app\api\data\route.js
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -189,5 +216,11 @@ Global
 		{3DBBD5FA-6711-76AD-5A63-E4C88D331BB8} = {473DBFEA-15FA-F0EA-F5D5-A40580B99B2C}
 		{582FDB09-C0FC-D983-E123-58781FC5EDAF} = {CE609670-85B9-0D16-FB54-ED063D5D8A6D}
 		{B758D604-0DDC-9E0D-6779-DDA46AAD2628} = {582FDB09-C0FC-D983-E123-58781FC5EDAF}
+		{A3350ACE-E018-49EC-BDAC-BDF563A46E51} = {473DBFEA-15FA-F0EA-F5D5-A40580B99B2C}
+		{FE891DA0-C9CA-DFBA-3109-4267A63B2721} = {A3350ACE-E018-49EC-BDAC-BDF563A46E51}
+		{9FC4CDA8-F918-F831-6E9A-645DA28A5D9A} = {A3350ACE-E018-49EC-BDAC-BDF563A46E51}
+		{9CAC37F9-CBA8-115D-037A-716B5ADA64FC} = {A3350ACE-E018-49EC-BDAC-BDF563A46E51}
+		{6AB69B32-FF38-2664-7AB4-BB2A1B0EB711} = {A3350ACE-E018-49EC-BDAC-BDF563A46E51}
+		{49D6CB3C-8953-4D33-2CE6-7E5722FB0149} = {A3350ACE-E018-49EC-BDAC-BDF563A46E51}
 	EndGlobalSection
 EndGlobal

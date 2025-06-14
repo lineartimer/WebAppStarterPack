@@ -1,9 +1,11 @@
 'use client'
+
 import { useEffect, useState } from 'react';
 
 import Table from '../../components/table/table';
-import { callEndPoint, httpMethods, responseStatus } from '../../lib/http';
-import { backend, frontend } from '../../lib/config';
+import { callApi } from '../../lib/client';
+import { httpMethods, responseStatus } from '../../lib/utils';
+import { frontend } from '../../lib/config';
 
 const Data = () => {
     const [data, setData] = useState([]);
@@ -12,7 +14,7 @@ const Data = () => {
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
-            const response = await callEndPoint(backend.urls.data, httpMethods.Get, localStorage.getItem('xcsrf'));
+            const response = await callApi(frontend.urls.api.data, httpMethods.Get, localStorage.getItem('xcsrf'));
             setLoading(false);
 
             if(response.status) {
@@ -20,12 +22,12 @@ const Data = () => {
                     setData(response.payload);
                 }
                 else if(response.status == responseStatus.UnAuthorized) {
-                    localStorage.setItem('loginRedirectUrl', frontend.urls.dataPage);
+                    localStorage.setItem('loginRedirectUrl', frontend.urls.pages.dataPage);
                     
-                    window.location.href = frontend.urls.loginPage;
+                    window.location.href = frontend.urls.pages.loginPage;
                 }
                 else {
-                    window.location.href = frontend.urls.errorPage;
+                    window.location.href = frontend.urls.pages.errorPage;
                 }
             }
         };

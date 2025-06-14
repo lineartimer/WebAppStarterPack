@@ -29,10 +29,13 @@ public class ApiValidateAntiForgeryToken : ActionFilterAttribute
         }
         catch (AntiforgeryValidationException e)
         {
+            var errorMessage = $"{DateTime.Now}: Anti-forgery error at {context.HttpContext.Request.Path}{context.HttpContext.Request.QueryString}. {e.Message}";
             context.Result = new BadRequestObjectResult(new
             {
-                ErrorMessage = $"Invalid anti-forgery token: {e.Message}"
+                ErrorMessage = errorMessage
             });
+
+            Console.WriteLine(errorMessage);
         }
     }
 }

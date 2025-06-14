@@ -20,10 +20,10 @@ const Navigation = () => {
     return (
         <div className="navigation">
             {!noshow && role == backend.roles.admin && (
-                <a className={isMobile() ? 'mobile-menu-item' : ''} href={frontend.urls.adminPage}>Admin</a>
+                <a className={isMobile() ? 'mobile-menu-item' : ''} href={frontend.urls.pages.adminPage}>Admin</a>
             )}
             {!noshow && username && (
-                <a className={isMobile() ? 'mobile-menu-item' : ''} href={frontend.urls.dataPage}>Data</a>
+                <a className={isMobile() ? 'mobile-menu-item' : ''} href={frontend.urls.pages.dataPage}>Data</a>
             )}
         </div>
     );

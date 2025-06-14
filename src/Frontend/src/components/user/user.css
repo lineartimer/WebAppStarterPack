@@ -31,7 +31,7 @@
 /* For mobile devices */
 .hamburger-wrapper {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
 }
 
 .hamburger {
@@ -61,7 +61,7 @@
 
 .x-wrapper {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     padding: 20px;
     color: white;
 }

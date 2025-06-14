@@ -89,7 +89,7 @@ You'll also need to create users. To do that, open Postman and
 }
 ```
 
-To create an admin user change the role to "Admin".
+To create an admin user, change the role to "Admin".
 
 ## Step 4: Set up CI/CD
 
@@ -131,7 +131,7 @@ This simple version control process can be used for development:
 
 ## Good to know
 
-Both the database and the container apps are created with settings that make it as cheap as possible to run them. But this comes with the trade-off that the database is paused after 15 minutes of inactivity and the containers can also scale down to zero instances.
+Both the database and the container apps are created with settings that make it as cheap as possible to run them. This comes with the trade-off that the database is paused after 15 minutes of inactivity and the containers can also scale down to zero instances.
 
 This means that the first time the frontend is called after a certain amount of inactivity, it will take several seconds to load and even then it will probably display the error page because the database might need as much as a few minutes to start. But once the resources are up and running, everything should work fine.
 

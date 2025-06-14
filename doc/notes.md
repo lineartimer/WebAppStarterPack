@@ -10,6 +10,15 @@ Web App Starter Pack
 - Docker Desktop
 - GitHub Desktop
 
+To completely uninstall Node.js, remove the following directories:
+- /usr/local/bin/node
+- /usr/local/bin/npm
+- /usr/local/bin/npx
+- /usr/local/lib/node_modules
+- /usr/local/include/node
+- ~/.npm
+- ~/.node-gyp
+
 ## Creating a new .NET Core Web API project
 
 Even numbered .NET versions have LTS (3 years of support).
@@ -617,6 +626,7 @@ public partial class Program { }
 - A good (and free) favicon generator: favicon.io/favicon-generator
 - On the Application tab of the browser's Developer Tools, the cookies and the content of the local storage can be checked
 - On the Network tab of the browser's Developer Tools, all the http communication between the frontend and the backend can be checked
+- If npm install starts being terribly slow and restarting your machine doesn't help and re-installing Node.js doesn't help and it also doesn't work in a simple test project, then waiting a couple of hours might solve the issue. Also check https://status.npmjs.org/ because npm can have temporary issues and if there's one, it will be shown there
 
 ## HTML
 
@@ -859,3 +869,5 @@ If function keys don't work when debugging: Settings -> Desktop & Dock -> Shortc
 To install PowerShell on Mac: brew install --cask powershell
 
 To start PowerShell: pwsh
+
+Mac version of Task Manager: Activity Monitor. Another cool tool is the top command in the terminal. I shows real time the processes that consume the most CPU time.

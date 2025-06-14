@@ -78,7 +78,7 @@ if [[ ! $CONFIRM1 =~ ^[Yy]$ ]]; then
     exit 0
 fi
 
-read -p "Type DELETE to delete): " CONFIRM2
+read -p "Type DELETE to delete: " CONFIRM2
 if [ "$(echo "$CONFIRM2" | tr '[:upper:]' '[:lower:]')" != "delete" ]; then
     printf "${YELLOW}Deletion cancelled.${NC}\n"
     exit 0
@@ -107,7 +107,7 @@ if [ $? -eq 0 ]; then
         
         # Show spinner
         CHAR=${SPINNER_CHARS:$SPINNER_INDEX:1}
-        printf "\r${CHAR} Deleting resources. This may take several minutes..."
+        printf "\r${CHAR} Deleting resources. This may take many minutes..."
         
         # Update spinner
         SPINNER_INDEX=$(((SPINNER_INDEX + 1) % ${#SPINNER_CHARS}))

@@ -61,10 +61,16 @@ export const callEndPoint = async (url, method, xcsrf = null, cookies = null, pa
 
         const fetchCaller = async (url, request) => fetch(url, request);
 
+        console.log('Interim checkpoint 1');
+
         // Wrapping the fetch in an invoker to enable the request to time out
         response = await invoke(fetchCaller, timeout, fullUrl, request);
+
+        console.log(`Backend's response: ${response}`);
     } catch (e) {
-        // If request times out
+        console.log(`Backend call timed out!`);
+
+        // If the request times out
         return {
             setCookieHeader: null,
             status: responseStatus.InternalServerError,
@@ -89,6 +95,8 @@ const getBaseUrl = async () => {
 };
 
 const invoke = async (func, timeout = 0, ...args) => {
+    console.log('Interim checkpoint 2');
+
     return Promise.race([func(...args), new Promise((_, reject) =>
         setTimeout(() => reject(new Error()), timeout)
     )]);

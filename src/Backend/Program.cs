@@ -1,3 +1,6 @@
+
+Console.WriteLine("Backend started");
+
 // Main entry point for the application.
 var builder = WebApplication.CreateBuilder(args);
 

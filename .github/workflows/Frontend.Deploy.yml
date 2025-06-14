@@ -86,17 +86,21 @@ jobs:
         run: |
           npm install
           npm run build
+      - name: Set up Docker Buildx
+        run: |
+          docker buildx create --use
       - name: Log in to Azure Container Registry
         uses: docker/login-action@v3
         with:
           registry: ${{ secrets.CONTAINER_REGISTRY_URL }}
           username: ${{ secrets.CONTAINER_REGISTRY_USERNAME }}
           password: ${{ secrets.CONTAINER_REGISTRY_PASSWORD }}
-      - name: Build Docker image
+      - name: Build and push container image to Azure Container Registry
         working-directory: ./src/Frontend
         run: |
-          docker build . -t ${{ secrets.CONTAINER_REGISTRY_URL }}/${{ secrets.FRONTEND_NAME }}:latest
-          docker push ${{ secrets.CONTAINER_REGISTRY_URL }}/${{ secrets.FRONTEND_NAME }}:latest
+          # docker build . -t ${{ secrets.CONTAINER_REGISTRY_URL }}/${{ secrets.FRONTEND_NAME }}:latest
+          # docker push ${{ secrets.CONTAINER_REGISTRY_URL }}/${{ secrets.FRONTEND_NAME }}:latest
+          docker buildx build --push --tag ${{ secrets.CONTAINER_REGISTRY_URL }}/${{ secrets.FRONTEND_NAME }}:latest --file ./src/Frontend/Dockerfile .
       - name: Azure Login
         run: |
           # OUTPUT=$(az login --output none --service-principal -u ${{ secrets.AZURE_APP_ID }} -p ${{ secrets.AZURE_PASSWORD }} --tenant ${{ secrets.AZURE_TENANT }} 2>&1)

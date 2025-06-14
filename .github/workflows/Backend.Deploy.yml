@@ -69,5 +69,5 @@ jobs:
             echo "Failed to deploy container app: $OUTPUT"
             exit 1
           else
-            echo "Container app deployment successful"
+            echo "Container app deployment has finished successfully"
           fi

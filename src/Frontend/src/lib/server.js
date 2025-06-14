@@ -57,7 +57,7 @@ export const callEndPoint = async (url, method, xcsrf = null, cookies = null, pa
         const baseUrl = await getBaseUrl();
         const fullUrl = `${baseUrl}${url}`;
 
-        console.log(`Backend called: ${fullUrl}`);
+        console.log(`Backend called with url: ${fullUrl}`);
 
         const fetchCaller = async (url, request) => fetch(url, request);
 

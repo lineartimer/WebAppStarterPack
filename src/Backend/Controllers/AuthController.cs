@@ -36,6 +36,8 @@ public class AuthController : ControllerBase
     [AllowNoAntiforgeryToken]
     public IActionResult GetXcsrfToken()
     {
+        Console.WriteLine("Auth/GetXcsrfToken called");
+
         var tokens = _antiforgery.GetAndStoreTokens(HttpContext);
         return Ok(new { Xcsrf = tokens.RequestToken });
     }

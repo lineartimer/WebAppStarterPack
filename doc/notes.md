@@ -623,7 +623,8 @@ public partial class Program { }
 - Authentication tokens should not be stored in the browser's local storage because it's vulnerable to cross-site scripting (XSS) attacks. If an attacker injects malicious JavaSctipt into your app, they can access the token. Cookies can be marked as HttpOnly and Secure making them inaccessible to Javascript and safer against XSS. But cookies are vulnerable to cross-site request forgery (CSRF) unless CSRF protection is implemented
 - To prevent XSS, user input (e.g. in forms or query parameters) should be sanitized. Libraries like DOMPurify can be used
 - If no cookies are used by a website, a cookie consent form might not be needed. But a GDPR-compliant privacy policy is still a must
-- A good (and free) favicon generator: favicon.io/favicon-generator
+- The best way to create a favicon is to design it in Canva in the largest size (512x512) by copying and pasting an emoji (or using text or whatever), downloading the image, removing the background using erasebg.org and finally generating all the favicons in all the sizes for all devices on favicon.io
+- Another option is to use favicon.io/favicon-generator
 - On the Application tab of the browser's Developer Tools, the cookies and the content of the local storage can be checked
 - On the Network tab of the browser's Developer Tools, all the http communication between the frontend and the backend can be checked
 - If npm install starts being terribly slow and restarting your machine doesn't help and re-installing Node.js doesn't help and it also doesn't work in a simple test project, then waiting a couple of hours might solve the issue. Also check https://status.npmjs.org/ because npm can have temporary issues and if there's one, it will be shown there

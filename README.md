@@ -1,5 +1,5 @@
-Web App Starter Pack
-====================
+Web App Starter Pack (Wasp)
+===========================
 
 ![Build (backend)](https://github.com/lineartimer/WebAppStarterPack/actions/workflows/Backend.Build.yml/badge.svg) ![Tests (backend)](https://github.com/lineartimer/WebAppStarterPack/actions/workflows/Backend.Test.yml/badge.svg) ![Build (frontend)](https://github.com/lineartimer/WebAppStarterPack/actions/workflows/Frontend.Build.yml/badge.svg) ![Tests (frontend)](https://github.com/lineartimer/WebAppStarterPack/actions/workflows/Frontend.Test.yml/badge.svg)
 
@@ -73,7 +73,7 @@ Finally, create two Azure Container Apps from the images in the container regist
 
 You'll need to seed the database using the sqls in src/Db. The simplest way to run these queries is from the Azure Portal. Go to the database, there you'll find the Query editor, which can run sql queries.
 
-### Step 3.1 Create users
+### Step Create users
 
 You'll also need to create users. To do that, open Postman and
 - Call the backend's Auth/GetXcsrfToken endpoint. This will return an X-CSRF token

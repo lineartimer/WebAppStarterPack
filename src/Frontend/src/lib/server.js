@@ -129,8 +129,5 @@ const processResponse = async (response) => {
         console.log(`Backend returned nothing!`);
     }
 
-    console.log(`Backend returned status: ${result.status}`);
-    console.log(`Backend returned payload: ${result.payload}`);
-
     return result;
 };

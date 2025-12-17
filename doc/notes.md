@@ -384,6 +384,16 @@ To manage users, go to Microsoft Entra ID -> Users
 
 To assign roles to a subscription, go to the subscription and under Access Control (IAM) -> Role assignments you can list roles assigned to users or service principals.
 
+## Bicep files
+
+If the bicep files don't work, you can try compiling them:
+
+az bicep build --file bicep/main.bicep
+
+And then checking without actually deploying anything if there are errors:
+
+az deployment sub what-if --location “centralus” --template-file bicep/main.bicep --parameters location="centralus"
+
 # Git
 
 For pointing and clicking instead of typing:
@@ -864,6 +874,8 @@ To find out the ip address of a web server: nslookup <url>
 To find out the ip address of your machine: curl ifconfig.me
 
 Terminal history can be deleted by deleting the contents of the ~/.zsh_history file or contents of the ~/.zsh_sessions directory.
+
+Tilde character ('~'): Shift + backtick
 
 If function keys don't work when debugging: Settings -> Desktop & Dock -> Shortcuts -> Set Show Desktop to -
 

@@ -1,5 +1,6 @@
 name: Test frontend
-on: pull_request
+on: push
+#on: pull_request
 jobs:
   build:
     runs-on: ubuntu-latest

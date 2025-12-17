@@ -73,7 +73,7 @@ Finally, create two Azure Container Apps from the images in the container regist
 
 You'll need to seed the database using the sqls in src/Db. The simplest way to run these queries is from the Azure Portal. Go to the database, there you'll find the Query editor, which can run sql queries.
 
-### Step Create users
+### Create users
 
 You'll also need to create users. To do that, open Postman and
 - Call the backend's Auth/GetXcsrfToken endpoint. This will return an X-CSRF token
